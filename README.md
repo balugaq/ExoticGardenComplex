@@ -4,7 +4,7 @@ ExoticGarden 是一个 [Slimefun 4](https://github.com/TheBusyBiscuit/Slimefun4)
 
 ## Wiki
 
-异域花园非官方中文 Wiki: https://exoticgarden.guizhanss.wiki
+异域花园非官方中文 Wiki: https://slimefun-addons-wiki.guizhanss.cn/exotic-garden/
 
 ## 下载 ExoticGarden
 你可以在这里下载 ExoticGarden: [点此下载](https://builds.guizhanss.net/ybw0014/ExoticGarden-CN/master)
