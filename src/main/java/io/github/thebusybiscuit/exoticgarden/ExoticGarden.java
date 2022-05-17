@@ -416,7 +416,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         Berry berry = new Berry(essence, upperCase + "_ESSENCE", PlantType.ORE_PLANT, texture);
         berries.add(berry);
 
-        new BonemealableItem(magicalItemGroup, new SlimefunItemStack(enumStyle + "_PLANT", Material.OAK_SAPLING, "&r" + name + "植物"), RecipeType.ENHANCED_CRAFTING_TABLE, recipe)
+        new BonemealableItem(magicalItemGroup, new SlimefunItemStack(enumStyle + "_PLANT", Material.OAK_SAPLING, "&f" + name + "植物"), RecipeType.ENHANCED_CRAFTING_TABLE, recipe)
             .register(this);
 
         MagicalEssence magicalEssence = new MagicalEssence(magicalItemGroup, essence);
