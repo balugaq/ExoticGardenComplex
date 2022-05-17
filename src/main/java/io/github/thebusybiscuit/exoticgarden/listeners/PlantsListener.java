@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.exoticgarden.listeners;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -102,8 +103,9 @@ public class PlantsListener implements Listener {
                 int chunkX = e.getChunk().getX();
                 int chunkZ = e.getChunk().getZ();
 
-                int x = chunkX * 16 + random.nextInt(16);
-                int z = chunkZ * 16 + random.nextInt(16);
+                // Middle of chunk between 3-13 (to avoid loading neighbouring chunks)
+                int x = chunkX * 16 + random.nextInt(10) + 3;
+                int z = chunkZ * 16 + random.nextInt(10) + 3;
 
                 if ((x < worldLimit && x > -worldLimit) && (z < worldLimit && z > -worldLimit)) {
                     if (PaperLib.isPaper()) {
@@ -125,8 +127,22 @@ public class PlantsListener implements Listener {
                 int chunkX = e.getChunk().getX();
                 int chunkZ = e.getChunk().getZ();
 
-                int x = chunkX * 16 + random.nextInt(16);
-                int z = chunkZ * 16 + random.nextInt(16);
+                // Tree size defaults (width/length)
+                int tw = 7;
+                int tl = 7;
+
+                // Get the sizes of the tree being placed
+                // Value is padded +2 blocks to avoid loading neighbouring chunks for block updates
+                try {
+                    tw = tree.getSchematic().getWidth() + 2;
+                    tl = tree.getSchematic().getLength() + 2;
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+
+                // Ensure schematic fits inside the chunk
+                int x = chunkX * 16 + random.nextInt(16 - tw) + (int) Math.floor(tw/2);
+                int z = chunkZ * 16 + random.nextInt(16 - tl) + (int) Math.floor(tl/2);
 
                 if ((x < worldLimit && x > -worldLimit) && (z < worldLimit && z > -worldLimit)) {
                     if (PaperLib.isPaper()) {
@@ -214,7 +230,7 @@ public class PlantsListener implements Listener {
     }
 
     private void pasteTree(ChunkPopulateEvent e, int x, int z, Tree tree) {
-        for (int y = e.getWorld().getMaxHeight(); y > 30; y--) {
+        for (int y = e.getWorld().getHighestBlockYAt(x, z) + 2; y > 30; y--) {
             Block current = e.getWorld().getBlockAt(x, y, z);
             if (current.getType() != Material.WATER && current.getType() != Material.SEAGRASS && current.getType() != Material.TALL_SEAGRASS && !current.getType().isSolid() && !(current.getBlockData() instanceof Waterlogged && ((Waterlogged) current.getBlockData()).isWaterlogged()) && tree.isSoil(current.getRelative(0, -1, 0).getType()) && isFlat(current)) {
                 Schematic.pasteSchematic(e.getWorld(), x, y, z, tree, false);
@@ -224,7 +240,7 @@ public class PlantsListener implements Listener {
     }
 
     private void growBush(ChunkPopulateEvent e, int x, int z, Berry berry, Random random, boolean isPaper) {
-        for (int y = e.getWorld().getMaxHeight(); y > 30; y--) {
+        for (int y = e.getWorld().getHighestBlockYAt(x, z) + 2; y > 30; y--) {
             Block current = e.getWorld().getBlockAt(x, y, z);
             if (current.getType() != Material.WATER && !current.getType().isSolid() && berry.isSoil(current.getRelative(BlockFace.DOWN).getType())) {
                 BlockStorage.store(current, berry.getItem());
@@ -285,10 +301,13 @@ public class PlantsListener implements Listener {
     }
 
     private boolean isFlat(Block current) {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = -2; i < 2; i++) {
+            for (int j = -2; j < 2; j++) {
                 for (int k = 0; k < 6; k++) {
-                    if (current.getRelative(i, k, j).getType().isSolid() || Tag.LEAVES.isTagged(current.getRelative(i, k, j).getType()) || !current.getRelative(i, -1, j).getType().isSolid()) {
+                    Block block = current.getRelative(i, k, j);
+                    if (block.getType().isSolid()
+                        || Tag.LEAVES.isTagged(block.getType())
+                        || !current.getRelative(i, -1, j).getType().isSolid()) {
                         return false;
                     }
                 }
