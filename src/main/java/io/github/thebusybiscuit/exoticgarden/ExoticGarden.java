@@ -146,26 +146,9 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         registerPlant("Garlic", "大蒜", ChatColor.RESET, PlantType.FRUIT, "3052d9c11848ebcc9f8340332577bf1d22b643c34c6aa91fe4c16d5a73f6d8");
         registerPlant("Cilantro", "香菜", ChatColor.GREEN, PlantType.DOUBLE_PLANT, "16149196f3a8d6d6f24e51b27e4cb71c6bab663449daffb7aa211bbe577242");
         registerPlant("Black Pepper", "黑胡椒", ChatColor.DARK_GRAY, PlantType.DOUBLE_PLANT, "2342b9bf9f1f6295842b0efb591697b14451f803a165ae58d0dcebd98eacc");
-        registerPlant("Green Durian", "青榴莲", ChatColor.GREEN, PlantType.FRUIT, "aaa139ecc894c4e455825e313b542e2068601f2f31ab26d30cf276d51345bf3b");
-        registerPlant("Durian", "榴莲", ChatColor.GOLD, PlantType.FRUIT, "44ba890fa8d8684c5119cf1b4b9d5460f5eff392e26ce68b3434e52d18fc666");
+        registerPlant("Durian", "榴莲", ChatColor.GOLD, PlantType.FRUIT, "aaa139ecc894c4e455825e313b542e2068601f2f31ab26d30cf276d51345bf3b");
         registerPlant("Honeydew Melon", "哈密瓜", ChatColor.DARK_GREEN, PlantType.FRUIT, "fb14cba0f42a2d138ed243b3bff99cb1ea8cbdcd94fb5fb1e3a307f8e21ab1c");
-        registerPlant("Demon Melon", "恶魔瓜", ChatColor.DARK_GRAY, PlantType.FRUIT, "24c66af64948fd84493dacd1a9dc40736a30931707d838948949bd8e9488d575");
-        registerPlant("Papaya", "木瓜", ChatColor.YELLOW, PlantType.FRUIT, "631233362962e34f70de66c26ee6fcd2bbd5bc345c744f2dc42a73d779e0647e");
-       
         
-        registerPlant("Onion", "葱", ChatColor.GREEN, PlantType.FRUIT, "c2dd5433db4fddebc4a77166735699400cb18d43672ab31326a83f0b7c2586cc");
-        registerPlant("Aubergine", "茄子", ChatColor.BLUE, PlantType.DOUBLE_PLANT, "8825536a44f1861633484753835e5873ed5667ec5b60ef41757a16a768aa76");
-        registerPlant("Radish", "红萝卜", ChatColor.RED, PlantType.FRUIT, "c60339f116115c5d8466f9ce17607410fdafc288ed313850712c78b66b93c0ce");
-        registerPlant("White Radish", "白萝卜", ChatColor.RESET, PlantType.FRUIT, "374f5302e94be7a27c8ba654d97a658716ca7dbefc8e11484ff683a4164f2d");
-        registerPlant("Kohlrabi", "大头菜", ChatColor.GREEN, PlantType.FRUIT, "2969d3149333e1e658f5da69dc6131a87fa6817cda2ba6387d5f5f31e0ef73");
-        registerPlant("Red Cabbage", "紫甘蓝", ChatColor.RED, PlantType.FRUIT, "95c27e9e07446825fa7ecbac1925109e2c16253564a4628202d894492d2c36f8");
-        registerPlant("Tree Mushroom", "树菇", ChatColor.RESET, PlantType.FRUIT, "80f886503d25fadcbea9ee7779890257de0e3e94a4caf7a67c688631cf2b669");
-        registerPlant("Olive", "橄榄", ChatColor.GREEN, PlantType.DOUBLE_PLANT, "92bc8fd736d64a83bda5c161625b49de5c13494fb2f1b2c8ebbfca199651ff");
-        registerPlant("Passionfruit", "百香果", ChatColor.GOLD, PlantType.DOUBLE_PLANT, "61609954bdf7d4715e15af2d28c718e91f25ca39fcb8343951bf14706e9966");
-        
-        registerPlant("Wine Fruit", "酒香果", ChatColor.DARK_GREEN, PlantType.DOUBLE_PLANT, "c4c05dd5d7a92889d8d22d4df0f1a1fe2bee3eddf192f78fc44e02e14dbf629");
-        registerPlant("Yummy Fruit", "仙馐果", ChatColor.GREEN, PlantType.DOUBLE_PLANT, "8cdcf38a8438ed3a547f8d5b47e0801559c595f0e26c45656a76b5bf8a56f");
-
         registerPlant("Peanut", "花生", ChatColor.GOLD, PlantType.FRUIT, "608043c5788050ce7ee54edddd48239bce491a9949d1410ad79e165436153ea4");
         registerPlant("Hazelnut", "榛子", ChatColor.GOLD, PlantType.FRUIT, "89e521885f3a20f6769b484f069a41d1105b285829cc78f7b6df79c5916e0b10");
         registerPlant("Walnut", "核桃", ChatColor.GOLD, PlantType.DOUBLE_PLANT, "9b878a91ee4278d16ef15175ed8e2861541de797475cf4a4732915876c6e9a");
@@ -173,13 +156,10 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         registerPlant("Pistachio", "开心果", ChatColor.GOLD, PlantType.FRUIT, "52a90a34d8740818b0bab2a687ebd2bfd956e08949d930d6ace666f470b3d9c8");
         registerPlant("Gooseberry", "红醋栗", ChatColor.RED, PlantType.FRUIT, "7e57cc56fb21d50af4890a59a18cf919bea1c2b13171e104d32ae67eda49aa16");
         registerPlant("Cauliflower", "花椰菜", ChatColor.RESET, PlantType.FRUIT, "14a6dedd99bb9af3f1b2f338d509a926606cddfdc351e018aad1c07015ad566d");
-        registerPlant("Cotton", "棉花", ChatColor.RESET, PlantType.FRUIT, "d1392c68be8dc9eb62b3161b8062c294c4cb7f662330fbec2d31488bff605d90");
 
         registerPlant("Tequila", "龙舌兰", ChatColor.RESET, PlantType.FRUIT, "3525db972cefca7d71976c1287fc7da3e1951323563dc342a6c4e0f702e8ffb");
         registerPlant("Peashooter", "豌豆射手", ChatColor.GREEN, PlantType.DOUBLE_PLANT, "dbcbcf932296090ac687db4074ca9e4c9980ce5ed21e96564035a7f52dcc678b");
-        registerPlant("Sunflower", "向日葵", ChatColor.YELLOW, PlantType.DOUBLE_PLANT, "49392a2bfa1c4a795bad101797cd54077910c55c1fa8ae55b679e95d2c6e860f");
-        registerPlant("Chomper", "大嘴花", ChatColor.BLUE, PlantType.DOUBLE_PLANT, "798e90575e7d9a0f49587ffd784e2861357e2be83b7c591da3d1bc2d9c482d32");
-
+        
         registerPlant("Corn", "玉米", ChatColor.GOLD, PlantType.DOUBLE_PLANT, "9bd3802e5fac03afab742b0f3cca41bcd4723bee911d23be29cffd5b965f1");
         registerPlant("Red Corn", "红玉米", ChatColor.RED, PlantType.DOUBLE_PLANT, "b920b5226b625bc0649c447dda0e268f1c486bd536c220e22992a328c5c27ac6");
         registerPlant("Blue Corn", "蓝玉米", ChatColor.BLUE, PlantType.DOUBLE_PLANT, "fd541581b0d24b1b5ab1dad4f51e383d03b9b0bcb4cf86f1345145468efd1c5a");
