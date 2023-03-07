@@ -61,7 +61,7 @@ public class PlantsListener implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void onGrow(StructureGrowEvent e) {
         if (PaperLib.isPaper()) {
             if (PaperLib.isChunkGenerated(e.getLocation())) {
