@@ -71,7 +71,6 @@ public class ExoticGardenFruit extends SimpleSlimefunItem<ItemUseHandler> {
                 SMOKER,
                 BLAST_FURNACE,
                 JIGSAW,
-                JUKEBOX,
                 ENCHANTING_TABLE,
                 ITEM_FRAME,
                 LOOM,
@@ -86,8 +85,9 @@ public class ExoticGardenFruit extends SimpleSlimefunItem<ItemUseHandler> {
                 CHEST,
                 TRAPPED_CHEST,
                 HOPPER,
-                ENDER_CHEST -> true;
-            default -> material.name().equals("BARREL") || material.name().endsWith("_SHULKER_BOX");
+                ENDER_CHEST,
+                BARREL -> true;
+            default -> material.name().endsWith("_SHULKER_BOX");
         };
     }
 
