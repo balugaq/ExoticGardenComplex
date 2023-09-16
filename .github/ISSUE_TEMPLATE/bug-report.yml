@@ -23,7 +23,7 @@ body:
         - label: 你使用的是从构建站下载的版本
           required: true
         - label: 你已经检验过下载的文件的校验和，确认已完整下载文件
-          required: false
+          required: true
         - label: 你没有对下载的文件内容进行任何更改
           required: true
         - label: 你已经寻找过[已知问题列表](https://github.com/SlimefunGuguProject/ExoticGarden/issues)，且没有找到相同的问题
