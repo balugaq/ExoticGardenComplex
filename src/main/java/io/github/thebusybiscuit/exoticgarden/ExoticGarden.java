@@ -29,8 +29,8 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerHead;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerSkin;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import net.guizhanss.guizhanlibplugin.updater.GuizhanBuildsUpdaterWrapper;
 
+import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -87,6 +87,13 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     public void onEnable() {
         PaperLib.suggestPaper(this);
 
+        if (!getServer().getPluginManager().isPluginEnabled("GuizhanLibPlugin")) {
+            getLogger().log(Level.SEVERE, "本插件需要 鬼斩前置库插件(GuizhanLibPlugin) 才能运行!");
+            getLogger().log(Level.SEVERE, "从此处下载: https://50L.cc/gzlib");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         if (!schematicsFolder.exists()) {
             schematicsFolder.mkdirs();
         }
@@ -99,7 +106,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
         // Auto Updater
         if (cfg.getBoolean("options.auto-update") && getDescription().getVersion().startsWith("Build")) {
-            GuizhanBuildsUpdaterWrapper.start(this, getFile(), "ybw0014", "ExoticGarden", "master", false);
+            GuizhanUpdater.start(this, getFile(), "ybw0014", "ExoticGarden", "master");
         }
 
         registerItems();
