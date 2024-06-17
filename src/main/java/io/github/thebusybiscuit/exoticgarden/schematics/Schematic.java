@@ -1,19 +1,6 @@
 package io.github.thebusybiscuit.exoticgarden.schematics;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.logging.Level;
-
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.Rotatable;
-
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.BlockDataController;
 import io.github.thebusybiscuit.exoticgarden.ExoticGarden;
 import io.github.thebusybiscuit.exoticgarden.Tree;
 import io.github.thebusybiscuit.exoticgarden.schematics.org.jnbt.ByteArrayTag;
@@ -21,10 +8,25 @@ import io.github.thebusybiscuit.exoticgarden.schematics.org.jnbt.CompoundTag;
 import io.github.thebusybiscuit.exoticgarden.schematics.org.jnbt.NBTInputStream;
 import io.github.thebusybiscuit.exoticgarden.schematics.org.jnbt.ShortTag;
 import io.github.thebusybiscuit.exoticgarden.schematics.org.jnbt.Tag;
-import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerHead;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerSkin;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Rotatable;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Level;
 
 /*
  *
@@ -52,7 +54,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  */
 public class Schematic {
 
-    private static final BlockFace[] BLOCK_FACES = { BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST };
+    private static final BlockFace[] BLOCK_FACES = {BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST};
 
     private final short[] blocks;
     private final byte[] data;
@@ -70,45 +72,6 @@ public class Schematic {
         this.name = name;
     }
 
-    /**
-     * @return the blocks
-     */
-    public short[] getBlocks() {
-        return blocks;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @return the data
-     */
-    public byte[] getData() {
-        return data;
-    }
-
-    /**
-     * @return the width
-     */
-    public short getWidth() {
-        return width;
-    }
-
-    /**
-     * @return the length
-     */
-    public short getLength() {
-        return length;
-    }
-
-    /**
-     * @return the height
-     */
-    public short getHeight() {
-        return height;
-    }
-
     public static void pasteSchematic(Location loc, Tree tree, boolean doPhysics) {
         pasteSchematic(loc.getWorld(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), tree, doPhysics);
     }
@@ -118,8 +81,7 @@ public class Schematic {
 
         try {
             schematic = tree.getSchematic();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             ExoticGarden.instance.getLogger().log(Level.WARNING, "Could not paste Schematic for Tree: " + tree.getFruitID() + "_TREE (" + e.getClass().getSimpleName() + ')', e);
             return;
         }
@@ -145,7 +107,7 @@ public class Schematic {
                     int blockZ = z + processedZ;
                     Block block = world.getBlockAt(blockX, blockY, blockZ);
                     Material blockType = block.getType();
-                    
+
                     if (blockType.isAir() || org.bukkit.Tag.SAPLINGS.isTagged(blockType) || (!blockType.isSolid() && !blockType.isInteractable() && !SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(blockType))) {
                         Material material = parseId(blocks[index], blockData[index]);
 
@@ -154,18 +116,33 @@ public class Schematic {
                                 block.setType(material, doPhysics);
                             }
 
-                            if (org.bukkit.Tag.LEAVES.isTagged(material)) {
-                                if (ThreadLocalRandom.current().nextInt(100) < 25) {
-                                    BlockStorage.store(block, tree.getItem());
+                            BlockDataController blockDataController =
+                                    Slimefun.getDatabaseManager().getBlockDataController();
+
+                            if (org.bukkit.Tag.LEAVES.isTagged(material) && ThreadLocalRandom.current().nextInt(100) < 25) {
+                                Optional<SlimefunItem> slimefunItemOptional =
+                                        Optional.ofNullable(SlimefunItem.getByItem(tree.getItem()));
+
+                                /*
+                                 * Fix: There already a block in this location.
+                                 */
+                                try {
+                                    slimefunItemOptional.ifPresent(slimefunItem -> blockDataController.createBlock(block.getLocation(), slimefunItem.getId()));
+                                } catch (IllegalStateException illegalStateException) {
+                                    // ignore
                                 }
-                            }
-                            else if (material == Material.PLAYER_HEAD) {
+                            } else if (material == Material.PLAYER_HEAD) {
                                 Rotatable s = (Rotatable) block.getBlockData();
+
                                 s.setRotation(BLOCK_FACES[ThreadLocalRandom.current().nextInt(BLOCK_FACES.length)]);
                                 block.setBlockData(s, doPhysics);
 
                                 PlayerHead.setSkin(block, PlayerSkin.fromHashCode(tree.getTexture()), true);
-                                BlockStorage.store(block, tree.getFruit());
+
+                                Optional<SlimefunItem> slimefunItemOptional =
+                                        Optional.ofNullable(SlimefunItem.getByItem(tree.getFruit()));
+
+                                slimefunItemOptional.ifPresent(slimefunItem -> blockDataController.createBlock(block.getLocation(), slimefunItem.getId()));
                             }
                         }
                     }
@@ -176,38 +153,43 @@ public class Schematic {
 
     public static Material parseId(short blockId, byte blockData) {
         switch (blockId) {
-        case 6:
-            if (blockData == 0) return Material.OAK_SAPLING;
-            if (blockData == 1) return Material.SPRUCE_SAPLING;
-            if (blockData == 2) return Material.BIRCH_SAPLING;
-            if (blockData == 3) return Material.JUNGLE_SAPLING;
-            if (blockData == 4) return Material.ACACIA_SAPLING;
-            if (blockData == 5) return Material.DARK_OAK_SAPLING;
-            break;
-        case 17:
-            if (blockData == 0 || blockData == 4 || blockData == 8 || blockData == 12) return Material.OAK_LOG;
-            if (blockData == 1 || blockData == 5 || blockData == 9 || blockData == 13) return Material.SPRUCE_LOG;
-            if (blockData == 2 || blockData == 6 || blockData == 10 || blockData == 14) return Material.BIRCH_LOG;
-            if (blockData == 3 || blockData == 7 || blockData == 11 || blockData == 15) return Material.JUNGLE_LOG;
-            break;
-        case 18:
-            if (blockData == 0 || blockData == 4 || blockData == 8 || blockData == 12) return Material.OAK_LEAVES;
-            if (blockData == 1 || blockData == 5 || blockData == 9 || blockData == 13) return Material.SPRUCE_LEAVES;
-            if (blockData == 2 || blockData == 6 || blockData == 10 || blockData == 14) return Material.BIRCH_LEAVES;
-            if (blockData == 3 || blockData == 7 || blockData == 11 || blockData == 15) return Material.JUNGLE_LEAVES;
-            return Material.OAK_LEAVES;
-        case 161:
-            if (blockData == 0 || blockData == 4 || blockData == 8 || blockData == 12) return Material.ACACIA_LEAVES;
-            if (blockData == 1 || blockData == 5 || blockData == 9 || blockData == 13) return Material.DARK_OAK_LEAVES;
-            break;
-        case 162:
-            if (blockData == 0 || blockData == 4 || blockData == 8 || blockData == 12) return Material.ACACIA_LOG;
-            if (blockData == 1 || blockData == 5 || blockData == 9 || blockData == 13) return Material.DARK_OAK_LOG;
-            break;
-        case 144:
-            return Material.PLAYER_HEAD;
-        default:
-            return null;
+            case 6:
+                if (blockData == 0) return Material.OAK_SAPLING;
+                if (blockData == 1) return Material.SPRUCE_SAPLING;
+                if (blockData == 2) return Material.BIRCH_SAPLING;
+                if (blockData == 3) return Material.JUNGLE_SAPLING;
+                if (blockData == 4) return Material.ACACIA_SAPLING;
+                if (blockData == 5) return Material.DARK_OAK_SAPLING;
+                break;
+            case 17:
+                if (blockData == 0 || blockData == 4 || blockData == 8 || blockData == 12) return Material.OAK_LOG;
+                if (blockData == 1 || blockData == 5 || blockData == 9 || blockData == 13) return Material.SPRUCE_LOG;
+                if (blockData == 2 || blockData == 6 || blockData == 10 || blockData == 14) return Material.BIRCH_LOG;
+                if (blockData == 3 || blockData == 7 || blockData == 11 || blockData == 15) return Material.JUNGLE_LOG;
+                break;
+            case 18:
+                if (blockData == 0 || blockData == 4 || blockData == 8 || blockData == 12) return Material.OAK_LEAVES;
+                if (blockData == 1 || blockData == 5 || blockData == 9 || blockData == 13)
+                    return Material.SPRUCE_LEAVES;
+                if (blockData == 2 || blockData == 6 || blockData == 10 || blockData == 14)
+                    return Material.BIRCH_LEAVES;
+                if (blockData == 3 || blockData == 7 || blockData == 11 || blockData == 15)
+                    return Material.JUNGLE_LEAVES;
+                return Material.OAK_LEAVES;
+            case 161:
+                if (blockData == 0 || blockData == 4 || blockData == 8 || blockData == 12)
+                    return Material.ACACIA_LEAVES;
+                if (blockData == 1 || blockData == 5 || blockData == 9 || blockData == 13)
+                    return Material.DARK_OAK_LEAVES;
+                break;
+            case 162:
+                if (blockData == 0 || blockData == 4 || blockData == 8 || blockData == 12) return Material.ACACIA_LOG;
+                if (blockData == 1 || blockData == 5 || blockData == 9 || blockData == 13) return Material.DARK_OAK_LOG;
+                break;
+            case 144:
+                return Material.PLAYER_HEAD;
+            default:
+                return null;
         }
 
         return null;
@@ -249,12 +231,10 @@ public class Schematic {
         for (int index = 0; index < blockId.length; index++) {
             if ((index >> 1) >= addId.length) { // No corresponding AddBlocks index
                 blocks[index] = (short) (blockId[index] & 0xFF);
-            }
-            else {
+            } else {
                 if ((index & 1) == 0) {
                     blocks[index] = (short) (((addId[index >> 1] & 0x0F) << 8) + (blockId[index] & 0xFF));
-                }
-                else {
+                } else {
                     blocks[index] = (short) (((addId[index >> 1] & 0xF0) << 4) + (blockId[index] & 0xFF));
                 }
             }
@@ -266,16 +246,12 @@ public class Schematic {
     /**
      * Get child tag of a NBT structure.
      *
-     * @param items
-     *            The parent tag map
-     * @param key
-     *            The name of the tag to get
-     * @param expected
-     *            The expected type of the tag
+     * @param items    The parent tag map
+     * @param key      The name of the tag to get
+     * @param expected The expected type of the tag
      * @return child tag casted to the expected type
-     * @throws IllegalArgumentException
-     *             if the tag does not exist or the tag is not of the
-     *             expected type
+     * @throws IllegalArgumentException if the tag does not exist or the tag is not of the
+     *                                  expected type
      */
     private static <T extends Tag> T getChildTag(Map<String, Tag> items, String key, Class<T> expected) {
         if (!items.containsKey(key)) {
@@ -288,6 +264,45 @@ public class Schematic {
         }
 
         return expected.cast(tag);
+    }
+
+    /**
+     * @return the blocks
+     */
+    public short[] getBlocks() {
+        return blocks;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @return the data
+     */
+    public byte[] getData() {
+        return data;
+    }
+
+    /**
+     * @return the width
+     */
+    public short getWidth() {
+        return width;
+    }
+
+    /**
+     * @return the length
+     */
+    public short getLength() {
+        return length;
+    }
+
+    /**
+     * @return the height
+     */
+    public short getHeight() {
+        return height;
     }
 
 }
