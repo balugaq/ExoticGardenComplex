@@ -82,6 +82,10 @@ public class PlantsListener implements Listener {
 
     @EventHandler
     public void onGenerate(ChunkPopulateEvent e) {
+        if (!cfg.getOrSetDefault("options.auto-generate-plants", true)) {
+            return;
+        }
+
         final World world = e.getWorld();
 
         if (!Slimefun.getWorldSettingsService().isWorldEnabled(world)) {
