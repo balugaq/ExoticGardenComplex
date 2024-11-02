@@ -390,17 +390,22 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
                 var controller = Slimefun.getDatabaseManager().getBlockDataController();
                 switch (berry.getType()) {
                     case ORE_PLANT, DOUBLE_PLANT -> {
-                        Block plant = block;
+                        Block plant;
+                        Block head;
                         if (Tag.LEAVES.isTagged(block.getType())) {
-                            block = block.getRelative(BlockFace.UP);
+                            // Player broke the leaf block
+                            plant = block;
+                            head = block.getRelative(BlockFace.UP);
                         } else {
+                            // Player broke the head block
                             plant = block.getRelative(BlockFace.DOWN);
+                            head = block;
                         }
 
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, Material.OAK_LEAVES);
-                        block.setType(Material.AIR, false);
+                        head.setType(Material.AIR, false);
                         plant.setType(Material.OAK_SAPLING, false);
-                        controller.removeBlock(block.getLocation());
+                        controller.removeBlock(head.getLocation());
                         controller.removeBlock(plant.getLocation());
                         BlockStorage.store(plant, getItem(berry.toBush()));
                         return berry.getItem().clone();
