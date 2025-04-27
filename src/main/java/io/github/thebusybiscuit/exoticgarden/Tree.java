@@ -1,16 +1,15 @@
 package io.github.thebusybiscuit.exoticgarden;
 
+import io.github.thebusybiscuit.exoticgarden.schematics.Schematic;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
-
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
-import io.github.thebusybiscuit.exoticgarden.schematics.Schematic;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 
 public class Tree {
 

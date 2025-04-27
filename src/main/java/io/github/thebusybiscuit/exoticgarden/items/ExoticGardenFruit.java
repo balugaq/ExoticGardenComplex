@@ -1,22 +1,20 @@
 package io.github.thebusybiscuit.exoticgarden.items;
 
-import java.util.Optional;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.ItemUtils;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Optional;
 
 public class ExoticGardenFruit extends SimpleSlimefunItem<ItemUseHandler> {
 
@@ -67,26 +65,26 @@ public class ExoticGardenFruit extends SimpleSlimefunItem<ItemUseHandler> {
         // as it would allow the placement of this block on strange items like stairs...
         return switch (material) {
             case CRAFTING_TABLE,
-                FURNACE,
-                SMOKER,
-                BLAST_FURNACE,
-                JIGSAW,
-                ENCHANTING_TABLE,
-                ITEM_FRAME,
-                LOOM,
-                CARTOGRAPHY_TABLE,
-                GRINDSTONE,
-                SMITHING_TABLE,
-                BELL,
-                BEACON,
-                ANVIL,
-                BREWING_STAND,
-                CAKE,
-                CHEST,
-                TRAPPED_CHEST,
-                HOPPER,
-                ENDER_CHEST,
-                BARREL -> true;
+                 FURNACE,
+                 SMOKER,
+                 BLAST_FURNACE,
+                 JIGSAW,
+                 ENCHANTING_TABLE,
+                 ITEM_FRAME,
+                 LOOM,
+                 CARTOGRAPHY_TABLE,
+                 GRINDSTONE,
+                 SMITHING_TABLE,
+                 BELL,
+                 BEACON,
+                 ANVIL,
+                 BREWING_STAND,
+                 CAKE,
+                 CHEST,
+                 TRAPPED_CHEST,
+                 HOPPER,
+                 ENDER_CHEST,
+                 BARREL -> true;
             default -> material.name().endsWith("_SHULKER_BOX");
         };
     }

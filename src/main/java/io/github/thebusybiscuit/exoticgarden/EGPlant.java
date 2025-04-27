@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class EGPlant extends HandledBlock {
-    boolean edible;
     private static final int food = 2;
+    boolean edible;
 
     public EGPlant(ItemGroup category, ItemStack item, String name, RecipeType recipeType, boolean edible, ItemStack[] recipe) {
         super(category, item, name, recipeType, recipe);
@@ -15,8 +15,8 @@ public class EGPlant extends HandledBlock {
     }
 
     public boolean isEdible() {
-     return this.edible;
-   }
+        return this.edible;
+    }
 
     public void restoreHunger(Player p) {
         int level = p.getFoodLevel() + 2;

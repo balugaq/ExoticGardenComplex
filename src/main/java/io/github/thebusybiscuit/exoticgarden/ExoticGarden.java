@@ -29,7 +29,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerHead;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerSkin;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -75,31 +74,17 @@ import java.util.zip.ZipEntry;
 
 public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
+    private static final String ALCOHOL_PATH = "Players.%p.Alcohol";
+    private static final String DRUNK_PATH = "Players.%p.Drunk";
     public static ExoticGarden instance;
-
+    public static ConcurrentHashMap<String, PlayerAlcohol> drunkPlayers = new ConcurrentHashMap<>();
+    private static boolean skullitems;
+    private static List<String> drunkMsg = new ArrayList<>();
     private final File schematicsFolder = new File(getDataFolder(), "schematics");
-
     private final List<Berry> berries = new ArrayList<>();
     private final List<Tree> trees = new ArrayList<>();
     private final Map<String, ItemStack> items = new HashMap<>();
     private final Set<String> treeFruits = new HashSet<>();
-
-       private static boolean skullitems;
-     public static ConcurrentHashMap<String, PlayerAlcohol> drunkPlayers = new ConcurrentHashMap<>();
-    private static List<String> drunkMsg = new ArrayList<>();
-    private YamlConfiguration yamlStorge = null;
-    
-       private boolean sanity = false;
-    
-       private boolean residence = false;
-   private HashMap<String, String> traslateNames = new HashMap<>();
-    
-       private static final String ALCOHOL_PATH = "Players.%p.Alcohol";
-    
-       private static final String DRUNK_PATH = "Players.%p.Drunk";
-
-    protected Config cfg;
-
     public NestedItemGroup nestedItemGroup;
     public ItemGroup mainItemGroup;
     public ItemGroup miscItemGroup;
@@ -108,6 +93,99 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     public ItemGroup magicalItemGroup;
     public ItemGroup techItemGroup;
     public Kitchen kitchen;
+    protected Config cfg;
+    private YamlConfiguration yamlStorge = null;
+    private boolean sanity = false;
+    private boolean residence = false;
+    private HashMap<String, String> traslateNames = new HashMap<>();
+
+    public static ItemStack getSkull(MaterialData material, String texture) {
+        try {
+            if (texture.equals("NO_SKULL_SPECIFIED")) return material.toItemStack(1);
+            return skullitems ? SkullUtil.getByBase64(texture) : material.toItemStack(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return material.toItemStack(1);
+        }
+    }
+
+    public static void sendDrunkMessage(Player player) {
+        Random ramdom = new Random();
+        player.chat(((String) drunkMsg.get(ramdom.nextInt(drunkMsg.size()))).replace("%player%", (
+                (Player) Bukkit.getOnlinePlayers().toArray()[ramdom.nextInt(Bukkit.getOnlinePlayers().size())]).getName()));
+    }
+
+    @Nullable
+    static ItemStack getItem(@Nonnull String id) {
+        SlimefunItem item = SlimefunItem.getById(id);
+        return item != null ? item.getItem() : null;
+    }
+
+    @Nullable
+    public static ItemStack harvestPlant(@Nonnull Block block) {
+        SlimefunItem item = StorageCacheUtils.getSfItem(block.getLocation());
+
+        if (item == null) {
+            return null;
+        }
+
+        for (Berry berry : getBerries()) {
+            if (item.getId().equalsIgnoreCase(berry.getID())) {
+                var controller = Slimefun.getDatabaseManager().getBlockDataController();
+                switch (berry.getType()) {
+                    case ORE_PLANT, DOUBLE_PLANT -> {
+                        Block plant;
+                        Block head;
+                        if (Tag.LEAVES.isTagged(block.getType())) {
+                            // Player broke the leaf block
+                            plant = block;
+                            head = block.getRelative(BlockFace.UP);
+                        } else {
+                            // Player broke the head block
+                            plant = block.getRelative(BlockFace.DOWN);
+                            head = block;
+                        }
+
+                        block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, Material.OAK_LEAVES);
+                        head.setType(Material.AIR, false);
+                        plant.setType(Material.OAK_SAPLING, false);
+                        controller.removeBlock(head.getLocation());
+                        controller.removeBlock(plant.getLocation());
+                        BlockStorage.store(plant, getItem(berry.toBush()));
+                        return berry.getItem().clone();
+                    }
+                    default -> {
+                        block.setType(Material.OAK_SAPLING, false);
+                        controller.removeBlock(block.getLocation());
+                        BlockStorage.store(block, getItem(berry.toBush()));
+                        return berry.getItem().clone();
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public static ExoticGarden getInstance() {
+        return instance;
+    }
+
+    public static Kitchen getKitchen() {
+        return instance.kitchen;
+    }
+
+    public static List<Tree> getTrees() {
+        return instance.trees;
+    }
+
+    public static List<Berry> getBerries() {
+        return instance.berries;
+    }
+
+    public static Map<String, ItemStack> getGrassDrops() {
+        return instance.items;
+    }
 
     @Override
     public void onEnable() {
@@ -144,14 +222,14 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         new FoodListener(this);
 
         if (Bukkit.getServer().getPluginManager().isPluginEnabled("Sanity")) {
-                   this.sanity = true;
-                 }
-             if (getServer().getPluginManager().getPlugin("Residence") != null) {
-                   FlagPermissions.addFlag("exo-harvest");
-                   this.residence = true;
-                 }
-        getCommand("exotic").setExecutor((CommandExecutor)new ExoticCommand());
-        
+            this.sanity = true;
+        }
+        if (getServer().getPluginManager().getPlugin("Residence") != null) {
+            FlagPermissions.addFlag("exo-harvest");
+            this.residence = true;
+        }
+        getCommand("exotic").setExecutor((CommandExecutor) new ExoticCommand());
+
     }
 
     private void registerItems() {
@@ -329,16 +407,16 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
         items.put(id + "_SAPLING", sapling);
 
-        new BonemealableItem(mainItemGroup, sapling, ExoticGardenRecipeTypes.BREAKING_GRASS, new ItemStack[] { null, null, null, null, new ItemStack(Material.GRASS), null, null, null, null }).register(this);
+        new BonemealableItem(mainItemGroup, sapling, ExoticGardenRecipeTypes.BREAKING_GRASS, new ItemStack[]{null, null, null, null, new ItemStack(Material.GRASS), null, null, null, null}).register(this);
 
-        new ExoticGardenFruit(mainItemGroup, new SlimefunItemStack(id, texture, color + name), ExoticGardenRecipeTypes.HARVEST_TREE, true, new ItemStack[] { null, null, null, null, getItem(id + "_SAPLING"), null, null, null, null }).register(this);
+        new ExoticGardenFruit(mainItemGroup, new SlimefunItemStack(id, texture, color + name), ExoticGardenRecipeTypes.HARVEST_TREE, true, new ItemStack[]{null, null, null, null, getItem(id + "_SAPLING"), null, null, null, null}).register(this);
 
         if (pcolor != null) {
-            new Juice(drinksItemGroup, new SlimefunItemStack(juice_id.toUpperCase().replace(" ", "_"), new CustomPotion(color + juice, pcolor, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&o恢复 &b&o" + "3.0" + " &7&o点饥饿值")), RecipeType.JUICER, new ItemStack[] { getItem(id), null, null, null, null, null, null, null, null }).register(this);
+            new Juice(drinksItemGroup, new SlimefunItemStack(juice_id.toUpperCase().replace(" ", "_"), new CustomPotion(color + juice, pcolor, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&o恢复 &b&o" + "3.0" + " &7&o点饥饿值")), RecipeType.JUICER, new ItemStack[]{getItem(id), null, null, null, null, null, null, null, null}).register(this);
         }
 
         if (pie) {
-            new CustomFood(foodItemGroup, new SlimefunItemStack(id + "_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", color + name + "派", "", "&7&o恢复 &b&o" + "6.5" + " &7&o点饥饿值"), new ItemStack[] { getItem(id), new ItemStack(Material.EGG), new ItemStack(Material.SUGAR), new ItemStack(Material.MILK_BUCKET), SlimefunItems.WHEAT_FLOUR, null, null, null, null }, 13).register(this);
+            new CustomFood(foodItemGroup, new SlimefunItemStack(id + "_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", color + name + "派", "", "&7&o恢复 &b&o" + "6.5" + " &7&o点饥饿值"), new ItemStack[]{getItem(id), new ItemStack(Material.EGG), new ItemStack(Material.SUGAR), new ItemStack(Material.MILK_BUCKET), SlimefunItems.WHEAT_FLOUR, null, null, null, null}, 13).register(this);
         }
 
         if (!new File(schematicsFolder, id + "_TREE.schematic").exists()) {
@@ -366,245 +444,229 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         Berry berry = new Berry(name.toUpperCase().replace(" ", "_"), type, data);
         berries.add(berry);
 
-        (new SlimefunItem(mainItemGroup, new SlimefunItemStack(name.toUpperCase().replace(" ", "_") + "_BUSH", Material.OAK_SAPLING, color + rawName + "苗"), ExoticGardenRecipeTypes.SEED_ANALYZER, new ItemStack[] { null, null, null, null, ExoticItems.MysticSeed, null, null, null, null})).register(instance);
+        (new SlimefunItem(mainItemGroup, new SlimefunItemStack(name.toUpperCase().replace(" ", "_") + "_BUSH", Material.OAK_SAPLING, color + rawName + "苗"), ExoticGardenRecipeTypes.SEED_ANALYZER, new ItemStack[]{null, null, null, null, ExoticItems.MysticSeed, null, null, null, null})).register(instance);
 
-        (new EGPlant(mainItemGroup, new CustomItemStack(getSkull(material, data), color + rawName), name.toUpperCase().replace(" ", "_"), ExoticGardenRecipeTypes.HARVEST_PLANT, true, new ItemStack[] { null, null, null, null,
+        (new EGPlant(mainItemGroup, new CustomItemStack(getSkull(material, data), color + rawName), name.toUpperCase().replace(" ", "_"), ExoticGardenRecipeTypes.HARVEST_PLANT, true, new ItemStack[]{null, null, null, null,
                 getItem(name.toUpperCase().replace(" ", "_") + "_BUSH"), null, null, null, null
-})).register(instance);
+        })).register(instance);
     }
 
-       private ItemStack getSkull(Material material, String texture) {
-             return getSkull(new MaterialData(material), texture);
-           }
-    
-       public static ItemStack getSkull(MaterialData material, String texture) {
-             try {
-                   if (texture.equals("NO_SKULL_SPECIFIED")) return material.toItemStack(1);
-                   return skullitems ? SkullUtil.getByBase64(texture) : material.toItemStack(1);
-                 } catch (Exception e) {
-                   e.printStackTrace();
-                   return material.toItemStack(1);
-                 }
-           }
+    private ItemStack getSkull(Material material, String texture) {
+        return getSkull(new MaterialData(material), texture);
+    }
 
-       private String getTranlateName(String name) {
-             if (this.traslateNames.get(name) != null) {
-                   return this.traslateNames.get(name);
-                 }
-             return name;
-           }
-    
-       private void initTransNames() {
-             this.traslateNames.put("葡萄", "Grape");
-             this.traslateNames.put("蓝莓", "Blueberry");
-             this.traslateNames.put("接骨木果", "Elderberry");
-             this.traslateNames.put("覆盆子", "Raspberry");
-             this.traslateNames.put("黑莓", "Blackberry");
-             this.traslateNames.put("蔓越莓", "Cranberry");
-             this.traslateNames.put("越桔", "Cowberry");
-             this.traslateNames.put("草莓", "Strawberry");
-             this.traslateNames.put("番茄", "Tomato");
-             this.traslateNames.put("生菜", "Lettuce");
-             this.traslateNames.put("茶叶", "Tea Leaf");
-             this.traslateNames.put("卷心菜", "Cabbage");
-             this.traslateNames.put("番薯", "Sweet Potato");
-             this.traslateNames.put("芥菜籽", "Mustard Seed");
-             this.traslateNames.put("玉米", "Corn");
-             this.traslateNames.put("菠萝", "Pineapple");
-             this.traslateNames.put("苹果", "Apple Oak");
-             this.traslateNames.put("椰子", "Coconut");
-             this.traslateNames.put("樱桃", "Cherry");
-             this.traslateNames.put("石榴", "Pomegranate");
-             this.traslateNames.put("柠檬", "Lemon");
-             this.traslateNames.put("李子", "Plum");
-             this.traslateNames.put("酸橙", "Lime");
-             this.traslateNames.put("橙子", "Orange");
-             this.traslateNames.put("桃子", "Peach");
-             this.traslateNames.put("香梨", "Pear");
-        
-             this.traslateNames.put("煤炭", "Coal");
-             this.traslateNames.put("铁", "Iron");
-             this.traslateNames.put("黄金", "Gold");
-             this.traslateNames.put("红石", "RedStone");
-             this.traslateNames.put("青金石", "Lapis");
-             this.traslateNames.put("末影", "Ender");
-             this.traslateNames.put("石英", "Quartz");
-             this.traslateNames.put("钻石", "Diamond");
-             this.traslateNames.put("绿宝石", "Emerald");
-             this.traslateNames.put("萤石", "Glowstone");
-             this.traslateNames.put("黑曜石", "Obsidian");
-             this.traslateNames.put("史莱姆", "Slime");
-             this.traslateNames.put("潜影壳", "Shulker_Shell");
-             this.traslateNames.put("咖啡豆", "Coffeebean");
-             this.traslateNames.put("仙馐果", "DreamFruit");
-             this.traslateNames.put("酒香果", "WineFruit");
-           }
-    
-       private void createDefaultConfiguration(File actual, String defaultName) {
-             File parent = actual.getParentFile();
-             if (!parent.exists()) {
-                   parent.mkdirs();
-                 }
-             if (actual.exists()) {
-                   return;
-                 }
-             InputStream input = null;
-        
-             try {
-                   JarFile file = new JarFile(getFile());
-                   ZipEntry copy = file.getEntry("resources/" + defaultName);
-                   if (copy == null) {
-                         throw new FileNotFoundException();
-                       }
-                   input = file.getInputStream(copy);
-                 }
-             catch (IOException iOException) {}
-             if (input != null) {
-            
-                   FileOutputStream output = null;
-            
-                   try {
-                         output = new FileOutputStream(actual);
-                         byte[] buf = new byte[32];
-                         int length = 0;
-                         while ((length = input.read(buf)) > 0) {
-                               output.write(buf, 0, length);
-                             }
-                       }
-                   catch (IOException e) {
-                
-                         e.printStackTrace();
-                       } finally {
-                
-                
-                         try {
-                    
-                               if (input != null) {
-                                     input.close();
-                                   }
-                             }
-                         catch (IOException iOException) {}
-                
-                         try {
-                               if (output != null) {
-                                     output.close();
-                                   }
-                             }
-                         catch (IOException iOException) {}
-                       }
-                 }
-           }
-    
-       private void initDataFromYAML(File storge) {
-             this.yamlStorge = YamlConfiguration.loadConfiguration(storge);
-             ConfigurationSection section = this.yamlStorge.getConfigurationSection("Players");
-             if (section == null) {
-                   this.yamlStorge.set("Players", null);
-                   try {
-                         this.yamlStorge.save("storge.yml");
-                       } catch (IOException e) {
-                         e.printStackTrace();
-                       }
-                 } else {
-                   for (String s : this.yamlStorge.getConfigurationSection("Players").getKeys(false)) {
-                         drunkPlayers.put(s, new PlayerAlcohol(s, this.yamlStorge
-               .getInt("Players.%p.Alcohol".replace("%p", s)), this.yamlStorge.getBoolean("Players.%p.Drunk".replace("%p", s))));
-                       }
-                 }
-           }
-    
-       public void initPlayerData(Player player) {
-             String name = player.getName();
-             ConfigurationSection section = this.yamlStorge.getConfigurationSection("Players");
-             if (section != null && section.contains(name)) {
-                   drunkPlayers.put(name, new PlayerAlcohol(name, this.yamlStorge
-             .getInt("Players.%p.Alcohol".replace("%p", name)), this.yamlStorge.getBoolean("Players.%p.Drunk".replace("%p", name))));
-                 } else {
-                   drunkPlayers.put(name, new PlayerAlcohol(name, 0));
-                   saveDatas(player);
-                 }
-           }
-    
-       private void saveDatas() {
-             try {
-                   for (Map.Entry<String, PlayerAlcohol> o : drunkPlayers.entrySet()) {
-                         Map.Entry entry = o;
-                         String player = "Players." + entry.getKey();
-                         this.yamlStorge.set(player + ".Alcohol", Integer.valueOf(((PlayerAlcohol)entry.getValue()).getAlcohol()));
-                         this.yamlStorge.set(player + ".Drunk", Boolean.valueOf(((PlayerAlcohol)entry.getValue()).isDrunk()));
-                       }
-                   this.yamlStorge.save(new File(getDataFolder() + File.separator + "storge.yml"));
-                 } catch (IOException e) {
-                   e.printStackTrace();
-                 }
-           }
-    
-       public void saveDatas(Player player) {
-             try {
-                   String playerName = "Players." + player.getName();
-                   this.yamlStorge.set(playerName + ".Alcohol", Integer.valueOf(((PlayerAlcohol)drunkPlayers.get(player.getName())).getAlcohol()));
-                   this.yamlStorge.set(playerName + ".Drunk", Boolean.valueOf(((PlayerAlcohol)drunkPlayers.get(player.getName())).isDrunk()));
-                   this.yamlStorge.save(new File(getDataFolder() + File.separator + "storge.yml"));
-                 } catch (IOException e) {
-                   e.printStackTrace();
-                 }
-           }
-    
-       public boolean isSanityEnabled() {
-             return this.sanity;
-           }
-    
-       public boolean isResidenceEnabled() {
-             return this.residence;
-           }
-    
-       public YamlConfiguration getYamlStorge() {
-             return this.yamlStorge;
-           }
-    
-       public static void sendDrunkMessage(Player player) {
-             Random ramdom = new Random();
-             player.chat(((String)drunkMsg.get(ramdom.nextInt(drunkMsg.size()))).replace("%player%", (
-                           (Player)Bukkit.getOnlinePlayers().toArray()[ramdom.nextInt(Bukkit.getOnlinePlayers().size())]).getName()));
-           }
-    
-       private void registerDrunkMessage() {
-             drunkMsg.add("§7我还能喝! §8(§c胡言乱语§8)");
-             drunkMsg.add("§7我控计不住我计己啊! §8(§c胡言乱语§8)");
-             drunkMsg.add("§7我...嗝! §8(§c胡言乱语§8)");
-             drunkMsg.add("§7嗝!我...要摸摸我家的苦力怕 §8(§c胡言乱语§8)");
-             drunkMsg.add("§7我要打十个...末影龙! §8(§c胡言乱语§8)");
-             drunkMsg.add("§7@%player%...你怎么扭来扭去的! §8(§c胡言乱语§8)");
-             drunkMsg.add("§7一...一起蛤皮! §8(§c胡言乱语§8)");
-             drunkMsg.add("@%player% §7我给你讲个故事...从前...嗝!蛤蛤蛤蛤蛤蛤蛤! §8(§c胡言乱语§8)");
-             drunkMsg.add("§7%player%...我超喜欢你的!让我揉揉你的肥脸... §8(§c胡言乱语§8)");
-             drunkMsg.add("§7老子...最强! §8(§c胡言乱语§8)");
-             drunkMsg.add("§7看到..这个酒瓶没有!看到了是吧!...怕什么我又不打你!蛤蛤蛤蛤蛤嗝 §8(§c胡言乱语§8)");
-             drunkMsg.add("§7每天吃肉长不胖, 天天喝酒身体棒! §8(§c胡言乱语§8)");
-             drunkMsg.add("§7这个服务器里的玩家超有钱的, 天天氪金, 还送我钱...我超喜欢这里的! §8(§c胡言乱语§8)");
-           }
-    
-       private void checkDrunkers() {
-             for (Map.Entry<String, PlayerAlcohol> o : drunkPlayers.entrySet()) {
-                   Map.Entry entry = o;
-                   PlayerAlcohol pa = (PlayerAlcohol)entry.getValue();
-                   Player player = Bukkit.getPlayer(pa.getPlayer());
-                   if (player != null) {
-                         if (pa.getAlcohol() > 0) {
-                               ((PlayerAlcohol)drunkPlayers.get(pa.getPlayer())).addAlcohol(-1);
-                             }
-                         if (pa.isDrunk) {
-                               if (pa.getAlcohol() <= 0) {
-                                     ((PlayerAlcohol)drunkPlayers.get(pa.getPlayer())).setDrunk(false); continue;
-                                   }
-                               player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 120, 1, false));
-                               continue;
-                             }
-                         if (pa.getAlcohol() >= 100)
-                               ((PlayerAlcohol)drunkPlayers.get(pa.getPlayer())).setDrunk(true);
-                       }
-                 }
-           }
+    private String getTranlateName(String name) {
+        if (this.traslateNames.get(name) != null) {
+            return this.traslateNames.get(name);
+        }
+        return name;
+    }
+
+    private void initTransNames() {
+        this.traslateNames.put("葡萄", "Grape");
+        this.traslateNames.put("蓝莓", "Blueberry");
+        this.traslateNames.put("接骨木果", "Elderberry");
+        this.traslateNames.put("覆盆子", "Raspberry");
+        this.traslateNames.put("黑莓", "Blackberry");
+        this.traslateNames.put("蔓越莓", "Cranberry");
+        this.traslateNames.put("越桔", "Cowberry");
+        this.traslateNames.put("草莓", "Strawberry");
+        this.traslateNames.put("番茄", "Tomato");
+        this.traslateNames.put("生菜", "Lettuce");
+        this.traslateNames.put("茶叶", "Tea Leaf");
+        this.traslateNames.put("卷心菜", "Cabbage");
+        this.traslateNames.put("番薯", "Sweet Potato");
+        this.traslateNames.put("芥菜籽", "Mustard Seed");
+        this.traslateNames.put("玉米", "Corn");
+        this.traslateNames.put("菠萝", "Pineapple");
+        this.traslateNames.put("苹果", "Apple Oak");
+        this.traslateNames.put("椰子", "Coconut");
+        this.traslateNames.put("樱桃", "Cherry");
+        this.traslateNames.put("石榴", "Pomegranate");
+        this.traslateNames.put("柠檬", "Lemon");
+        this.traslateNames.put("李子", "Plum");
+        this.traslateNames.put("酸橙", "Lime");
+        this.traslateNames.put("橙子", "Orange");
+        this.traslateNames.put("桃子", "Peach");
+        this.traslateNames.put("香梨", "Pear");
+
+        this.traslateNames.put("煤炭", "Coal");
+        this.traslateNames.put("铁", "Iron");
+        this.traslateNames.put("黄金", "Gold");
+        this.traslateNames.put("红石", "RedStone");
+        this.traslateNames.put("青金石", "Lapis");
+        this.traslateNames.put("末影", "Ender");
+        this.traslateNames.put("石英", "Quartz");
+        this.traslateNames.put("钻石", "Diamond");
+        this.traslateNames.put("绿宝石", "Emerald");
+        this.traslateNames.put("萤石", "Glowstone");
+        this.traslateNames.put("黑曜石", "Obsidian");
+        this.traslateNames.put("史莱姆", "Slime");
+        this.traslateNames.put("潜影壳", "Shulker_Shell");
+        this.traslateNames.put("咖啡豆", "Coffeebean");
+        this.traslateNames.put("仙馐果", "DreamFruit");
+        this.traslateNames.put("酒香果", "WineFruit");
+    }
+
+    private void createDefaultConfiguration(File actual, String defaultName) {
+        File parent = actual.getParentFile();
+        if (!parent.exists()) {
+            parent.mkdirs();
+        }
+        if (actual.exists()) {
+            return;
+        }
+        InputStream input = null;
+
+        try {
+            JarFile file = new JarFile(getFile());
+            ZipEntry copy = file.getEntry("resources/" + defaultName);
+            if (copy == null) {
+                throw new FileNotFoundException();
+            }
+            input = file.getInputStream(copy);
+        } catch (IOException iOException) {
+        }
+        if (input != null) {
+
+            FileOutputStream output = null;
+
+            try {
+                output = new FileOutputStream(actual);
+                byte[] buf = new byte[32];
+                int length = 0;
+                while ((length = input.read(buf)) > 0) {
+                    output.write(buf, 0, length);
+                }
+            } catch (IOException e) {
+
+                e.printStackTrace();
+            } finally {
+
+
+                try {
+
+                    if (input != null) {
+                        input.close();
+                    }
+                } catch (IOException iOException) {
+                }
+
+                try {
+                    if (output != null) {
+                        output.close();
+                    }
+                } catch (IOException iOException) {
+                }
+            }
+        }
+    }
+
+    private void initDataFromYAML(File storge) {
+        this.yamlStorge = YamlConfiguration.loadConfiguration(storge);
+        ConfigurationSection section = this.yamlStorge.getConfigurationSection("Players");
+        if (section == null) {
+            this.yamlStorge.set("Players", null);
+            try {
+                this.yamlStorge.save("storge.yml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            for (String s : this.yamlStorge.getConfigurationSection("Players").getKeys(false)) {
+                drunkPlayers.put(s, new PlayerAlcohol(s, this.yamlStorge
+                        .getInt("Players.%p.Alcohol".replace("%p", s)), this.yamlStorge.getBoolean("Players.%p.Drunk".replace("%p", s))));
+            }
+        }
+    }
+
+    public void initPlayerData(Player player) {
+        String name = player.getName();
+        ConfigurationSection section = this.yamlStorge.getConfigurationSection("Players");
+        if (section != null && section.contains(name)) {
+            drunkPlayers.put(name, new PlayerAlcohol(name, this.yamlStorge
+                    .getInt("Players.%p.Alcohol".replace("%p", name)), this.yamlStorge.getBoolean("Players.%p.Drunk".replace("%p", name))));
+        } else {
+            drunkPlayers.put(name, new PlayerAlcohol(name, 0));
+            saveDatas(player);
+        }
+    }
+
+    private void saveDatas() {
+        try {
+            for (Map.Entry<String, PlayerAlcohol> o : drunkPlayers.entrySet()) {
+                Map.Entry entry = o;
+                String player = "Players." + entry.getKey();
+                this.yamlStorge.set(player + ".Alcohol", Integer.valueOf(((PlayerAlcohol) entry.getValue()).getAlcohol()));
+                this.yamlStorge.set(player + ".Drunk", Boolean.valueOf(((PlayerAlcohol) entry.getValue()).isDrunk()));
+            }
+            this.yamlStorge.save(new File(getDataFolder() + File.separator + "storge.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveDatas(Player player) {
+        try {
+            String playerName = "Players." + player.getName();
+            this.yamlStorge.set(playerName + ".Alcohol", Integer.valueOf(((PlayerAlcohol) drunkPlayers.get(player.getName())).getAlcohol()));
+            this.yamlStorge.set(playerName + ".Drunk", Boolean.valueOf(((PlayerAlcohol) drunkPlayers.get(player.getName())).isDrunk()));
+            this.yamlStorge.save(new File(getDataFolder() + File.separator + "storge.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isSanityEnabled() {
+        return this.sanity;
+    }
+
+    public boolean isResidenceEnabled() {
+        return this.residence;
+    }
+
+    public YamlConfiguration getYamlStorge() {
+        return this.yamlStorge;
+    }
+
+    private void registerDrunkMessage() {
+        drunkMsg.add("§7我还能喝! §8(§c胡言乱语§8)");
+        drunkMsg.add("§7我控计不住我计己啊! §8(§c胡言乱语§8)");
+        drunkMsg.add("§7我...嗝! §8(§c胡言乱语§8)");
+        drunkMsg.add("§7嗝!我...要摸摸我家的苦力怕 §8(§c胡言乱语§8)");
+        drunkMsg.add("§7我要打十个...末影龙! §8(§c胡言乱语§8)");
+        drunkMsg.add("§7@%player%...你怎么扭来扭去的! §8(§c胡言乱语§8)");
+        drunkMsg.add("§7一...一起蛤皮! §8(§c胡言乱语§8)");
+        drunkMsg.add("@%player% §7我给你讲个故事...从前...嗝!蛤蛤蛤蛤蛤蛤蛤! §8(§c胡言乱语§8)");
+        drunkMsg.add("§7%player%...我超喜欢你的!让我揉揉你的肥脸... §8(§c胡言乱语§8)");
+        drunkMsg.add("§7老子...最强! §8(§c胡言乱语§8)");
+        drunkMsg.add("§7看到..这个酒瓶没有!看到了是吧!...怕什么我又不打你!蛤蛤蛤蛤蛤嗝 §8(§c胡言乱语§8)");
+        drunkMsg.add("§7每天吃肉长不胖, 天天喝酒身体棒! §8(§c胡言乱语§8)");
+        drunkMsg.add("§7这个服务器里的玩家超有钱的, 天天氪金, 还送我钱...我超喜欢这里的! §8(§c胡言乱语§8)");
+    }
+
+    private void checkDrunkers() {
+        for (Map.Entry<String, PlayerAlcohol> o : drunkPlayers.entrySet()) {
+            Map.Entry entry = o;
+            PlayerAlcohol pa = (PlayerAlcohol) entry.getValue();
+            Player player = Bukkit.getPlayer(pa.getPlayer());
+            if (player != null) {
+                if (pa.getAlcohol() > 0) {
+                    ((PlayerAlcohol) drunkPlayers.get(pa.getPlayer())).addAlcohol(-1);
+                }
+                if (pa.isDrunk) {
+                    if (pa.getAlcohol() <= 0) {
+                        ((PlayerAlcohol) drunkPlayers.get(pa.getPlayer())).setDrunk(false);
+                        continue;
+                    }
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 120, 1, false));
+                    continue;
+                }
+                if (pa.getAlcohol() >= 100)
+                    ((PlayerAlcohol) drunkPlayers.get(pa.getPlayer())).setDrunk(true);
+            }
+        }
+    }
 
     public void registerBerry(String id, String name, ChatColor color, Color potionColor, PlantType type, String texture) {
         String upperCase = id.toUpperCase(Locale.ROOT);
@@ -615,23 +677,17 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
         items.put(upperCase + "_BUSH", sfi);
 
-        new BonemealableItem(mainItemGroup, sfi, ExoticGardenRecipeTypes.BREAKING_GRASS, new ItemStack[] { null, null, null, null, new ItemStack(Material.GRASS), null, null, null, null }).register(this);
+        new BonemealableItem(mainItemGroup, sfi, ExoticGardenRecipeTypes.BREAKING_GRASS, new ItemStack[]{null, null, null, null, new ItemStack(Material.GRASS), null, null, null, null}).register(this);
 
-        new ExoticGardenFruit(mainItemGroup, new SlimefunItemStack(upperCase, texture, color + name), ExoticGardenRecipeTypes.HARVEST_BUSH, true, new ItemStack[] { null, null, null, null, getItem(upperCase + "_BUSH"), null, null, null, null }).register(this);
+        new ExoticGardenFruit(mainItemGroup, new SlimefunItemStack(upperCase, texture, color + name), ExoticGardenRecipeTypes.HARVEST_BUSH, true, new ItemStack[]{null, null, null, null, getItem(upperCase + "_BUSH"), null, null, null, null}).register(this);
 
-        new Juice(drinksItemGroup, new SlimefunItemStack(upperCase + "_JUICE", new CustomPotion(color + name + "汁", potionColor, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&o恢复 &b&o" + "3.0" + " &7&o点饥饿值")), RecipeType.JUICER, new ItemStack[] { getItem(upperCase), null, null, null, null, null, null, null, null }).register(this);
+        new Juice(drinksItemGroup, new SlimefunItemStack(upperCase + "_JUICE", new CustomPotion(color + name + "汁", potionColor, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&o恢复 &b&o" + "3.0" + " &7&o点饥饿值")), RecipeType.JUICER, new ItemStack[]{getItem(upperCase), null, null, null, null, null, null, null, null}).register(this);
 
-        new Juice(drinksItemGroup, new SlimefunItemStack(upperCase + "_SMOOTHIE", new CustomPotion(color + name + "冰沙", potionColor, new PotionEffect(PotionEffectType.SATURATION, 10, 0), "", "&7&o恢复 &b&o" + "5.0" + " &7&o点饥饿值")), RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { getItem(upperCase + "_JUICE"), getItem("ICE_CUBE"), null, null, null, null, null, null, null }).register(this);
+        new Juice(drinksItemGroup, new SlimefunItemStack(upperCase + "_SMOOTHIE", new CustomPotion(color + name + "冰沙", potionColor, new PotionEffect(PotionEffectType.SATURATION, 10, 0), "", "&7&o恢复 &b&o" + "5.0" + " &7&o点饥饿值")), RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{getItem(upperCase + "_JUICE"), getItem("ICE_CUBE"), null, null, null, null, null, null, null}).register(this);
 
-        new CustomFood(foodItemGroup, new SlimefunItemStack(upperCase + "_JELLY_SANDWICH", "8c8a939093ab1cde6677faf7481f311e5f17f63d58825f0e0c174631fb0439", color + name + "果酱三明治", "", "&7&o恢复 &b&o" + "8.0" + " &7&o点饥饿值"), new ItemStack[] { null, new ItemStack(Material.BREAD), null, null, getItem(upperCase + "_JUICE"), null, null, new ItemStack(Material.BREAD), null }, 16).register(this);
+        new CustomFood(foodItemGroup, new SlimefunItemStack(upperCase + "_JELLY_SANDWICH", "8c8a939093ab1cde6677faf7481f311e5f17f63d58825f0e0c174631fb0439", color + name + "果酱三明治", "", "&7&o恢复 &b&o" + "8.0" + " &7&o点饥饿值"), new ItemStack[]{null, new ItemStack(Material.BREAD), null, null, getItem(upperCase + "_JUICE"), null, null, new ItemStack(Material.BREAD), null}, 16).register(this);
 
-        new CustomFood(foodItemGroup, new SlimefunItemStack(upperCase + "_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", color + name + "派", "", "&7&o恢复 &b&o" + "6.5" + " &7&o点饥饿值"), new ItemStack[] { getItem(upperCase), new ItemStack(Material.EGG), new ItemStack(Material.SUGAR), new ItemStack(Material.MILK_BUCKET), SlimefunItems.WHEAT_FLOUR, null, null, null, null }, 13).register(this);
-    }
-
-    @Nullable
-    static ItemStack getItem(@Nonnull String id) {
-        SlimefunItem item = SlimefunItem.getById(id);
-        return item != null ? item.getItem() : null;
+        new CustomFood(foodItemGroup, new SlimefunItemStack(upperCase + "_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", color + name + "派", "", "&7&o恢复 &b&o" + "6.5" + " &7&o点饥饿值"), new ItemStack[]{getItem(upperCase), new ItemStack(Material.EGG), new ItemStack(Material.SUGAR), new ItemStack(Material.MILK_BUCKET), SlimefunItems.WHEAT_FLOUR, null, null, null, null}, 13).register(this);
     }
 
     public void registerPlant(String id, String name, ChatColor color, PlantType type, String texture) {
@@ -644,10 +700,10 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         SlimefunItemStack bush = new SlimefunItemStack(enumStyle + "_BUSH", Material.OAK_SAPLING, color + name + "植物");
         items.put(upperCase + "_BUSH", bush);
 
-        new BonemealableItem(mainItemGroup, bush, ExoticGardenRecipeTypes.BREAKING_GRASS, new ItemStack[] { null, null, null, null, new ItemStack(Material.GRASS), null, null, null, null })
-            .register(this);
+        new BonemealableItem(mainItemGroup, bush, ExoticGardenRecipeTypes.BREAKING_GRASS, new ItemStack[]{null, null, null, null, new ItemStack(Material.GRASS), null, null, null, null})
+                .register(this);
 
-        new ExoticGardenFruit(mainItemGroup, new SlimefunItemStack(enumStyle, texture, color + name), ExoticGardenRecipeTypes.HARVEST_BUSH, true, new ItemStack[] { null, null, null, null, getItem(enumStyle + "_BUSH"), null, null, null, null }).register(this);
+        new ExoticGardenFruit(mainItemGroup, new SlimefunItemStack(enumStyle, texture, color + name), ExoticGardenRecipeTypes.HARVEST_BUSH, true, new ItemStack[]{null, null, null, null, getItem(enumStyle + "_BUSH"), null, null, null, null}).register(this);
     }
 
     private void registerMagicalPlant(String id, String name, ItemStack item, String texture, ItemStack[] recipe) {
@@ -660,58 +716,12 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         berries.add(berry);
 
         new BonemealableItem(magicalItemGroup, new SlimefunItemStack(enumStyle + "_PLANT", Material.OAK_SAPLING, "&f" + name + "植物"), RecipeType.ENHANCED_CRAFTING_TABLE, recipe)
-            .register(this);
+                .register(this);
 
         MagicalEssence magicalEssence = new MagicalEssence(magicalItemGroup, essence);
 
         magicalEssence.setRecipeOutput(item.clone());
         magicalEssence.register(this);
-    }
-
-    @Nullable
-    public static ItemStack harvestPlant(@Nonnull Block block) {
-        SlimefunItem item = StorageCacheUtils.getSfItem(block.getLocation());
-
-        if (item == null) {
-            return null;
-        }
-
-        for (Berry berry : getBerries()) {
-            if (item.getId().equalsIgnoreCase(berry.getID())) {
-                var controller = Slimefun.getDatabaseManager().getBlockDataController();
-                switch (berry.getType()) {
-                    case ORE_PLANT, DOUBLE_PLANT -> {
-                        Block plant;
-                        Block head;
-                        if (Tag.LEAVES.isTagged(block.getType())) {
-                            // Player broke the leaf block
-                            plant = block;
-                            head = block.getRelative(BlockFace.UP);
-                        } else {
-                            // Player broke the head block
-                            plant = block.getRelative(BlockFace.DOWN);
-                            head = block;
-                        }
-
-                        block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, Material.OAK_LEAVES);
-                        head.setType(Material.AIR, false);
-                        plant.setType(Material.OAK_SAPLING, false);
-                        controller.removeBlock(head.getLocation());
-                        controller.removeBlock(plant.getLocation());
-                        BlockStorage.store(plant, getItem(berry.toBush()));
-                        return berry.getItem().clone();
-                    }
-                    default -> {
-                        block.setType(Material.OAK_SAPLING, false);
-                        controller.removeBlock(block.getLocation());
-                        BlockStorage.store(block, getItem(berry.toBush()));
-                        return berry.getItem().clone();
-                    }
-                }
-            }
-        }
-
-        return null;
     }
 
     public void harvestFruit(Block fruit) {
@@ -731,28 +741,8 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         }
     }
 
-    public static ExoticGarden getInstance() {
-        return instance;
-    }
-
     public File getSchematicsFolder() {
         return schematicsFolder;
-    }
-
-    public static Kitchen getKitchen() {
-        return instance.kitchen;
-    }
-
-    public static List<Tree> getTrees() {
-        return instance.trees;
-    }
-
-    public static List<Berry> getBerries() {
-        return instance.berries;
-    }
-
-    public static Map<String, ItemStack> getGrassDrops() {
-        return instance.items;
     }
 
     public Config getCfg() {
