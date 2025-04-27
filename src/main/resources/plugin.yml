@@ -1,12 +1,33 @@
 name: ExoticGarden
 version: ${project.version}
-author: TheBusyBiscuit
-description: A Slimefun Addon that adds new Plants and dishes to the game
-website: https://github.com/TheBusyBiscuit/ExoticGarden
+authors:
+- "TheBusyBiscuit"
+- "Narcissu14"
+- "1798643961"
+- "balugaq"
 
-api-version: '1.14'
+description: A Slimefun Addon that adds new Plants and dishes to the game
+website: https://github.com/balugaq/ExoticGardenComplex
+
+api-version: 1.18
 main: io.github.thebusybiscuit.exoticgarden.ExoticGarden
 
 depend:
 - Slimefun
 - GuizhanLibPlugin
+
+commands:
+  exotic:
+    description: ExoticGarden base command
+    usage: The ExoticGarden version you have installed does not seem to be compatible with your server setup. Check your console for more detailed info.
+  spawn:
+    description: Teleport to the Spawn
+  setspawn:
+    description: Set the Spawn point
+permissions:
+  spawn.admin:
+    description: Allows you to set the spawn
+    default: op
+  spawn.spawn:
+    description: Allows you to go to the spawn
+    default: false

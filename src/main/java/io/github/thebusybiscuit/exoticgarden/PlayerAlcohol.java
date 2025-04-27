@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class PlayerAlcohol {
-    String player;
+    final String player;
     int alcohol;
     boolean isDrunk;
 
@@ -18,8 +18,8 @@ public class PlayerAlcohol {
         try {
             YamlConfiguration storge = ExoticGarden.instance.getYamlStorge();
             ConfigurationSection section = storge.createSection("Players");
-            section.set(player + ".Alcohol", Integer.valueOf(0));
-            section.set(player + ".Drunk", Boolean.valueOf(false));
+            section.set(player + ".Alcohol", 0);
+            section.set(player + ".Drunk", Boolean.FALSE);
             storge.save(new File(ExoticGarden.instance.getDataFolder() + File.separator + "storge.yml"));
         } catch (IOException e) {
             e.printStackTrace();

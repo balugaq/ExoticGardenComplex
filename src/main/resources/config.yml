@@ -8,3 +8,26 @@ chances:
 options:
   auto-update: false
   auto-generate-plants: true
+########################################
+#                                      #
+#             BE Plugin             #
+#                                      #
+########################################
+
+fixes:
+  drop-skull: true
+  scan-itemframe: true
+  scan-chunk: true
+
+settings:
+  tpmessage-enable: true
+  spawn-on-join: true
+
+messages:
+  tpmessage: "&aYou have been teleported to the Spawn"
+  error-nospawnpoint: "&cNo Spawn Point set"
+  success-setspawn: "&aSpawn point set Correctly"
+  cmd-spawn-usage: "&cUsage: /spawn"
+  cmd-setspawn-usage: "&cUsage: /setspawn"
+
+spawn: {}

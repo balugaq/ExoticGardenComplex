@@ -77,9 +77,9 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     private static final String ALCOHOL_PATH = "Players.%p.Alcohol";
     private static final String DRUNK_PATH = "Players.%p.Drunk";
     public static ExoticGarden instance;
-    public static ConcurrentHashMap<String, PlayerAlcohol> drunkPlayers = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<String, PlayerAlcohol> drunkPlayers = new ConcurrentHashMap<>();
     private static boolean skullitems;
-    private static List<String> drunkMsg = new ArrayList<>();
+    private static final List<String> drunkMsg = new ArrayList<>();
     private final File schematicsFolder = new File(getDataFolder(), "schematics");
     private final List<Berry> berries = new ArrayList<>();
     private final List<Tree> trees = new ArrayList<>();
@@ -97,7 +97,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     private YamlConfiguration yamlStorge = null;
     private boolean sanity = false;
     private boolean residence = false;
-    private HashMap<String, String> traslateNames = new HashMap<>();
+    private final HashMap<String, String> traslateNames = new HashMap<>();
 
     public static ItemStack getSkull(MaterialData material, String texture) {
         try {
@@ -111,7 +111,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
     public static void sendDrunkMessage(Player player) {
         Random ramdom = new Random();
-        player.chat(((String) drunkMsg.get(ramdom.nextInt(drunkMsg.size()))).replace("%player%", (
+        player.chat(drunkMsg.get(ramdom.nextInt(drunkMsg.size())).replace("%player%", (
                 (Player) Bukkit.getOnlinePlayers().toArray()[ramdom.nextInt(Bukkit.getOnlinePlayers().size())]).getName()));
     }
 
@@ -225,10 +225,10 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
             this.sanity = true;
         }
         if (getServer().getPluginManager().getPlugin("Residence") != null) {
-            FlagPermissions.addFlag("exo-harvest");
+            // FlagPermissions.addFlag("exo-harvest");
             this.residence = true;
         }
-        getCommand("exotic").setExecutor((CommandExecutor) new ExoticCommand());
+        getCommand("exotic").setExecutor(new ExoticCommand());
 
     }
 
@@ -518,14 +518,14 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         }
         InputStream input = null;
 
-        try {
-            JarFile file = new JarFile(getFile());
+        try (JarFile file = new JarFile(getFile())) {
             ZipEntry copy = file.getEntry("resources/" + defaultName);
             if (copy == null) {
                 throw new FileNotFoundException();
             }
             input = file.getInputStream(copy);
         } catch (IOException iOException) {
+            iOException.printStackTrace();
         }
         if (input != null) {
 
@@ -539,7 +539,6 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
                     output.write(buf, 0, length);
                 }
             } catch (IOException e) {
-
                 e.printStackTrace();
             } finally {
 
@@ -550,6 +549,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
                         input.close();
                     }
                 } catch (IOException iOException) {
+                    iOException.printStackTrace();
                 }
 
                 try {
@@ -557,6 +557,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
                         output.close();
                     }
                 } catch (IOException iOException) {
+                    iOException.printStackTrace();
                 }
             }
         }
@@ -595,10 +596,9 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     private void saveDatas() {
         try {
             for (Map.Entry<String, PlayerAlcohol> o : drunkPlayers.entrySet()) {
-                Map.Entry entry = o;
-                String player = "Players." + entry.getKey();
-                this.yamlStorge.set(player + ".Alcohol", Integer.valueOf(((PlayerAlcohol) entry.getValue()).getAlcohol()));
-                this.yamlStorge.set(player + ".Drunk", Boolean.valueOf(((PlayerAlcohol) entry.getValue()).isDrunk()));
+                String player = "Players." + o.getKey();
+                this.yamlStorge.set(player + ".Alcohol", ((PlayerAlcohol) o.getValue()).getAlcohol());
+                this.yamlStorge.set(player + ".Drunk", ((PlayerAlcohol) o.getValue()).isDrunk());
             }
             this.yamlStorge.save(new File(getDataFolder() + File.separator + "storge.yml"));
         } catch (IOException e) {
@@ -609,8 +609,8 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     public void saveDatas(Player player) {
         try {
             String playerName = "Players." + player.getName();
-            this.yamlStorge.set(playerName + ".Alcohol", Integer.valueOf(((PlayerAlcohol) drunkPlayers.get(player.getName())).getAlcohol()));
-            this.yamlStorge.set(playerName + ".Drunk", Boolean.valueOf(((PlayerAlcohol) drunkPlayers.get(player.getName())).isDrunk()));
+            this.yamlStorge.set(playerName + ".Alcohol", ((PlayerAlcohol) drunkPlayers.get(player.getName())).getAlcohol());
+            this.yamlStorge.set(playerName + ".Drunk", ((PlayerAlcohol) drunkPlayers.get(player.getName())).isDrunk());
             this.yamlStorge.save(new File(getDataFolder() + File.separator + "storge.yml"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -647,23 +647,22 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
     private void checkDrunkers() {
         for (Map.Entry<String, PlayerAlcohol> o : drunkPlayers.entrySet()) {
-            Map.Entry entry = o;
-            PlayerAlcohol pa = (PlayerAlcohol) entry.getValue();
+            PlayerAlcohol pa = (PlayerAlcohol) o.getValue();
             Player player = Bukkit.getPlayer(pa.getPlayer());
             if (player != null) {
                 if (pa.getAlcohol() > 0) {
-                    ((PlayerAlcohol) drunkPlayers.get(pa.getPlayer())).addAlcohol(-1);
+                    drunkPlayers.get(pa.getPlayer()).addAlcohol(-1);
                 }
                 if (pa.isDrunk) {
                     if (pa.getAlcohol() <= 0) {
-                        ((PlayerAlcohol) drunkPlayers.get(pa.getPlayer())).setDrunk(false);
+                        drunkPlayers.get(pa.getPlayer()).setDrunk(false);
                         continue;
                     }
                     player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 120, 1, false));
                     continue;
                 }
                 if (pa.getAlcohol() >= 100)
-                    ((PlayerAlcohol) drunkPlayers.get(pa.getPlayer())).setDrunk(true);
+                    drunkPlayers.get(pa.getPlayer()).setDrunk(true);
             }
         }
     }

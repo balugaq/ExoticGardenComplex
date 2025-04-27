@@ -286,7 +286,7 @@ public class PlantsListener implements Listener {
             }
 
             if (e.getBlock().getType() == Material.GRASS) {
-                if (!ExoticGarden.getGrassDrops().keySet().isEmpty() && e.getPlayer().getGameMode() != GameMode.CREATIVE) {
+                if (!ExoticGarden.getGrassDrops().isEmpty() && e.getPlayer().getGameMode() != GameMode.CREATIVE) {
                     Random random = ThreadLocalRandom.current();
 
                     if (random.nextInt(100) < 6) {

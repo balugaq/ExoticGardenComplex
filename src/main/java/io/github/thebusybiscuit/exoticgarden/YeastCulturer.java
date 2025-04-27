@@ -1,10 +1,7 @@
 package io.github.thebusybiscuit.exoticgarden;
 
-import me.mrCookieSlime.ExoticGarden.Items.ExoticItems;
-import me.mrCookieSlime.ExoticGarden.gui.DefaultGUI;
-import me.mrCookieSlime.ExoticGarden.recipe.DefaultSubRecipe;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -13,7 +10,7 @@ import java.util.List;
 
 public abstract class YeastCulturer
         extends DefaultGUI {
-    public YeastCulturer(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
+    public YeastCulturer(ItemGroup category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, name, recipeType, recipe);
     }
 
@@ -25,8 +22,8 @@ public abstract class YeastCulturer
 
     public void registerDefaultRecipes() {
         registerRecipe(120, new ItemStack[]{new ItemStack(Material.HAY_BLOCK)}, new ItemStack[]{ExoticItems.Yeast_1});
-        registerRecipe(80, new ItemStack[]{getItem("WINEFRUIT")}, new ItemStack[]{ExoticItems.Yeast_2});
-        registerRecipe(40, new ItemStack[]{getItem("DREAMFRUIT")}, new ItemStack[]{ExoticItems.Yeast_3});
+        registerRecipe(80, new ItemStack[]{getById("WINEFRUIT").getItem()}, new ItemStack[]{ExoticItems.Yeast_2});
+        registerRecipe(40, new ItemStack[]{getById("DREAMFRUIT").getItem()}, new ItemStack[]{ExoticItems.Yeast_3});
     }
 
 

@@ -1,7 +1,5 @@
 package io.github.thebusybiscuit.exoticgarden;
 
-import me.mrCookieSlime.ExoticGarden.ExoticGarden;
-import me.mrCookieSlime.ExoticGarden.PlayerAlcohol;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,7 +13,7 @@ public class ExoticCommand implements CommandExecutor {
                     strings[0].equalsIgnoreCase("alo") &&
                     strings[1].equalsIgnoreCase("info")) {
                 if (Bukkit.getPlayer(strings[2]).isOnline()) {
-                    commandSender.sendMessage("§8[§b异域森林§8] §7玩家§e" + strings[2] + "§7的酒精度为§e" + ((PlayerAlcohol) ExoticGarden.drunkPlayers.get(strings[2])).getAlcohol());
+                    commandSender.sendMessage("§8[§b异域森林§8] §7玩家§e" + strings[2] + "§7的酒精度为§e" + ExoticGarden.drunkPlayers.get(strings[2]).getAlcohol());
                 } else {
                     commandSender.sendMessage("§8[§b异域森林§8] §c指定的玩家不在线！");
                 }
@@ -28,14 +26,14 @@ public class ExoticCommand implements CommandExecutor {
             if (hasPermission(commandSender, "exoticgarden.admin")) {
                 if (strings[1].equalsIgnoreCase("add")) {
                     if (Bukkit.getPlayer(strings[2]).isOnline()) {
-                        ((PlayerAlcohol) ExoticGarden.drunkPlayers.get(strings[2])).addAlcohol(Integer.valueOf(strings[3]).intValue());
+                        ExoticGarden.drunkPlayers.get(strings[2]).addAlcohol(Integer.valueOf(strings[3]));
                         commandSender.sendMessage("§8[§b异域森林§8] §7为玩家§e" + strings[2] + "§7增加了§e" + strings[3] + "§酒精度");
                     } else {
                         commandSender.sendMessage("§8[§b异域森林§8] §c指定的玩家不在线！");
                     }
                 } else if (strings[1].equalsIgnoreCase("set")) {
                     if (Bukkit.getPlayer(strings[2]).isOnline()) {
-                        ((PlayerAlcohol) ExoticGarden.drunkPlayers.get(strings[2])).setAlcohol(Integer.valueOf(strings[3]).intValue());
+                        ExoticGarden.drunkPlayers.get(strings[2]).setAlcohol(Integer.valueOf(strings[3]));
                         commandSender.sendMessage("§8[§b异域森林§8] §7将玩家§e" + strings[2] + "§7的酒精度设置为§e" + strings[3]);
                     } else {
                         commandSender.sendMessage("§8[§b异域森林§8] §c指定的玩家不在线！");
@@ -60,10 +58,9 @@ public class ExoticCommand implements CommandExecutor {
     }
 
     private boolean hasPermission(CommandSender sender, String perms) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             return true;
         }
-        Player player = (Player) sender;
         return (player.hasPermission(perms) || player.isOp());
     }
 }

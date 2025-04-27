@@ -5,6 +5,10 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
@@ -12,13 +16,8 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.ExoticGarden.recipe.DefaultSubRecipe;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineHelper;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -26,11 +25,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,16 +40,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public abstract class DefaultGUI extends SlimefunItem {
+public abstract class DefaultGUI extends SlimefunItem implements EnergyNetComponent {
     private static final int[] border = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
     private static final int[] inputBorder = new int[]{10, 11, 12, 14, 15, 16};
     private static final int[] centerBorder = new int[]{19, 20, 21, 22, 23, 24, 25};
     private static final int[] outputBorder = new int[]{30, 32, 39, 40, 41};
     private static final int[] subSlotSign = new int[]{28, 29};
     private static final int[] mainSlotSign = new int[]{33, 34};
-    public static Map<Block, MachineRecipe> processing = new HashMap<>();
-    public static Map<Block, Integer> progress = new HashMap<>();
-    protected List<MachineRecipe> recipes = new ArrayList<>();
+    public static final Map<Block, MachineRecipe> processing = new HashMap<>();
+    public static final Map<Block, Integer> progress = new HashMap<>();
+    protected final List<MachineRecipe> recipes = new ArrayList<>();
 
 
     public DefaultGUI(ItemGroup category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
@@ -77,12 +79,17 @@ public abstract class DefaultGUI extends SlimefunItem {
                 return DefaultGUI.this.getOutputMainSlots();
             }
         };
-        registerBlockHandler(name, new SlimefunBlockHandler() {
-            public void onPlace(Player p, Block b, SlimefunItem item) {
+
+        addItemHandler(new BlockPlaceHandler(false) {
+            @Override
+            public void onPlayerPlace(@NotNull BlockPlaceEvent blockPlaceEvent) {
+
             }
-
-
-            public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
+        });
+        addItemHandler(new BlockBreakHandler(false, false) {
+            @Override
+            public void onPlayerBreak(BlockBreakEvent blockBreakEvent, ItemStack itemStack, List<ItemStack> list) {
+                Block b = blockBreakEvent.getBlock();
                 BlockMenu inv = BlockStorage.getInventory(b);
                 if (inv != null) {
 
@@ -104,7 +111,6 @@ public abstract class DefaultGUI extends SlimefunItem {
                 }
                 DefaultGUI.progress.remove(b);
                 DefaultGUI.processing.remove(b);
-                return true;
             }
         });
         registerDefaultRecipes();
@@ -137,30 +143,37 @@ public abstract class DefaultGUI extends SlimefunItem {
                 return DefaultGUI.this.getOutputMainSlots();
             }
         };
-        registerBlockHandler(name, new SlimefunBlockHandler() {
-            public void onPlace(Player p, Block b, SlimefunItem item) {
+        addItemHandler(new BlockPlaceHandler(false) {
+            @Override
+            public void onPlayerPlace(@NotNull BlockPlaceEvent blockPlaceEvent) {
+
             }
+        });
+        addItemHandler(new BlockBreakHandler(false, false) {
+            @Override
+            public void onPlayerBreak(BlockBreakEvent blockBreakEvent, ItemStack itemStack, List<ItemStack> list) {
+                Block b = blockBreakEvent.getBlock();
+                BlockMenu inv = BlockStorage.getInventory(b);
+                if (inv != null) {
 
-
-            public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-                for (int slot : DefaultGUI.this.getInputSlots()) {
-                    if (BlockStorage.getInventory(b).getItemInSlot(slot) != null) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), BlockStorage.getInventory(b).getItemInSlot(slot));
+                    for (int slot : DefaultGUI.this.getInputSlots()) {
+                        if (inv.getItemInSlot(slot) != null) {
+                            b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+                        }
+                    }
+                    for (int slot : DefaultGUI.this.getOutputMainSlots()) {
+                        if (inv.getItemInSlot(slot) != null) {
+                            b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+                        }
+                    }
+                    for (int slot : DefaultGUI.this.getOutputSubSlots()) {
+                        if (inv.getItemInSlot(slot) != null) {
+                            b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+                        }
                     }
                 }
-                for (int slot : DefaultGUI.this.getOutputMainSlots()) {
-                    if (BlockStorage.getInventory(b).getItemInSlot(slot) != null) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), BlockStorage.getInventory(b).getItemInSlot(slot));
-                    }
-                }
-                for (int slot : DefaultGUI.this.getOutputSubSlots()) {
-                    if (BlockStorage.getInventory(b).getItemInSlot(slot) != null) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), BlockStorage.getInventory(b).getItemInSlot(slot));
-                    }
-                }
-                DefaultGUI.processing.remove(b);
                 DefaultGUI.progress.remove(b);
-                return true;
+                DefaultGUI.processing.remove(b);
             }
         });
         registerDefaultRecipes();
@@ -168,38 +181,26 @@ public abstract class DefaultGUI extends SlimefunItem {
 
     private void constructMenu(BlockMenuPreset preset) {
         for (int i : border) {
-            preset.addItem(i, (ItemStack) new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 3).toItemStack(), " ", new String[0]), (player, i1, itemStack, clickAction) -> false);
+            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 3).toItemStack(), " ", new String[0]), (player, i1, itemStack, clickAction) -> false);
         }
         for (int i : inputBorder) {
-            preset.addItem(i, (ItemStack) new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 0).toItemStack(), " ", new String[0]), (player, i2, itemStack, clickAction) -> false);
+            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 0).toItemStack(), " ", new String[0]), (player, i2, itemStack, clickAction) -> false);
         }
         for (int i : centerBorder) {
-            preset.addItem(i, (ItemStack) new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 4).toItemStack(), " ", new String[0]), (player, i4, itemStack, clickAction) -> false);
+            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 4).toItemStack(), " ", new String[0]), (player, i4, itemStack, clickAction) -> false);
         }
         for (int i : outputBorder) {
-            preset.addItem(i, (ItemStack) new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 9).toItemStack(), " ", new String[0]), (player, i3, itemStack, clickAction) -> false);
+            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 9).toItemStack(), " ", new String[0]), (player, i3, itemStack, clickAction) -> false);
         }
         for (int i : subSlotSign) {
-            preset.addItem(i, (ItemStack) new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 5).toItemStack(), "&e副输出槽", new String[]{"", "&7副输出槽通常会输出机器的副产物", "&7有些副产物极其有用甚至非常珍贵"}), new ChestMenu.MenuClickHandler() {
-                public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
-                    return false;
-                }
-            });
+            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 5).toItemStack(), "&e副输出槽", new String[]{"", "&7副输出槽通常会输出机器的副产物", "&7有些副产物极其有用甚至非常珍贵"}), (player, i6, itemStack, clickAction) -> false);
         }
         for (int i : mainSlotSign) {
-            preset.addItem(i, (ItemStack) new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 5).toItemStack(), "&c主输出槽", new String[]{"", "&7主输出槽输出机器的常规产品"}), new ChestMenu.MenuClickHandler() {
-                public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
-                    return false;
-                }
-            });
+            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 5).toItemStack(), "&c主输出槽", new String[]{"", "&7主输出槽输出机器的常规产品"}), (player, i5, itemStack, clickAction) -> false);
         }
-        preset.addItem(31, (ItemStack) new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 15).toItemStack(), " ", new String[0]), new ChestMenu.MenuClickHandler() {
-            public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
-                return false;
-            }
-        });
+        preset.addItem(31, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 15).toItemStack(), " ", new String[0]), (player, i, itemStack, clickAction) -> false);
 
-        preset.addItem(38, null, (ChestMenu.MenuClickHandler) new ChestMenu.AdvancedMenuClickHandler() {
+        preset.addItem(38, null, new ChestMenu.AdvancedMenuClickHandler() {
             public boolean onClick(Player player, int i, ItemStack item, ClickAction action) {
                 return false;
             }
@@ -249,7 +250,7 @@ public abstract class DefaultGUI extends SlimefunItem {
         int size = BlockStorage.getInventory(b).toInventory().getSize();
         Inventory inv = Bukkit.createInventory(null, size);
         for (int i = 0; i < size; i++) {
-            inv.setItem(i, (ItemStack) new CustomItemStack(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US"));
+            inv.setItem(i, new CustomItemStack(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US"));
         }
         for (int slot : getOutputMainSlots()) {
             inv.setItem(slot, BlockStorage.getInventory(b).getItemInSlot(slot));
@@ -276,7 +277,7 @@ public abstract class DefaultGUI extends SlimefunItem {
         int size = BlockStorage.getInventory(b).toInventory().getSize();
         Inventory inv = Bukkit.createInventory(null, size);
         for (int i = 0; i < size; i++) {
-            inv.setItem(i, (ItemStack) new CustomItemStack(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US"));
+            inv.setItem(i, new CustomItemStack(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US"));
         }
         for (int slot : getOutputSubSlots()) {
             inv.setItem(slot, BlockStorage.getInventory(b).getItemInSlot(slot));
@@ -288,7 +289,7 @@ public abstract class DefaultGUI extends SlimefunItem {
     protected void pushSubItems(Block b, DefaultSubRecipe recipe) {
         if (recipe != null && willOutput(recipe) && fits(b, new ItemStack[]{recipe.getItem()})) {
             Inventory inv = injectSub(b);
-            inv.addItem(new ItemStack[]{recipe.getItem()});
+            inv.addItem(recipe.getItem());
             for (int slot : getOutputSubSlots()) {
                 BlockStorage.getInventory(b).replaceExistingItem(slot, inv.getItem(slot));
             }
@@ -308,7 +309,7 @@ public abstract class DefaultGUI extends SlimefunItem {
 
 
     public void register(boolean slimefun) {
-        addItemHandler(new ItemHandler[]{(ItemHandler) new me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker() {
+        addItemHandler((ItemHandler) new me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker() {
 
             public void tick(Block b, SlimefunItem sf, Config data) {
                 DefaultGUI.this.tick(b);
@@ -322,7 +323,7 @@ public abstract class DefaultGUI extends SlimefunItem {
             public boolean isSynchronized() {
                 return false;
             }
-        }});
+        });
         super.register(ExoticGarden.instance);
     }
 
@@ -330,35 +331,35 @@ public abstract class DefaultGUI extends SlimefunItem {
     protected void tick(Block b) {
         if (isProcessing(b)) {
 
-            int timeleft = ((Integer) progress.get(b)).intValue();
+            int timeleft = (Integer) progress.get(b);
             if (timeleft > 0) {
 
                 ItemStack item = getProgressBar().clone();
-                item.setDurability(MachineHelper.getDurability(item, timeleft, ((MachineRecipe) processing.get(b)).getTicks()));
+                item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
                 ItemMeta im = item.getItemMeta();
                 im.setDisplayName(" ");
                 List<String> lore = new ArrayList<>();
-                lore.add(MachineHelper.getProgress(timeleft, ((MachineRecipe) processing.get(b)).getTicks()));
+                lore.add(MachineHelper.getProgress(timeleft, processing.get(b).getTicks()));
                 lore.add("");
                 lore.add(MachineHelper.getTimeLeft(timeleft / 2));
                 im.setLore(lore);
                 item.setItemMeta(im);
 
                 BlockStorage.getInventory(b).replaceExistingItem(31, item);
-                if (ChargableBlock.isChargable(b)) {
-                    if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                if (ChargeableBlock.isChargeable(b)) {
+                    if (ChargeableBlock.getCharge(b) < getEnergyConsumption()) {
                         return;
                     }
-                    ChargableBlock.addCharge(b, -getEnergyConsumption());
-                    progress.put(b, Integer.valueOf(timeleft - 1));
+                    ChargeableBlock.addCharge(b, -getEnergyConsumption());
+                    progress.put(b, timeleft - 1);
                 } else {
-                    progress.put(b, Integer.valueOf(timeleft - 1));
+                    progress.put(b, timeleft - 1);
                 }
 
             } else {
 
-                BlockStorage.getInventory(b).replaceExistingItem(31, (ItemStack) new CustomItemStack(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " ", new String[0]));
-                pushMainItems(b, ((MachineRecipe) processing.get(b)).getOutput());
+                BlockStorage.getInventory(b).replaceExistingItem(31, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 15).toItemStack(), " ", new String[0]));
+                pushMainItems(b, processing.get(b).getOutput());
                 pushSubItems(b, selectSubItem(getSubRecipes()));
                 progress.remove(b);
                 processing.remove(b);
@@ -374,7 +375,7 @@ public abstract class DefaultGUI extends SlimefunItem {
                     for (int slot : getInputSlots()) {
                         if (SlimefunUtils.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), input, true)) {
                             if (input != null) {
-                                found.put(Integer.valueOf(slot), Integer.valueOf(input.getAmount()));
+                                found.put(slot, input.getAmount());
                             }
                         }
                     }
@@ -396,7 +397,7 @@ public abstract class DefaultGUI extends SlimefunItem {
                     BlockStorage.getInventory(b).consumeItem(entry.getKey(), entry.getValue());
                 }
                 processing.put(b, r);
-                progress.put(b, Integer.valueOf(r.getTicks()));
+                progress.put(b, r.getTicks());
             }
         }
     }
@@ -414,6 +415,10 @@ public abstract class DefaultGUI extends SlimefunItem {
     public abstract int getLevel();
 
     public abstract String getMachineIdentifier();
+
+    public EnergyNetComponentType getEnergyComponentType() {
+        return EnergyNetComponentType.CONSUMER;
+    }
 }
 
 
