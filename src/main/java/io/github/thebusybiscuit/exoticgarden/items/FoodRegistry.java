@@ -25,6 +25,7 @@ import javax.annotation.Nullable;
  * @author yurinogueira
  * @author Hellcode48
  * @author CURVX
+ * @author haiman233
  */
 public final class FoodRegistry {
 
@@ -107,6 +108,18 @@ public final class FoodRegistry {
 
         new SlimefunItem(misc, new SlimefunItemStack("COUNTRY_GRAVY", "f21fa9439bfd8384464146f9c67ebd4c5fbf4196924892627eadf3bce1ff", "&r乡村肉汁"), RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{SlimefunItems.WHEAT_FLOUR, new ItemStack(Material.SUGAR), getItem("BLACK_PEPPER"), null, null, null, null, null, null})
+                .register(plugin);
+
+        new SlimefunItem(misc, new SlimefunItemStack("URANIUM_SALT", "b5a475460b5f9a367790df9df5bbbfbc10c079d4548e3382db36f3364ec08845", "&r可食用铀盐"), RecipeType.ENHANCED_CRAFTING_TABLE,
+                new ItemStack[] {SlimefunItems.URANIUM, getItem("DEMON_MELON"), getItem("SALT"), null, null, null, null, null, null})
+                .register(plugin);
+
+        new SlimefunItem(misc, new SlimefunItemStack("CHILI_POWDER", "28e71da916c82de0c1228846458e2f7de3e5d7e5b953f4f0389a3b716c69b8c6", "&r辣椒粉"), RecipeType.ENHANCED_CRAFTING_TABLE,
+                new ItemStack[] {getItem("RED_BELL_PEPPER"), getItem("BLACK_PEPPER"), getItem("JALAPENO_CHILI"), getItem("CHIPOTLE_CHILI"), getItem("HABANERO_CHILI"), getItem("CAROLINA_REAPER_CHILI"), getItem("SALT"), getItem("SALT"), getItem("SALT")})
+                .register(plugin);
+
+        new SlimefunItem(misc, new SlimefunItemStack("RICE_SACK", "cb70f2fb5ebf49f79ff3e873616863ae5d362fbbfc31aef2dfb93d6e17dbf2", "&f大米"), RecipeType.GRIND_STONE,
+                new ItemStack[] {getItem("PADDY"), null, null, null, null, null, null, null, null})
                 .register(plugin);
 
         new CustomFood(food, new SlimefunItemStack("CHOCOLATE_BAR", "819f948d17718adace5dd6e050c586229653fef645d7113ab94d17b639cc466", "&r巧克力棒", "", "&7&o恢复 &b&o" + "1.5" + " &7&o点饥饿值"),
