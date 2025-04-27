@@ -32,6 +32,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Effect;
@@ -41,7 +42,12 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -49,6 +55,7 @@ import org.bukkit.potion.PotionEffectType;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,8 +66,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.jar.JarFile;
 import java.util.logging.Level;
+import java.util.zip.ZipEntry;
 
 public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
@@ -73,15 +84,30 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     private final Map<String, ItemStack> items = new HashMap<>();
     private final Set<String> treeFruits = new HashSet<>();
 
+       private static boolean skullitems;
+     public static ConcurrentHashMap<String, PlayerAlcohol> drunkPlayers = new ConcurrentHashMap<>();
+    private static List<String> drunkMsg = new ArrayList<>();
+    private YamlConfiguration yamlStorge = null;
+    
+       private boolean sanity = false;
+    
+       private boolean residence = false;
+   private HashMap<String, String> traslateNames = new HashMap<>();
+    
+       private static final String ALCOHOL_PATH = "Players.%p.Alcohol";
+    
+       private static final String DRUNK_PATH = "Players.%p.Drunk";
+
     protected Config cfg;
 
-    private NestedItemGroup nestedItemGroup;
-    private ItemGroup mainItemGroup;
-    private ItemGroup miscItemGroup;
-    private ItemGroup foodItemGroup;
-    private ItemGroup drinksItemGroup;
-    private ItemGroup magicalItemGroup;
-    private Kitchen kitchen;
+    public NestedItemGroup nestedItemGroup;
+    public ItemGroup mainItemGroup;
+    public ItemGroup miscItemGroup;
+    public ItemGroup foodItemGroup;
+    public ItemGroup drinksItemGroup;
+    public ItemGroup magicalItemGroup;
+    public ItemGroup techItemGroup;
+    public Kitchen kitchen;
 
     @Override
     public void onEnable() {
@@ -109,10 +135,23 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
             GuizhanUpdater.start(this, getFile(), "ybw0014", "ExoticGarden", "master");
         }
 
+        initTransNames();
+
         registerItems();
 
         new AndroidListener(this);
         new PlantsListener(this);
+        new FoodListener(this);
+
+        if (Bukkit.getServer().getPluginManager().isPluginEnabled("Sanity")) {
+                   this.sanity = true;
+                 }
+             if (getServer().getPluginManager().getPlugin("Residence") != null) {
+                   FlagPermissions.addFlag("exo-harvest");
+                   this.residence = true;
+                 }
+        getCommand("exotic").setExecutor((CommandExecutor)new ExoticCommand());
+        
     }
 
     private void registerItems() {
@@ -122,6 +161,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         foodItemGroup = new SubItemGroup(new NamespacedKey(this, "food"), nestedItemGroup, new CustomItemStack(PlayerHead.getItemStack(PlayerSkin.fromHashCode("a14216d10714082bbe3f412423e6b19232352f4d64f9aca3913cb46318d3ed")), "&a异域花园 - 食物"));
         drinksItemGroup = new SubItemGroup(new NamespacedKey(this, "drinks"), nestedItemGroup, new CustomItemStack(PlayerHead.getItemStack(PlayerSkin.fromHashCode("2a8f1f70e85825607d28edce1a2ad4506e732b4a5345a5ea6e807c4b313e88")), "&a异域花园 - 饮料"));
         magicalItemGroup = new SubItemGroup(new NamespacedKey(this, "magical_crops"), nestedItemGroup, new CustomItemStack(Material.BLAZE_POWDER, "&5异域花园 - 魔法植物"));
+        techItemGroup = new SubItemGroup(new NamespacedKey(this, "tech"), nestedItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTI1NmY3ZmY1MmU3YmZkODE4N2I4M2RkMzRkZjM0NTAyOTUyYjhkYjlmYWZiNzI4OGViZWJiNmU3OGVmMTVmIn19fQ=="), "&a异域森林 &8- &b科技"));
 
         kitchen = new Kitchen(this, miscItemGroup);
         kitchen.register(this);
@@ -233,6 +273,12 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         registerMagicalPlant("Slime", "粘液球", new ItemStack(Material.SLIME_BALL, 8), "90e65e6e5113a5187dad46dfad3d3bf85e8ef807f82aac228a59c4a95d6f6a",
         new ItemStack[] {null, new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), getItem("ENDER_PLANT"), new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), null});
 
+        registerTechPlant("咖啡豆", "&c", Material.COCOA, PlantType.DOUBLE_PLANT, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTA4M2VjMmIwMWRjMGZlZTc5YWEzMjE4OGQ5NDI5YWNjNjhlY2Y3MTQwOGRjYTA0YWFhYjUzYWQ4YmVhMCJ9fX0=");
+
+        registerTechPlant("仙馐果", "&b", Material.APPLE, PlantType.DOUBLE_PLANT, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGNkY2YzOGE4NDM4ZWQzYTU0N2Y4ZDViNDdlMDgwMTU1OWM1OTVmMGUyNmM0NTY1NmE3NmI1YmY4YTU2ZiJ9fX0=");
+
+        registerTechPlant("酒香果", "&b", Material.OAK_LEAVES, PlantType.DOUBLE_PLANT, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzRjMDVkZDVkN2E5Mjg4OWQ4ZDIyZDRkZjBmMWExZmUyYmVlM2VkZGYxOTJmNzhmYzQ0ZTAyZTE0ZGJmNjI5In19fQ==");
+
         new Crook(miscItemGroup, new SlimefunItemStack("CROOK", new CustomItemStack(Material.WOODEN_HOE, "&r钩子", "", "&7+ &b25% &7树苗掉落概率")), RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {new ItemStack(Material.STICK), new ItemStack(Material.STICK), null, null, new ItemStack(Material.STICK), null, null, new ItemStack(Material.STICK), null})
         .register(this);
@@ -315,6 +361,251 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         }
     }
 
+    public void registerTechPlant(String rawName, String color, Material material, PlantType type, String data) {
+        String name = getTranlateName(rawName);
+        Berry berry = new Berry(name.toUpperCase().replace(" ", "_"), type, data);
+        berries.add(berry);
+
+        (new SlimefunItem(mainItemGroup, new SlimefunItemStack(name.toUpperCase().replace(" ", "_") + "_BUSH", Material.OAK_SAPLING, color + rawName + "苗"), ExoticGardenRecipeTypes.SEED_ANALYZER, new ItemStack[] { null, null, null, null, ExoticItems.MysticSeed, null, null, null, null})).register(instance);
+
+        (new EGPlant(mainItemGroup, new CustomItemStack(getSkull(material, data), color + rawName), name.toUpperCase().replace(" ", "_"), ExoticGardenRecipeTypes.HARVEST_PLANT, true, new ItemStack[] { null, null, null, null,
+                getItem(name.toUpperCase().replace(" ", "_") + "_BUSH"), null, null, null, null
+})).register(instance);
+    }
+
+       private ItemStack getSkull(Material material, String texture) {
+             return getSkull(new MaterialData(material), texture);
+           }
+    
+       public static ItemStack getSkull(MaterialData material, String texture) {
+             try {
+                   if (texture.equals("NO_SKULL_SPECIFIED")) return material.toItemStack(1);
+                   return skullitems ? SkullUtil.getByBase64(texture) : material.toItemStack(1);
+                 } catch (Exception e) {
+                   e.printStackTrace();
+                   return material.toItemStack(1);
+                 }
+           }
+
+       private String getTranlateName(String name) {
+             if (this.traslateNames.get(name) != null) {
+                   return this.traslateNames.get(name);
+                 }
+             return name;
+           }
+    
+       private void initTransNames() {
+             this.traslateNames.put("葡萄", "Grape");
+             this.traslateNames.put("蓝莓", "Blueberry");
+             this.traslateNames.put("接骨木果", "Elderberry");
+             this.traslateNames.put("覆盆子", "Raspberry");
+             this.traslateNames.put("黑莓", "Blackberry");
+             this.traslateNames.put("蔓越莓", "Cranberry");
+             this.traslateNames.put("越桔", "Cowberry");
+             this.traslateNames.put("草莓", "Strawberry");
+             this.traslateNames.put("番茄", "Tomato");
+             this.traslateNames.put("生菜", "Lettuce");
+             this.traslateNames.put("茶叶", "Tea Leaf");
+             this.traslateNames.put("卷心菜", "Cabbage");
+             this.traslateNames.put("番薯", "Sweet Potato");
+             this.traslateNames.put("芥菜籽", "Mustard Seed");
+             this.traslateNames.put("玉米", "Corn");
+             this.traslateNames.put("菠萝", "Pineapple");
+             this.traslateNames.put("苹果", "Apple Oak");
+             this.traslateNames.put("椰子", "Coconut");
+             this.traslateNames.put("樱桃", "Cherry");
+             this.traslateNames.put("石榴", "Pomegranate");
+             this.traslateNames.put("柠檬", "Lemon");
+             this.traslateNames.put("李子", "Plum");
+             this.traslateNames.put("酸橙", "Lime");
+             this.traslateNames.put("橙子", "Orange");
+             this.traslateNames.put("桃子", "Peach");
+             this.traslateNames.put("香梨", "Pear");
+        
+             this.traslateNames.put("煤炭", "Coal");
+             this.traslateNames.put("铁", "Iron");
+             this.traslateNames.put("黄金", "Gold");
+             this.traslateNames.put("红石", "RedStone");
+             this.traslateNames.put("青金石", "Lapis");
+             this.traslateNames.put("末影", "Ender");
+             this.traslateNames.put("石英", "Quartz");
+             this.traslateNames.put("钻石", "Diamond");
+             this.traslateNames.put("绿宝石", "Emerald");
+             this.traslateNames.put("萤石", "Glowstone");
+             this.traslateNames.put("黑曜石", "Obsidian");
+             this.traslateNames.put("史莱姆", "Slime");
+             this.traslateNames.put("潜影壳", "Shulker_Shell");
+             this.traslateNames.put("咖啡豆", "Coffeebean");
+             this.traslateNames.put("仙馐果", "DreamFruit");
+             this.traslateNames.put("酒香果", "WineFruit");
+           }
+    
+       private void createDefaultConfiguration(File actual, String defaultName) {
+             File parent = actual.getParentFile();
+             if (!parent.exists()) {
+                   parent.mkdirs();
+                 }
+             if (actual.exists()) {
+                   return;
+                 }
+             InputStream input = null;
+        
+             try {
+                   JarFile file = new JarFile(getFile());
+                   ZipEntry copy = file.getEntry("resources/" + defaultName);
+                   if (copy == null) {
+                         throw new FileNotFoundException();
+                       }
+                   input = file.getInputStream(copy);
+                 }
+             catch (IOException iOException) {}
+             if (input != null) {
+            
+                   FileOutputStream output = null;
+            
+                   try {
+                         output = new FileOutputStream(actual);
+                         byte[] buf = new byte[32];
+                         int length = 0;
+                         while ((length = input.read(buf)) > 0) {
+                               output.write(buf, 0, length);
+                             }
+                       }
+                   catch (IOException e) {
+                
+                         e.printStackTrace();
+                       } finally {
+                
+                
+                         try {
+                    
+                               if (input != null) {
+                                     input.close();
+                                   }
+                             }
+                         catch (IOException iOException) {}
+                
+                         try {
+                               if (output != null) {
+                                     output.close();
+                                   }
+                             }
+                         catch (IOException iOException) {}
+                       }
+                 }
+           }
+    
+       private void initDataFromYAML(File storge) {
+             this.yamlStorge = YamlConfiguration.loadConfiguration(storge);
+             ConfigurationSection section = this.yamlStorge.getConfigurationSection("Players");
+             if (section == null) {
+                   this.yamlStorge.set("Players", null);
+                   try {
+                         this.yamlStorge.save("storge.yml");
+                       } catch (IOException e) {
+                         e.printStackTrace();
+                       }
+                 } else {
+                   for (String s : this.yamlStorge.getConfigurationSection("Players").getKeys(false)) {
+                         drunkPlayers.put(s, new PlayerAlcohol(s, this.yamlStorge
+               .getInt("Players.%p.Alcohol".replace("%p", s)), this.yamlStorge.getBoolean("Players.%p.Drunk".replace("%p", s))));
+                       }
+                 }
+           }
+    
+       public void initPlayerData(Player player) {
+             String name = player.getName();
+             ConfigurationSection section = this.yamlStorge.getConfigurationSection("Players");
+             if (section != null && section.contains(name)) {
+                   drunkPlayers.put(name, new PlayerAlcohol(name, this.yamlStorge
+             .getInt("Players.%p.Alcohol".replace("%p", name)), this.yamlStorge.getBoolean("Players.%p.Drunk".replace("%p", name))));
+                 } else {
+                   drunkPlayers.put(name, new PlayerAlcohol(name, 0));
+                   saveDatas(player);
+                 }
+           }
+    
+       private void saveDatas() {
+             try {
+                   for (Map.Entry<String, PlayerAlcohol> o : drunkPlayers.entrySet()) {
+                         Map.Entry entry = o;
+                         String player = "Players." + entry.getKey();
+                         this.yamlStorge.set(player + ".Alcohol", Integer.valueOf(((PlayerAlcohol)entry.getValue()).getAlcohol()));
+                         this.yamlStorge.set(player + ".Drunk", Boolean.valueOf(((PlayerAlcohol)entry.getValue()).isDrunk()));
+                       }
+                   this.yamlStorge.save(new File(getDataFolder() + File.separator + "storge.yml"));
+                 } catch (IOException e) {
+                   e.printStackTrace();
+                 }
+           }
+    
+       public void saveDatas(Player player) {
+             try {
+                   String playerName = "Players." + player.getName();
+                   this.yamlStorge.set(playerName + ".Alcohol", Integer.valueOf(((PlayerAlcohol)drunkPlayers.get(player.getName())).getAlcohol()));
+                   this.yamlStorge.set(playerName + ".Drunk", Boolean.valueOf(((PlayerAlcohol)drunkPlayers.get(player.getName())).isDrunk()));
+                   this.yamlStorge.save(new File(getDataFolder() + File.separator + "storge.yml"));
+                 } catch (IOException e) {
+                   e.printStackTrace();
+                 }
+           }
+    
+       public boolean isSanityEnabled() {
+             return this.sanity;
+           }
+    
+       public boolean isResidenceEnabled() {
+             return this.residence;
+           }
+    
+       public YamlConfiguration getYamlStorge() {
+             return this.yamlStorge;
+           }
+    
+       public static void sendDrunkMessage(Player player) {
+             Random ramdom = new Random();
+             player.chat(((String)drunkMsg.get(ramdom.nextInt(drunkMsg.size()))).replace("%player%", (
+                           (Player)Bukkit.getOnlinePlayers().toArray()[ramdom.nextInt(Bukkit.getOnlinePlayers().size())]).getName()));
+           }
+    
+       private void registerDrunkMessage() {
+             drunkMsg.add("§7我还能喝! §8(§c胡言乱语§8)");
+             drunkMsg.add("§7我控计不住我计己啊! §8(§c胡言乱语§8)");
+             drunkMsg.add("§7我...嗝! §8(§c胡言乱语§8)");
+             drunkMsg.add("§7嗝!我...要摸摸我家的苦力怕 §8(§c胡言乱语§8)");
+             drunkMsg.add("§7我要打十个...末影龙! §8(§c胡言乱语§8)");
+             drunkMsg.add("§7@%player%...你怎么扭来扭去的! §8(§c胡言乱语§8)");
+             drunkMsg.add("§7一...一起蛤皮! §8(§c胡言乱语§8)");
+             drunkMsg.add("@%player% §7我给你讲个故事...从前...嗝!蛤蛤蛤蛤蛤蛤蛤! §8(§c胡言乱语§8)");
+             drunkMsg.add("§7%player%...我超喜欢你的!让我揉揉你的肥脸... §8(§c胡言乱语§8)");
+             drunkMsg.add("§7老子...最强! §8(§c胡言乱语§8)");
+             drunkMsg.add("§7看到..这个酒瓶没有!看到了是吧!...怕什么我又不打你!蛤蛤蛤蛤蛤嗝 §8(§c胡言乱语§8)");
+             drunkMsg.add("§7每天吃肉长不胖, 天天喝酒身体棒! §8(§c胡言乱语§8)");
+             drunkMsg.add("§7这个服务器里的玩家超有钱的, 天天氪金, 还送我钱...我超喜欢这里的! §8(§c胡言乱语§8)");
+           }
+    
+       private void checkDrunkers() {
+             for (Map.Entry<String, PlayerAlcohol> o : drunkPlayers.entrySet()) {
+                   Map.Entry entry = o;
+                   PlayerAlcohol pa = (PlayerAlcohol)entry.getValue();
+                   Player player = Bukkit.getPlayer(pa.getPlayer());
+                   if (player != null) {
+                         if (pa.getAlcohol() > 0) {
+                               ((PlayerAlcohol)drunkPlayers.get(pa.getPlayer())).addAlcohol(-1);
+                             }
+                         if (pa.isDrunk) {
+                               if (pa.getAlcohol() <= 0) {
+                                     ((PlayerAlcohol)drunkPlayers.get(pa.getPlayer())).setDrunk(false); continue;
+                                   }
+                               player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 120, 1, false));
+                               continue;
+                             }
+                         if (pa.getAlcohol() >= 100)
+                               ((PlayerAlcohol)drunkPlayers.get(pa.getPlayer())).setDrunk(true);
+                       }
+                 }
+           }
+
     public void registerBerry(String id, String name, ChatColor color, Color potionColor, PlantType type, String texture) {
         String upperCase = id.toUpperCase(Locale.ROOT);
         Berry berry = new Berry(upperCase, type, texture);
@@ -338,7 +629,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     }
 
     @Nullable
-    private static ItemStack getItem(@Nonnull String id) {
+    static ItemStack getItem(@Nonnull String id) {
         SlimefunItem item = SlimefunItem.getById(id);
         return item != null ? item.getItem() : null;
     }

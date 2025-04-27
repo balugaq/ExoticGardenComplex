@@ -15,5 +15,6 @@ public final class ExoticGardenRecipeTypes {
     public static final RecipeType BREAKING_GRASS = new RecipeType(new NamespacedKey(ExoticGarden.instance, "breaking_grass"), new CustomItemStack(Material.GRASS, "&7破坏草"));
     public static final RecipeType HARVEST_TREE = new RecipeType(new NamespacedKey(ExoticGarden.instance, "harvest_tree"), new CustomItemStack(Material.OAK_LEAVES, "&a从树木中获得", "", "&r通过种植特定树木获得"));
     public static final RecipeType HARVEST_BUSH = new RecipeType(new NamespacedKey(ExoticGarden.instance, "harvest_bush"), new CustomItemStack(Material.OAK_LEAVES, "&a从灌木丛中获得", "", "&r通过种植特定灌木丛获得"));
-
+    public static final RecipeType HARVEST_PLANT = new RecipeType(new NamespacedKey(ExoticGarden.instance, "harvest_plant"), new CustomItemStack(Material.OAK_LEAVES, "&7从特定的植物上收获"));
+    public static final RecipeType SEED_ANALYZER = new RecipeType(new NamespacedKey(ExoticGarden.instance, "seed_analyzer"), ExoticItems.SeedAnalyzer_1);
 }
