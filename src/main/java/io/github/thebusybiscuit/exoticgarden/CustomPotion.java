@@ -12,6 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class CustomPotion extends ItemStack {
+    @ParametersAreNonnullByDefault
+    public CustomPotion(String name, int color,  String[] lore, PotionEffect effect) {
+        this(name, Color.fromBGR(color), effect, lore);
+    }
+
+    @ParametersAreNonnullByDefault
+    public CustomPotion(String name, int color, PotionEffect effect, String... lore) {
+        this(name, Color.fromBGR(color), effect, lore);
+    }
 
     @ParametersAreNonnullByDefault
     public CustomPotion(String name, Color color, PotionEffect effect, String... lore) {

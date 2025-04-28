@@ -17,6 +17,10 @@ public final class ExoticGardenRecipeTypes {
     public static final RecipeType YeastCulturer = new RecipeType(new NamespacedKey(ExoticGarden.instance, "yeast_culturer"), ExoticItems.YeastCulturer);
     public static final RecipeType BREAK_GRASS = new RecipeType(new NamespacedKey(ExoticGarden.instance, "break_grass"), new CustomItemStack(Material.TALL_GRASS, "&7破坏杂草获得"));
     public static final RecipeType BREWER = new RecipeType(new NamespacedKey(ExoticGarden.instance, "brewer"), new CustomItemStack(SkullUtil.getByBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmZiOTg1OTYyZjQ2ZTA1NWY1M2Q4ZWUzNWIxMWI4YTYyZjM5N2RhZDlkYjlmZWFlZmY0ODI5NjMwZDlkOSJ9fX0="), "&b电力酿造机", "", "&7用于制作美酒"));
+    public static final RecipeType ElectricityBrewing_1 = new RecipeType(new NamespacedKey(ExoticGarden.instance, "electricity_brewing_1"), ExoticItems.ElectricityBrewing_1);
+    public static final RecipeType ElectricityBrewing_2 = new RecipeType(new NamespacedKey(ExoticGarden.instance, "electricity_brewing_2"), ExoticItems.ElectricityBrewing_2);
+    public static final RecipeType ElectricityBrewing_3 = new RecipeType(new NamespacedKey(ExoticGarden.instance, "electricity_brewing_3"), ExoticItems.ElectricityBrewing_3);
+
 
     private ExoticGardenRecipeTypes() {
     }

@@ -450,11 +450,6 @@ public final class FoodRegistry {
                 13)
                 .register(plugin);
 
-        new CustomFood(food, new SlimefunItemStack("BOSTON_CREAM_PIE", "dfd71e20fc50abf0de2ef7decfc01ce27ad51955759e072ceaab96355f594f0", "&r波士顿奶油馅饼", "", "&7&o恢复 &b&o" + "5.5" + " &7&o点饥饿值"),
-                new ItemStack[]{null, getItem("CHOCOLATE_BAR"), null, null, SlimefunItems.HEAVY_CREAM, null, null, getItem("BISCUIT"), null},
-                9)
-                .register(plugin);
-
         new CustomFood(food, new SlimefunItemStack("HOT_DOG", "33f2d7d7a8b1b969142881eb5a87e737b5f75fb808b9a157adddb2c6aec382", "&r热狗", "", "&7&o恢复 &b&o" + "5.0" + " &7&o点饥饿值"),
                 new ItemStack[]{null, null, null, null, new ItemStack(Material.COOKED_PORKCHOP), null, null, new ItemStack(Material.BREAD), null},
                 10)
@@ -497,11 +492,6 @@ public final class FoodRegistry {
 
         new Juice(drinks, new SlimefunItemStack("LEMONADE", new CustomPotion("&e柠檬水", Color.YELLOW, new PotionEffect(PotionEffectType.SATURATION, 8, 0), "", "&7&o恢复 &b&o" + "4.0" + " &7&o点饥饿值")), RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{getItem("LEMON_JUICE"), new ItemStack(Material.SUGAR), null, null, null, null, null, null, null})
-                .register(plugin);
-
-        new CustomFood(food, new SlimefunItemStack("SWEET_POTATO_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", "&r红薯派", "", "&7&o恢复 &b&o" + "6.5" + " &7&o点饥饿值"),
-                new ItemStack[]{getItem("SWEET_POTATO"), new ItemStack(Material.EGG), SlimefunItems.HEAVY_CREAM, SlimefunItems.WHEAT_FLOUR, null, null, null, null, null},
-                13)
                 .register(plugin);
 
         new CustomFood(food, new SlimefunItemStack("LAMINGTON", "9119fca4f28a755d37fbe5dcf6d8c3ef50fe394c1a7850bc7e2b71ee78303c4c", "&r巧克力椰丝蛋糕", "", "&7&o恢复 &b&o" + "9.0" + " &7&o点饥饿值"),
