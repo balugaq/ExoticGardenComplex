@@ -5,7 +5,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
 
 public final class ExoticGardenRecipeTypes {
 
@@ -17,7 +16,7 @@ public final class ExoticGardenRecipeTypes {
     public static final RecipeType SEED_ANALYZER = new RecipeType(new NamespacedKey(ExoticGarden.instance, "seed_analyzer"), ExoticItems.SeedAnalyzer_1);
     public static final RecipeType YeastCulturer = new RecipeType(new NamespacedKey(ExoticGarden.instance, "yeast_culturer"), ExoticItems.YeastCulturer);
     public static final RecipeType BREAK_GRASS = new RecipeType(new NamespacedKey(ExoticGarden.instance, "break_grass"), new CustomItemStack(Material.TALL_GRASS, "&7破坏杂草获得"));
-    public static final RecipeType BREWER = new RecipeType(new NamespacedKey(ExoticGarden.instance, "brewer"), new CustomItemStack(SkullUtil.getByBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmZiOTg1OTYyZjQ2ZTA1NWY1M2Q4ZWUzNWIxMWI4YTYyZjM5N2RhZDlkYjlmZWFlZmY0ODI5NjMwZDlkOSJ9fX0="), "&b电力酿造机", new String[]{"", "&7用于制作美酒"}));
+    public static final RecipeType BREWER = new RecipeType(new NamespacedKey(ExoticGarden.instance, "brewer"), new CustomItemStack(SkullUtil.getByBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmZiOTg1OTYyZjQ2ZTA1NWY1M2Q4ZWUzNWIxMWI4YTYyZjM5N2RhZDlkYjlmZWFlZmY0ODI5NjMwZDlkOSJ9fX0="), "&b电力酿造机", "", "&7用于制作美酒"));
 
     private ExoticGardenRecipeTypes() {
     }

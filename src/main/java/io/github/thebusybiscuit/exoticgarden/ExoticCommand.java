@@ -26,14 +26,14 @@ public class ExoticCommand implements CommandExecutor {
             if (hasPermission(commandSender, "exoticgarden.admin")) {
                 if (strings[1].equalsIgnoreCase("add")) {
                     if (Bukkit.getPlayer(strings[2]).isOnline()) {
-                        ExoticGarden.drunkPlayers.get(strings[2]).addAlcohol(Integer.valueOf(strings[3]));
+                        ExoticGarden.drunkPlayers.get(strings[2]).addAlcohol(Integer.parseInt(strings[3]));
                         commandSender.sendMessage("§8[§b异域森林§8] §7为玩家§e" + strings[2] + "§7增加了§e" + strings[3] + "§酒精度");
                     } else {
                         commandSender.sendMessage("§8[§b异域森林§8] §c指定的玩家不在线！");
                     }
                 } else if (strings[1].equalsIgnoreCase("set")) {
                     if (Bukkit.getPlayer(strings[2]).isOnline()) {
-                        ExoticGarden.drunkPlayers.get(strings[2]).setAlcohol(Integer.valueOf(strings[3]));
+                        ExoticGarden.drunkPlayers.get(strings[2]).setAlcohol(Integer.parseInt(strings[3]));
                         commandSender.sendMessage("§8[§b异域森林§8] §7将玩家§e" + strings[2] + "§7的酒精度设置为§e" + strings[3]);
                     } else {
                         commandSender.sendMessage("§8[§b异域森林§8] §c指定的玩家不在线！");

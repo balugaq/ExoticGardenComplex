@@ -41,14 +41,14 @@ import java.util.Map;
 import java.util.Random;
 
 public abstract class DefaultGUI extends SlimefunItem implements EnergyNetComponent {
+    public static final Map<Block, MachineRecipe> processing = new HashMap<>();
+    public static final Map<Block, Integer> progress = new HashMap<>();
     private static final int[] border = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
     private static final int[] inputBorder = new int[]{10, 11, 12, 14, 15, 16};
     private static final int[] centerBorder = new int[]{19, 20, 21, 22, 23, 24, 25};
     private static final int[] outputBorder = new int[]{30, 32, 39, 40, 41};
     private static final int[] subSlotSign = new int[]{28, 29};
     private static final int[] mainSlotSign = new int[]{33, 34};
-    public static final Map<Block, MachineRecipe> processing = new HashMap<>();
-    public static final Map<Block, Integer> progress = new HashMap<>();
     protected final List<MachineRecipe> recipes = new ArrayList<>();
 
 
@@ -181,24 +181,24 @@ public abstract class DefaultGUI extends SlimefunItem implements EnergyNetCompon
 
     private void constructMenu(BlockMenuPreset preset) {
         for (int i : border) {
-            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 3).toItemStack(), " ", new String[0]), (player, i1, itemStack, clickAction) -> false);
+            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 3).toItemStack(), " "), (player, i1, itemStack, clickAction) -> false);
         }
         for (int i : inputBorder) {
-            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 0).toItemStack(), " ", new String[0]), (player, i2, itemStack, clickAction) -> false);
+            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 0).toItemStack(), " "), (player, i2, itemStack, clickAction) -> false);
         }
         for (int i : centerBorder) {
-            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 4).toItemStack(), " ", new String[0]), (player, i4, itemStack, clickAction) -> false);
+            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 4).toItemStack(), " "), (player, i4, itemStack, clickAction) -> false);
         }
         for (int i : outputBorder) {
-            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 9).toItemStack(), " ", new String[0]), (player, i3, itemStack, clickAction) -> false);
+            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 9).toItemStack(), " "), (player, i3, itemStack, clickAction) -> false);
         }
         for (int i : subSlotSign) {
-            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 5).toItemStack(), "&e副输出槽", new String[]{"", "&7副输出槽通常会输出机器的副产物", "&7有些副产物极其有用甚至非常珍贵"}), (player, i6, itemStack, clickAction) -> false);
+            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 5).toItemStack(), "&e副输出槽", "", "&7副输出槽通常会输出机器的副产物", "&7有些副产物极其有用甚至非常珍贵"), (player, i6, itemStack, clickAction) -> false);
         }
         for (int i : mainSlotSign) {
-            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 5).toItemStack(), "&c主输出槽", new String[]{"", "&7主输出槽输出机器的常规产品"}), (player, i5, itemStack, clickAction) -> false);
+            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 5).toItemStack(), "&c主输出槽", "", "&7主输出槽输出机器的常规产品"), (player, i5, itemStack, clickAction) -> false);
         }
-        preset.addItem(31, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 15).toItemStack(), " ", new String[0]), (player, i, itemStack, clickAction) -> false);
+        preset.addItem(31, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 15).toItemStack(), " "), (player, i, itemStack, clickAction) -> false);
 
         preset.addItem(38, null, new ChestMenu.AdvancedMenuClickHandler() {
             public boolean onClick(Player player, int i, ItemStack item, ClickAction action) {
@@ -309,7 +309,7 @@ public abstract class DefaultGUI extends SlimefunItem implements EnergyNetCompon
 
 
     public void register(boolean slimefun) {
-        addItemHandler((ItemHandler) new me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker() {
+        addItemHandler(new me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker() {
 
             public void tick(Block b, SlimefunItem sf, Config data) {
                 DefaultGUI.this.tick(b);
@@ -331,7 +331,7 @@ public abstract class DefaultGUI extends SlimefunItem implements EnergyNetCompon
     protected void tick(Block b) {
         if (isProcessing(b)) {
 
-            int timeleft = (Integer) progress.get(b);
+            int timeleft = progress.get(b);
             if (timeleft > 0) {
 
                 ItemStack item = getProgressBar().clone();
@@ -358,7 +358,7 @@ public abstract class DefaultGUI extends SlimefunItem implements EnergyNetCompon
 
             } else {
 
-                BlockStorage.getInventory(b).replaceExistingItem(31, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 15).toItemStack(), " ", new String[0]));
+                BlockStorage.getInventory(b).replaceExistingItem(31, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 15).toItemStack(), " "));
                 pushMainItems(b, processing.get(b).getOutput());
                 pushSubItems(b, selectSubItem(getSubRecipes()));
                 progress.remove(b);

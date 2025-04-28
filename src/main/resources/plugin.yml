@@ -1,11 +1,11 @@
 name: ExoticGarden
 version: ${project.version}
 authors:
-- "TheBusyBiscuit"
-- "Narcissu14"
-- "1798643961"
-- "NCBPFluffyBear"
-- "balugaq"
+  - "TheBusyBiscuit"
+  - "Narcissu14"
+  - "1798643961"
+  - "NCBPFluffyBear"
+  - "balugaq"
 
 description: A Slimefun Addon that adds new Plants and dishes to the game
 website: https://github.com/balugaq/ExoticGardenComplex
@@ -14,13 +14,13 @@ api-version: 1.18
 main: io.github.thebusybiscuit.exoticgarden.ExoticGarden
 
 depend:
-- Slimefun
-- GuizhanLibPlugin
+  - Slimefun
+  - GuizhanLibPlugin
 
 softdepend:
-- Sanity
-- Residence
-- FluffyMachines
+  - Sanity
+  - Residence
+  - FluffyMachines
 
 commands:
   exotic:

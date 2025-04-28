@@ -85,7 +85,10 @@ public class ExoticGardenFruit extends SimpleSlimefunItem<ItemUseHandler> {
                  HOPPER,
                  ENDER_CHEST,
                  BARREL -> true;
-            default -> material.name().endsWith("_SHULKER_BOX");
+            default -> material.name().equals("BARREL") ||
+                    material.name().endsWith("_SHULKER_BOX") ||
+                    material.name().endsWith("DOOR") ||
+                    material.name().endsWith("BED");
         };
     }
 

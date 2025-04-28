@@ -41,7 +41,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -74,17 +73,18 @@ import java.util.zip.ZipEntry;
 
 public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
+    public static final ConcurrentHashMap<String, PlayerAlcohol> drunkPlayers = new ConcurrentHashMap<>();
     private static final String ALCOHOL_PATH = "Players.%p.Alcohol";
     private static final String DRUNK_PATH = "Players.%p.Drunk";
-    public static ExoticGarden instance;
-    public static final ConcurrentHashMap<String, PlayerAlcohol> drunkPlayers = new ConcurrentHashMap<>();
-    private static boolean skullitems = true;
     private static final List<String> drunkMsg = new ArrayList<>();
+    public static ExoticGarden instance;
+    private static final boolean skullitems = true;
     private final File schematicsFolder = new File(getDataFolder(), "schematics");
     private final List<Berry> berries = new ArrayList<>();
     private final List<Tree> trees = new ArrayList<>();
     private final Map<String, ItemStack> items = new HashMap<>();
     private final Set<String> treeFruits = new HashSet<>();
+    private final HashMap<String, String> traslateNames = new HashMap<>();
     public NestedItemGroup nestedItemGroup;
     public ItemGroup mainItemGroup;
     public ItemGroup miscItemGroup;
@@ -98,7 +98,6 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     private boolean sanity = false;
     private boolean residence = false;
     private boolean fluffy = false;
-    private final HashMap<String, String> traslateNames = new HashMap<>();
 
     public static ItemStack getSkull(MaterialData material, String texture) {
         try {
@@ -120,10 +119,6 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     static ItemStack getItem(@Nonnull String id) {
         SlimefunItem item = SlimefunItem.getById(id);
         return item != null ? item.getItem() : null;
-    }
-
-    public boolean isFluffyEnabled() {
-        return fluffy;
     }
 
     @Nullable
@@ -190,6 +185,10 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
     public static Map<String, ItemStack> getGrassDrops() {
         return instance.items;
+    }
+
+    public boolean isFluffyEnabled() {
+        return fluffy;
     }
 
     @Override
@@ -374,32 +373,41 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
         FoodRegistry.register(this, miscItemGroup, drinksItemGroup, foodItemGroup);
 
-        registerMagicalPlant("Dirt", "泥土", new ItemStack(Material.DIRT, 2), "1ab43b8c3d34f125e5a3f8b92cd43dfd14c62402c33298461d4d4d7ce2d3aea",
+        registerMagicalPlant("Dirt", "泥土", new ItemStack(Material.DIRT, 16), "1ab43b8c3d34f125e5a3f8b92cd43dfd14c62402c33298461d4d4d7ce2d3aea",
         new ItemStack[] {null, new ItemStack(Material.DIRT), null, new ItemStack(Material.DIRT), new ItemStack(Material.WHEAT_SEEDS), new ItemStack(Material.DIRT), null, new ItemStack(Material.DIRT), null});
 
-        registerMagicalPlant("Coal", "煤炭", new ItemStack(Material.COAL, 2), "7788f5ddaf52c5842287b9427a74dac8f0919eb2fdb1b51365ab25eb392c47",
+        registerMagicalPlant("Coal", "煤炭", new ItemStack(Material.COAL, 8), "7788f5ddaf52c5842287b9427a74dac8f0919eb2fdb1b51365ab25eb392c47",
         new ItemStack[] {null, new ItemStack(Material.COAL_ORE), null, new ItemStack(Material.COAL_ORE), new ItemStack(Material.WHEAT_SEEDS), new ItemStack(Material.COAL_ORE), null, new ItemStack(Material.COAL_ORE), null});
 
         registerMagicalPlant("Iron", "铁锭", new ItemStack(Material.IRON_INGOT), "db97bdf92b61926e39f5cddf12f8f7132929dee541771e0b592c8b82c9ad52d",
         new ItemStack[] {null, new ItemStack(Material.IRON_BLOCK), null, new ItemStack(Material.IRON_BLOCK), getItem("COAL_PLANT"), new ItemStack(Material.IRON_BLOCK), null, new ItemStack(Material.IRON_BLOCK), null});
 
+        registerMagicalPlant("IronDust", "铁粉", new CustomItemStack(SlimefunItems.IRON_DUST, 8), "8385aaedd784faef8e8f6f782fa48d07c2fc2bbcf6fea1fbc9b9862d05d228c1",
+                new ItemStack[] {null, new ItemStack(Material.IRON_BLOCK), null, new ItemStack(Material.IRON_BLOCK), getItem("IRON_PLANT"), new ItemStack(Material.IRON_BLOCK), null, new ItemStack(Material.IRON_BLOCK), null});
+
         registerMagicalPlant("Gold", "金", SlimefunItems.GOLD_4K, "e4df892293a9236f73f48f9efe979fe07dbd91f7b5d239e4acfd394f6eca",
         new ItemStack[] {null, SlimefunItems.GOLD_16K, null, SlimefunItems.GOLD_16K, getItem("IRON_PLANT"), SlimefunItems.GOLD_16K, null, SlimefunItems.GOLD_16K, null});
 
         registerMagicalPlant("Copper", "铜", new CustomItemStack(SlimefunItems.COPPER_DUST, 8), "d4fc72f3d5ee66279a45ac9c63ac98969306227c3f4862e9c7c2a4583c097b8a",
-        new ItemStack[] {null, SlimefunItems.COPPER_DUST, null, SlimefunItems.COPPER_DUST, getItem("GOLD_PLANT"), SlimefunItems.COPPER_DUST, null, SlimefunItems.COPPER_DUST, null});
+        new ItemStack[] {null, SlimefunItems.COPPER_DUST, null, SlimefunItems.COPPER_DUST, getItem("COAL_PLANT"), SlimefunItems.COPPER_DUST, null, SlimefunItems.COPPER_DUST, null});
 
-        registerMagicalPlant("Aluminum", "铝", new CustomItemStack(SlimefunItems.ALUMINUM_DUST, 8), "f4455341eaff3cf8fe6e46bdfed8f501b461fb6f6d2fe536be7d2bd90d2088aa",
+        registerMagicalPlant("Magnesium", "镁", new CustomItemStack(SlimefunItems.MAGNESIUM_DUST, 4), "e8c99d857a5b34331699ce6b5449d8d75f6c50b294ea1a29108f66ca086528bb",
+                new ItemStack[] {null, SlimefunItems.ALUMINUM_DUST, null, SlimefunItems.ALUMINUM_DUST, getItem("IRON_PLANT"), SlimefunItems.ALUMINUM_DUST, null, SlimefunItems.ALUMINUM_DUST, null});
+
+        registerMagicalPlant("Aluminum", "铝", new CustomItemStack(SlimefunItems.ALUMINUM_DUST, 4), "f4455341eaff3cf8fe6e46bdfed8f501b461fb6f6d2fe536be7d2bd90d2088aa",
         new ItemStack[] {null, SlimefunItems.ALUMINUM_DUST, null, SlimefunItems.ALUMINUM_DUST, getItem("IRON_PLANT"), SlimefunItems.ALUMINUM_DUST, null, SlimefunItems.ALUMINUM_DUST, null});
 
-        registerMagicalPlant("Tin", "锡", new CustomItemStack(SlimefunItems.TIN_DUST, 8), "6efb43ba2fe6959180ee7307f3f054715a34c0a07079ab73712547ffd753dedd",
+        registerMagicalPlant("Tin", "锡", new CustomItemStack(SlimefunItems.TIN_DUST, 4), "6efb43ba2fe6959180ee7307f3f054715a34c0a07079ab73712547ffd753dedd",
         new ItemStack[] {null, SlimefunItems.TIN_DUST, null, SlimefunItems.TIN_DUST, getItem("IRON_PLANT"), SlimefunItems.TIN_DUST, null, SlimefunItems.TIN_DUST, null});
 
         registerMagicalPlant("Silver", "银", new CustomItemStack(SlimefunItems.SILVER_DUST, 8), "1dd968b1851aa7160d1cd9db7516a8e1bf7b7405e5245c5338aa895fe585f26c",
         new ItemStack[] {null, SlimefunItems.SILVER_DUST, null, SlimefunItems.SILVER_DUST, getItem("IRON_PLANT"), SlimefunItems.SILVER_DUST, null, SlimefunItems.SILVER_DUST, null});
 
-        registerMagicalPlant("Lead", "铅", new CustomItemStack(SlimefunItems.LEAD_DUST, 8), "93c3c418039c4b28b0da75a6d9b22712c7015432d4f4226d6cc0a77d54b64178",
+        registerMagicalPlant("Lead", "铅", new CustomItemStack(SlimefunItems.LEAD_DUST, 4), "93c3c418039c4b28b0da75a6d9b22712c7015432d4f4226d6cc0a77d54b64178",
         new ItemStack[] {null, SlimefunItems.LEAD_DUST, null, SlimefunItems.LEAD_DUST, getItem("IRON_PLANT"), SlimefunItems.LEAD_DUST, null, SlimefunItems.LEAD_DUST, null});
+
+        registerMagicalPlant("Zinc", "锌", new CustomItemStack(SlimefunItems.ZINC_DUST, 4), "26ec74b9c9ed876ec9ae466a79c4c10f0a0fe7cd8dd49492cc103f2eaa7aa932",
+                new ItemStack[] {null, SlimefunItems.ZINC_DUST, null, SlimefunItems.ZINC_DUST, getItem("IRON_PLANT"), SlimefunItems.ZINC_DUST, null, SlimefunItems.ZINC_DUST, null});
 
         registerMagicalPlant("Redstone", "红石", new ItemStack(Material.REDSTONE, 8), "e8deee5866ab199eda1bdd7707bdb9edd693444f1e3bd336bd2c767151cf2",
         new ItemStack[] {null, new ItemStack(Material.REDSTONE_BLOCK), null, new ItemStack(Material.REDSTONE_BLOCK), getItem("GOLD_PLANT"), new ItemStack(Material.REDSTONE_BLOCK), null, new ItemStack(Material.REDSTONE_BLOCK), null});
@@ -407,10 +415,10 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         registerMagicalPlant("Lapis", "青金石", new ItemStack(Material.LAPIS_LAZULI, 16), "2aa0d0fea1afaee334cab4d29d869652f5563c635253c0cbed797ed3cf57de0",
         new ItemStack[] {null, new ItemStack(Material.LAPIS_ORE), null, new ItemStack(Material.LAPIS_ORE), getItem("REDSTONE_PLANT"), new ItemStack(Material.LAPIS_ORE), null, new ItemStack(Material.LAPIS_ORE), null});
 
-        registerMagicalPlant("Ender", "末影珍珠", new ItemStack(Material.ENDER_PEARL, 4), "4e35aade81292e6ff4cd33dc0ea6a1326d04597c0e529def4182b1d1548cfe1",
+        registerMagicalPlant("Ender", "末影珍珠", new ItemStack(Material.ENDER_PEARL, 2), "4e35aade81292e6ff4cd33dc0ea6a1326d04597c0e529def4182b1d1548cfe1",
         new ItemStack[] {null, new ItemStack(Material.ENDER_PEARL), null, new ItemStack(Material.ENDER_PEARL), getItem("LAPIS_PLANT"), new ItemStack(Material.ENDER_PEARL), null, new ItemStack(Material.ENDER_PEARL), null});
 
-        registerMagicalPlant("Quartz", "石英", new ItemStack(Material.QUARTZ, 8), "26de58d583c103c1cd34824380c8a477e898fde2eb9a74e71f1a985053b96",
+        registerMagicalPlant("Quartz", "石英", new ItemStack(Material.QUARTZ, 4), "26de58d583c103c1cd34824380c8a477e898fde2eb9a74e71f1a985053b96",
         new ItemStack[] {null, new ItemStack(Material.NETHER_QUARTZ_ORE), null, new ItemStack(Material.NETHER_QUARTZ_ORE), getItem("ENDER_PLANT"), new ItemStack(Material.NETHER_QUARTZ_ORE), null, new ItemStack(Material.NETHER_QUARTZ_ORE), null});
 
         registerMagicalPlant("Diamond", "钻石", new ItemStack(Material.DIAMOND), "f88cd6dd50359c7d5898c7c7e3e260bfcd3dcb1493a89b9e88e9cbecbfe45949",
@@ -420,15 +428,29 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         new ItemStack[] {null, new ItemStack(Material.EMERALD), null, new ItemStack(Material.EMERALD), getItem("DIAMOND_PLANT"), new ItemStack(Material.EMERALD), null, new ItemStack(Material.EMERALD), null});
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            registerMagicalPlant("Netherite", "下界合金", new ItemStack(Material.NETHERITE_INGOT), "27957f895d7bc53423a35aac59d584b41cc30e040269c955e451fe680a1cc049",
-            new ItemStack[] {null, new ItemStack(Material.NETHERITE_BLOCK), null, new ItemStack(Material.NETHERITE_BLOCK), getItem("EMERALD_PLANT"), new ItemStack(Material.NETHERITE_BLOCK), null, new ItemStack(Material.NETHERITE_BLOCK), null});
+            registerMagicalPlant("Netherite", "下界合金", new ItemStack(Material.NETHERITE_SCRAP), "27957f895d7bc53423a35aac59d584b41cc30e040269c955e451fe680a1cc049",
+            new ItemStack[] {null, new ItemStack(Material.NETHER_STAR), null, new ItemStack(Material.NETHERITE_BLOCK), getItem("EMERALD_PLANT"), new ItemStack(Material.NETHERITE_BLOCK), null, new ItemStack(Material.NETHERITE_BLOCK), null});
         }
+
+        registerMagicalPlant("Blaze", "烈焰棒", new ItemStack(Material.BLAZE_ROD, 2), "7717933c40fbf936aa9288513efe19bda4601efc0e4ecad2e023b0c1d28444b",
+                new ItemStack[] { null, new ItemStack(Material.BLAZE_ROD), null, new ItemStack(Material.BLAZE_ROD), getItem("GOLD_PLANT"), new ItemStack(Material.BLAZE_ROD), null, new ItemStack(Material.BLAZE_ROD), null });
 
         registerMagicalPlant("Glowstone", "萤石", new ItemStack(Material.GLOWSTONE_DUST, 8), "65d7bed8df714cea063e457ba5e87931141de293dd1d9b9146b0f5ab383866",
         new ItemStack[] { null, new ItemStack(Material.GLOWSTONE), null, new ItemStack(Material.GLOWSTONE), getItem("REDSTONE_PLANT"), new ItemStack(Material.GLOWSTONE), null, new ItemStack(Material.GLOWSTONE), null });
 
-        registerMagicalPlant("Obsidian", "黑曜石", new ItemStack(Material.OBSIDIAN, 2), "7840b87d52271d2a755dedc82877e0ed3df67dcc42ea479ec146176b02779a5",
+        registerMagicalPlant("Sulfate", "硫酸盐", new CustomItemStack(SlimefunItems.SULFATE, 2), "20d9cb52a09f8f4a75b9bffe7ac20c0c85ac1ef57cf93fc2040436d660ba98ba",
+                new ItemStack[] { null, SlimefunItems.SULFATE, null, SlimefunItems.SULFATE, getItem("GLOWSTONE_PLANT"), SlimefunItems.SULFATE, null, SlimefunItems.SULFATE, null });
+
+        registerMagicalPlant("Uranium", "铀", new CustomItemStack(SlimefunItems.TINY_URANIUM,1), "90614e3abf64d53496794cd8ae68597fc7266c61794bd1e48d4519868ae3cad0",
+                new ItemStack[] { null, SlimefunItems.BOOSTED_URANIUM, null, SlimefunItems.BLISTERING_INGOT_3, getItem("SULFATE_PLANT"), SlimefunItems.BLISTERING_INGOT_3, null, SlimefunItems.BOOSTED_URANIUM, null });
+
+        registerMagicalPlant("Obsidian", "黑曜石", new ItemStack(Material.OBSIDIAN, 1), "7840b87d52271d2a755dedc82877e0ed3df67dcc42ea479ec146176b02779a5",
         new ItemStack[] {null, new ItemStack(Material.OBSIDIAN), null, new ItemStack(Material.OBSIDIAN), getItem("LAPIS_PLANT"), new ItemStack(Material.OBSIDIAN), null, new ItemStack(Material.OBSIDIAN), null});
+
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            registerMagicalPlant("Amethyst", "紫水晶", new ItemStack(Material.AMETHYST_CLUSTER, 1), "3f4876b6a5d6dd785e091fd134a21c91d0a9cac5a622e448b5ffcb65ef45278",
+                    new ItemStack[] {null, new ItemStack(Material.AMETHYST_SHARD), null, new ItemStack(Material.AMETHYST_SHARD), getItem("OBSIDIAN_PLANT"), new ItemStack(Material.AMETHYST_SHARD), null, new ItemStack(Material.AMETHYST_SHARD), null});
+        }
 
         registerMagicalPlant("Slime", "粘液球", new ItemStack(Material.SLIME_BALL, 8), "90e65e6e5113a5187dad46dfad3d3bf85e8ef807f82aac228a59c4a95d6f6a",
         new ItemStack[] {null, new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), getItem("ENDER_PLANT"), new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), null});
@@ -680,8 +702,8 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         try {
             for (Map.Entry<String, PlayerAlcohol> o : drunkPlayers.entrySet()) {
                 String player = "Players." + o.getKey();
-                this.yamlStorge.set(player + ".Alcohol", ((PlayerAlcohol) o.getValue()).getAlcohol());
-                this.yamlStorge.set(player + ".Drunk", ((PlayerAlcohol) o.getValue()).isDrunk());
+                this.yamlStorge.set(player + ".Alcohol", o.getValue().getAlcohol());
+                this.yamlStorge.set(player + ".Drunk", o.getValue().isDrunk());
             }
             this.yamlStorge.save(new File(getDataFolder() + File.separator + "storge.yml"));
         } catch (IOException e) {
@@ -692,8 +714,8 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     public void saveDatas(Player player) {
         try {
             String playerName = "Players." + player.getName();
-            this.yamlStorge.set(playerName + ".Alcohol", ((PlayerAlcohol) drunkPlayers.get(player.getName())).getAlcohol());
-            this.yamlStorge.set(playerName + ".Drunk", ((PlayerAlcohol) drunkPlayers.get(player.getName())).isDrunk());
+            this.yamlStorge.set(playerName + ".Alcohol", drunkPlayers.get(player.getName()).getAlcohol());
+            this.yamlStorge.set(playerName + ".Drunk", drunkPlayers.get(player.getName()).isDrunk());
             this.yamlStorge.save(new File(getDataFolder() + File.separator + "storge.yml"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -730,7 +752,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
     private void checkDrunkers() {
         for (Map.Entry<String, PlayerAlcohol> o : drunkPlayers.entrySet()) {
-            PlayerAlcohol pa = (PlayerAlcohol) o.getValue();
+            PlayerAlcohol pa = o.getValue();
             Player player = Bukkit.getPlayer(pa.getPlayer());
             if (player != null) {
                 if (pa.getAlcohol() > 0) {
