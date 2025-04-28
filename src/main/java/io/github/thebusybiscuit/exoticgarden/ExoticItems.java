@@ -231,12 +231,12 @@ public class ExoticItems {
         }).register(ExoticGarden.instance);
 
         try {
-            (new SlimefunItem(ExoticGarden.instance.miscItemGroup, new SlimefunItemStack("Alcohol", Alcohol), ExoticGardenRecipeTypes.BREWER, new ItemStack[]{null, null, null, null, new CustomItemStack(new ItemStack(Material.GHAST_TEAR), "&7酿造副产品"), null, null, null, null
+            (new SlimefunItem(ExoticGarden.instance.miscItemGroup, new SlimefunItemStack("ALCOHOL", Alcohol), ExoticGardenRecipeTypes.BREWER, new ItemStack[]{null, null, null, null, new CustomItemStack(new ItemStack(Material.GHAST_TEAR), "&7酿造副产品"), null, null, null, null
             })).register(ExoticGarden.instance);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        (new CustomWine(ExoticGarden.instance.miscItemGroup, Wine_Waker, "WINE_WAKER", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{null, new ItemStack(Material.BROWN_MUSHROOM), null, new ItemStack(Material.TALL_GRASS, 1, (short) 2), Alcohol, Material.LEGACY_RED_ROSE.getNewData((byte) 0).toItemStack(), null, new ItemStack(Material.EGG), null}, 1, -3.0F, -30))
+        (new CustomWine(ExoticGarden.instance.miscItemGroup, Wine_Waker, "WINE_WAKER", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{null, new ItemStack(Material.BROWN_MUSHROOM), null, new ItemStack(Material.TALL_GRASS, 1, (short) 2), Alcohol, new ItemStack(Material.POPPY), null, new ItemStack(Material.EGG), null}, 1, -3.0F, -30))
 
 
                 .register(ExoticGarden.instance);

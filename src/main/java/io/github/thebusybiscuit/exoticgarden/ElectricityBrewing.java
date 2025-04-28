@@ -17,31 +17,31 @@ public abstract class ElectricityBrewing
 
 
     public void registerDefaultRecipes() {
-        registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_1, new ItemStack(Material.WHEAT), new ItemStack(Material.WHEAT)}, new ItemStack[]{getById("NORMAL_BREW").getItem()});
-        registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_1, new ItemStack(Material.APPLE), new ItemStack(Material.SUGAR)}, new ItemStack[]{getById("APPLE_WINE").getItem()});
-        registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_1, new ItemStack(Material.BREAD), new ItemStack(Material.SUGAR)}, new ItemStack[]{getById("BREAD_WINE").getItem()});
-        registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_1, new ItemStack(Material.POTATO), new ItemStack(Material.SUGAR)}, new ItemStack[]{getById("POTATO_WINE").getItem()});
-        registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_1, new ItemStack(Material.NETHER_WART), new ItemStack(Material.SUGAR)}, new ItemStack[]{getById("NETHER_WINE").getItem()});
-        registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_1, new ItemStack(Material.MILK_BUCKET), new ItemStack(Material.SUGAR)}, new ItemStack[]{getById("MILK_WINE").getItem()});
-        registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_1, new ItemStack(Material.CHORUS_FRUIT), new ItemStack(Material.SUGAR)}, new ItemStack[]{getById("ENDER_WINE").getItem()});
+        registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_1, new ItemStack(Material.WHEAT), new ItemStack(Material.WHEAT)}, new ItemStack[]{getItem0("NORMAL_BREW")});
+        registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_1, new ItemStack(Material.APPLE), new ItemStack(Material.SUGAR)}, new ItemStack[]{getItem0("APPLE_WINE")});
+        registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_1, new ItemStack(Material.BREAD), new ItemStack(Material.SUGAR)}, new ItemStack[]{getItem0("BREAD_WINE")});
+        registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_1, new ItemStack(Material.POTATO), new ItemStack(Material.SUGAR)}, new ItemStack[]{getItem0("POTATO_WINE")});
+        registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_1, new ItemStack(Material.NETHER_WART), new ItemStack(Material.SUGAR)}, new ItemStack[]{getItem0("NETHER_WINE")});
+        registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_1, new ItemStack(Material.MILK_BUCKET), new ItemStack(Material.SUGAR)}, new ItemStack[]{getItem0("MILK_WINE")});
+        registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_1, new ItemStack(Material.CHORUS_FRUIT), new ItemStack(Material.SUGAR)}, new ItemStack[]{getItem0("ENDER_WINE")});
         if (getLevel() >= 2) {
-            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getById("NORMAL_BREW").getItem(), new ItemStack(Material.WHEAT)}, new ItemStack[]{getById("WHITE_WINE").getItem()});
-            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getById("APPLE_WINE").getItem(), getById("APPLE").getItem()}, new ItemStack[]{getById("APPLE_VINEGAR").getItem()});
-            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getById("NETHER_WINE").getItem(), new ItemStack(Material.MAGMA_CREAM)}, new ItemStack[]{getById("FIRE_WINE").getItem()});
-            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getById("GRAPE").getItem(), getById("GRAPE").getItem()}, new ItemStack[]{getById("GRAPE_WINE").getItem()});
-            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getById("CORN").getItem(), new ItemStack(Material.SUGAR)}, new ItemStack[]{getById("CORN_WINE").getItem()});
-            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getById("SWEET_POTATO").getItem(), new ItemStack(Material.SUGAR)}, new ItemStack[]{getById("YELLOW_WINE").getItem()});
-            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getById("WINEFRUIT").getItem(), getById("WINEFRUIT").getItem()}, new ItemStack[]{getById("LIGHT_BEER").getItem()});
-            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getById("WINEFRUIT").getItem(), new ItemStack(Material.WHEAT)}, new ItemStack[]{getById("BEER").getItem()});
-            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getById("LIME").getItem(), new ItemStack(Material.VINE)}, new ItemStack[]{getById("RUM_WINE").getItem()});
-            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getById("BEER").getItem(), getById("PINEAPPLE").getItem()}, new ItemStack[]{getById("PINEAPPLE_BEER").getItem()});
+            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getItem0("NORMAL_BREW"), new ItemStack(Material.WHEAT)}, new ItemStack[]{getItem0("WHITE_WINE")});
+            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getItem0("APPLE_WINE"), getItem0("APPLE")}, new ItemStack[]{getItem0("APPLE_VINEGAR")});
+            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getItem0("NETHER_WINE"), new ItemStack(Material.MAGMA_CREAM)}, new ItemStack[]{getItem0("FIRE_WINE")});
+            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getItem0("GRAPE"), getItem0("GRAPE")}, new ItemStack[]{getItem0("GRAPE_WINE")});
+            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getItem0("CORN"), new ItemStack(Material.SUGAR)}, new ItemStack[]{getItem0("CORN_WINE")});
+            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getItem0("SWEET_POTATO"), new ItemStack(Material.SUGAR)}, new ItemStack[]{getItem0("YELLOW_WINE")});
+            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getItem0("WINEFRUIT"), getItem0("WINEFRUIT")}, new ItemStack[]{getItem0("LIGHT_BEER")});
+            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getItem0("WINEFRUIT"), new ItemStack(Material.WHEAT)}, new ItemStack[]{getItem0("BEER")});
+            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getItem0("LIME"), new ItemStack(Material.VINE)}, new ItemStack[]{getItem0("RUM_WINE")});
+            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_2, getItem0("BEER"), getItem0("PINEAPPLE")}, new ItemStack[]{getItem0("PINEAPPLE_BEER")});
         }
         if (getLevel() >= 3) {
-            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_3, getById("DREAMFRUIT").getItem(), getById("LEMON").getItem()}, new ItemStack[]{getById("DREAMFRUIT_WINE").getItem()});
-            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_3, new ItemStack(Material.GOLDEN_APPLE), getById("NETHER_WINE").getItem()}, new ItemStack[]{getById("GLODAPPLE_WINE").getItem()});
-            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_3, getById("WHITE_WINE").getItem(), getById("YELLOW_WINE").getItem()}, new ItemStack[]{getById("HERO_WINE").getItem()});
-            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_4, getById("DREAMFRUIT_WINE").getItem(), getById("YELLOW_WINE").getItem()}, new ItemStack[]{getById("SUPER_WINE").getItem()});
-            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_4, getById("DREAMFRUIT_WINE").getItem(), getById("WHITE_WINE").getItem()}, new ItemStack[]{getById("DREAMER_WINE").getItem()});
+            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_3, getItem0("DREAMFRUIT"), getItem0("LEMON")}, new ItemStack[]{getItem0("DREAMFRUIT_WINE")});
+            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_3, new ItemStack(Material.GOLDEN_APPLE), getItem0("NETHER_WINE")}, new ItemStack[]{getItem0("GLODAPPLE_WINE")});
+            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_3, getItem0("WHITE_WINE"), getItem0("YELLOW_WINE")}, new ItemStack[]{getItem0("HERO_WINE")});
+            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_4, getItem0("DREAMFRUIT_WINE"), getItem0("YELLOW_WINE")}, new ItemStack[]{getItem0("SUPER_WINE")});
+            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_4, getItem0("DREAMFRUIT_WINE"), getItem0("WHITE_WINE")}, new ItemStack[]{getItem0("DREAMER_WINE")});
         }
     }
 
@@ -60,6 +60,10 @@ public abstract class ElectricityBrewing
 
     public ItemStack getProgressBar() {
         return new ItemStack(Material.FLINT_AND_STEEL);
+    }
+
+    public ItemStack getItem0(String item) {
+        return ExoticGarden.getItem(item);
     }
 }
 

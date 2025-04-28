@@ -1,6 +1,11 @@
 package io.github.thebusybiscuit.exoticgarden;
 
-import com.be.BEPlugin;
+import com.be.registry.BECommands;
+import com.be.registry.BEFoodRegistry;
+import com.be.registry.BEPlants;
+import com.be.registry.BETrees;
+import com.be.utils.BEListener;
+import com.be.utils.RegistryHandler;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.exoticgarden.items.BonemealableItem;
 import io.github.thebusybiscuit.exoticgarden.items.Crook;
@@ -119,7 +124,16 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     @Nullable
     static ItemStack getItem(@Nonnull String id) {
         SlimefunItem item = SlimefunItem.getById(id);
-        return item != null ? item.getItem() : null;
+        if (item != null) {
+            return item.getItem();
+        }
+
+        Material material = Material.getMaterial(id);
+        if (material != null) {
+            return new ItemStack(material);
+        }
+
+        return null;
     }
 
     @Nullable
@@ -238,7 +252,29 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         }
         getCommand("exotic").setExecutor(new ExoticCommand());
 
-        BEPlugin.start();
+        PaperLib.suggestPaper(ExoticGarden.instance);
+        instance = this;
+
+        if (!RegistryHandler.getSchematicsFolder().exists()) {
+            RegistryHandler.getSchematicsFolder().mkdirs();
+        }
+
+        BEPlants.onPlantsRegister();
+        BETrees.onTreesRegister();
+        BEFoodRegistry.register(this);
+        //HeadDropFix.onHeadDropFix();
+        BECommands.onCommandsRegister();
+        Bukkit.getPluginManager().registerEvents(BEListener.getInstance(), ExoticGarden.instance);
+
+        /*
+        // Auto Updater
+        if (ExoticGarden.config.getBoolean("options.auto-update")) {
+            PluginUpdater updater = new GitHubBuildsUpdater(this, getFile(), "1798643961/BEPlugin/master");
+            updater.start();
+        }
+
+         */
+        cfg.save();
     }
 
     private void registerItems() {
@@ -373,8 +409,6 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         registerTree("Pear", "梨子", "2de28df844961a8eca8efb79ebb4ae10b834c64a66815e8b645aeff75889664b", "&a", Color.LIME, "Pear Juice", "梨汁", true, Material.DIRT, Material.GRASS_BLOCK);
         registerTree("Dragon Fruit", "火龙果", "847d73a91b52393f2c27e453fb89ab3d784054d414e390d58abd22512edd2b", "&d", Color.FUCHSIA, "Dragon Fruit Juice", "火龙果汁", true, Material.DIRT, Material.GRASS_BLOCK);
 
-        FoodRegistry.register(this, miscItemGroup, drinksItemGroup, foodItemGroup);
-
         registerMagicalPlant("Dirt", "泥土", new ItemStack(Material.DIRT, 16), "1ab43b8c3d34f125e5a3f8b92cd43dfd14c62402c33298461d4d4d7ce2d3aea",
                 new ItemStack[] {null, new ItemStack(Material.DIRT), null, new ItemStack(Material.DIRT), new ItemStack(Material.WHEAT_SEEDS), new ItemStack(Material.DIRT), null, new ItemStack(Material.DIRT), null});
 
@@ -481,7 +515,9 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         }
 
         items.put("GRASS_SEEDS", grassSeeds);
+        registerDishes();
         ExoticItems.registerItems();
+        FoodRegistry.register(this, miscItemGroup, drinksItemGroup, foodItemGroup);
 
         Iterator<String> iterator = items.keySet().iterator();
         while (iterator.hasNext()) {
@@ -1095,7 +1131,6 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
     @Override
     public void onDisable() {
-        BEPlugin.stop();
         instance = null;
     }
 
@@ -1460,7 +1495,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
     @Override
     public String getBugTrackerURL() {
-        return "https://github.com/SlimefunGuguProject/ExoticGarden/issues";
+        return "https://github.com/balugaq/ExoticGardenComplex/issues";
     }
 
 }

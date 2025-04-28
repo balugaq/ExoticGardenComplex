@@ -180,24 +180,24 @@ public abstract class DefaultGUI extends SlimefunItem implements EnergyNetCompon
 
     private void constructMenu(BlockMenuPreset preset) {
         for (int i : border) {
-            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 3).toItemStack(), " "), (player, i1, itemStack, clickAction) -> false);
+            preset.addItem(i, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "), (player, i1, itemStack, clickAction) -> false);
         }
         for (int i : inputBorder) {
-            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 0).toItemStack(), " "), (player, i2, itemStack, clickAction) -> false);
+            preset.addItem(i, new CustomItemStack(Material.WHITE_STAINED_GLASS_PANE, " "), (player, i2, itemStack, clickAction) -> false);
         }
         for (int i : centerBorder) {
-            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 4).toItemStack(), " "), (player, i4, itemStack, clickAction) -> false);
+            preset.addItem(i, new CustomItemStack(Material.BROWN_STAINED_GLASS_PANE, " "), (player, i4, itemStack, clickAction) -> false);
         }
         for (int i : outputBorder) {
-            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 9).toItemStack(), " "), (player, i3, itemStack, clickAction) -> false);
+            preset.addItem(i, new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, " "), (player, i3, itemStack, clickAction) -> false);
         }
         for (int i : subSlotSign) {
-            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 5).toItemStack(), "&e副输出槽", "", "&7副输出槽通常会输出机器的副产物", "&7有些副产物极其有用甚至非常珍贵"), (player, i6, itemStack, clickAction) -> false);
+            preset.addItem(i, new CustomItemStack(Material.RED_STAINED_GLASS_PANE, "&e副输出槽", "", "&7副输出槽通常会输出机器的副产物", "&7有些副产物极其有用甚至非常珍贵"), (player, i6, itemStack, clickAction) -> false);
         }
         for (int i : mainSlotSign) {
-            preset.addItem(i, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 5).toItemStack(), "&c主输出槽", "", "&7主输出槽输出机器的常规产品"), (player, i5, itemStack, clickAction) -> false);
+            preset.addItem(i, new CustomItemStack(Material.RED_STAINED_GLASS_PANE, "&c主输出槽", "", "&7主输出槽输出机器的常规产品"), (player, i5, itemStack, clickAction) -> false);
         }
-        preset.addItem(31, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 15).toItemStack(), " "), (player, i, itemStack, clickAction) -> false);
+        preset.addItem(31, new CustomItemStack(Material.PINK_STAINED_GLASS_PANE, " "), (player, i, itemStack, clickAction) -> false);
 
         preset.addItem(38, null, new ChestMenu.AdvancedMenuClickHandler() {
             public boolean onClick(Player player, int i, ItemStack item, ClickAction action) {
@@ -357,7 +357,7 @@ public abstract class DefaultGUI extends SlimefunItem implements EnergyNetCompon
 
             } else {
 
-                BlockStorage.getInventory(b).replaceExistingItem(31, new CustomItemStack(new MaterialData(Material.LEGACY_STAINED_GLASS_PANE, (byte) 15).toItemStack(), " "));
+                BlockStorage.getInventory(b).replaceExistingItem(31, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "));
                 pushMainItems(b, processing.get(b).getOutput());
                 pushSubItems(b, selectSubItem(getSubRecipes()));
                 progress.remove(b);

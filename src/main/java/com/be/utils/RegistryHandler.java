@@ -1,8 +1,6 @@
 package com.be.utils;
 
-import com.be.BEPlugin;
 import com.be.BETree;
-import com.be.registry.BEItemGroups;
 import io.github.thebusybiscuit.exoticgarden.Berry;
 import io.github.thebusybiscuit.exoticgarden.CustomPotion;
 import io.github.thebusybiscuit.exoticgarden.ExoticGarden;
@@ -34,7 +32,7 @@ import java.util.logging.Level;
 
 public class RegistryHandler {
 
-    private static final File schematicsFolder = new File(BEPlugin.getInstance().getDataFolder(), "schematics");
+    private static final File schematicsFolder = new File(ExoticGarden.getInstance().getDataFolder(), "schematics");
 
     public static void initPlant(String rawName, String name, ChatColor color, PlantType type, String texture) {
         String upperCase = rawName.toUpperCase(Locale.ROOT);
@@ -43,8 +41,8 @@ public class RegistryHandler {
         ExoticGarden.getBerries().add(berry);
         SlimefunItemStack bush = new SlimefunItemStack(enumStyle + "_BUSH", Material.OAK_SAPLING, color + name + "植物");
         ExoticGarden.getGrassDrops().put(upperCase + "_BUSH", bush);
-        (new BonemealableItem(BEItemGroups.mainItemGroup, bush, ExoticGardenRecipeTypes.BREAKING_GRASS, new ItemStack[]{null, null, null, null, new ItemStack(Material.GRASS), null, null, null, null})).register(BEPlugin.getInstance());
-        (new ExoticGardenFruit(BEItemGroups.mainItemGroup, new SlimefunItemStack(enumStyle, texture, color + name), ExoticGardenRecipeTypes.HARVEST_BUSH, true, new ItemStack[]{null, null, null, null, getItem(enumStyle + "_BUSH"), null, null, null, null})).register(BEPlugin.getInstance());
+        (new BonemealableItem(ExoticGarden.instance.mainItemGroup, bush, ExoticGardenRecipeTypes.BREAKING_GRASS, new ItemStack[]{null, null, null, null, new ItemStack(Material.GRASS), null, null, null, null})).register(ExoticGarden.getInstance());
+        (new ExoticGardenFruit(ExoticGarden.instance.mainItemGroup, new SlimefunItemStack(enumStyle, texture, color + name), ExoticGardenRecipeTypes.HARVEST_BUSH, true, new ItemStack[]{null, null, null, null, getItem(enumStyle + "_BUSH"), null, null, null, null})).register(ExoticGarden.getInstance());
     }
 
     public static void initTree(String rawName, String name, String texture, String color, Color pcolor, String juice, boolean pie, Material... soil) {
@@ -53,14 +51,14 @@ public class RegistryHandler {
         ExoticGarden.getTrees().add(tree);
         SlimefunItemStack sapling = new SlimefunItemStack(id + "_SAPLING", Material.OAK_SAPLING, color + name + " 树苗");
         ExoticGarden.getGrassDrops().put(id + "_SAPLING", sapling);
-        (new BonemealableItem(BEItemGroups.mainItemGroup, sapling, ExoticGardenRecipeTypes.BREAKING_GRASS, new ItemStack[]{null, null, null, null, new ItemStack(Material.GRASS), null, null, null, null})).register(BEPlugin.getInstance());
-        (new ExoticGardenFruit(BEItemGroups.mainItemGroup, new SlimefunItemStack(id, texture, color + name), ExoticGardenRecipeTypes.HARVEST_TREE, true, new ItemStack[]{null, null, null, null, getItem(id + "_SAPLING"), null, null, null, null})).register(BEPlugin.getInstance());
+        (new BonemealableItem(ExoticGarden.instance.mainItemGroup, sapling, ExoticGardenRecipeTypes.BREAKING_GRASS, new ItemStack[]{null, null, null, null, new ItemStack(Material.GRASS), null, null, null, null})).register(ExoticGarden.getInstance());
+        (new ExoticGardenFruit(ExoticGarden.instance.mainItemGroup, new SlimefunItemStack(id, texture, color + name), ExoticGardenRecipeTypes.HARVEST_TREE, true, new ItemStack[]{null, null, null, null, getItem(id + "_SAPLING"), null, null, null, null})).register(ExoticGarden.getInstance());
         if (pcolor != null) {
-            (new Juice(BEItemGroups.drinksItemGroup, new SlimefunItemStack(juice.toUpperCase().replace(" ", "_"), new CustomPotion(color + juice, pcolor, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&o恢复 &b&o3.0 &7&o点饥饿值")), RecipeType.JUICER, new ItemStack[]{getItem(id), null, null, null, null, null, null, null, null})).register(BEPlugin.getInstance());
+            (new Juice(ExoticGarden.instance.drinksItemGroup, new SlimefunItemStack(juice.toUpperCase().replace(" ", "_"), new CustomPotion(color + juice, pcolor, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&o恢复 &b&o3.0 &7&o点饥饿值")), RecipeType.JUICER, new ItemStack[]{getItem(id), null, null, null, null, null, null, null, null})).register(ExoticGarden.getInstance());
         }
 
         if (pie) {
-            (new CustomFood(BEItemGroups.foodItemGroup, new SlimefunItemStack(id + "_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", color + name + " 派", "", "&7&o恢复 &b&o6.5 &7&o点饥饿值"), new ItemStack[]{getItem(id), new ItemStack(Material.EGG), new ItemStack(Material.SUGAR), new ItemStack(Material.MILK_BUCKET), SlimefunItems.WHEAT_FLOUR, null, null, null, null}, 13)).register(BEPlugin.getInstance());
+            (new CustomFood(ExoticGarden.instance.foodItemGroup, new SlimefunItemStack(id + "_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", color + name + " 派", "", "&7&o恢复 &b&o6.5 &7&o点饥饿值"), new ItemStack[]{getItem(id), new ItemStack(Material.EGG), new ItemStack(Material.SUGAR), new ItemStack(Material.MILK_BUCKET), SlimefunItems.WHEAT_FLOUR, null, null, null, null}, 13)).register(ExoticGarden.getInstance());
         }
 
         if (!(new File(getSchematicsFolder(), id + "_TREE.schematic")).exists()) {
@@ -75,7 +73,7 @@ public class RegistryHandler {
 
     private static void saveSchematic(@Nonnull String id) {
         try {
-            InputStream input = BEPlugin.getInstance().getClass().getResourceAsStream("/schematics/" + id + ".schematic");
+            InputStream input = ExoticGarden.getInstance().getClass().getResourceAsStream("/schematics/" + id + ".schematic");
 
             try {
                 FileOutputStream output = new FileOutputStream(new File(getSchematicsFolder(), id + ".schematic"));
@@ -114,7 +112,7 @@ public class RegistryHandler {
                 input.close();
             }
         } catch (IOException var10) {
-            BEPlugin.getInstance().getLogger().log(Level.SEVERE, var10, () -> "Failed to load file: \"" + id + ".schematic\"");
+            ExoticGarden.getInstance().getLogger().log(Level.SEVERE, var10, () -> "Failed to load file: \"" + id + ".schematic\"");
         }
 
     }

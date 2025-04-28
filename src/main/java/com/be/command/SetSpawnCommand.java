@@ -1,6 +1,6 @@
 package com.be.command;
 
-import com.be.BEPlugin;
+import io.github.thebusybiscuit.exoticgarden.ExoticGarden;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,20 +15,20 @@ public class SetSpawnCommand implements CommandExecutor {
         if (sender instanceof Player p) {
             if (args.length == 0) {
                 if (sender.isOp() || sender.hasPermission("spawn.admin")) {
-                    BEPlugin.getInstance().reloadConfig();
-                    BEPlugin.getInstance().getConfig().set("spawn.world", p.getWorld().getName());
-                    BEPlugin.getInstance().getConfig().set("spawn.x", p.getLocation().getX());
-                    BEPlugin.getInstance().getConfig().set("spawn.y", p.getLocation().getY());
-                    BEPlugin.getInstance().getConfig().set("spawn.z", p.getLocation().getZ());
-                    BEPlugin.getInstance().getConfig().set("spawn.yaw", p.getLocation().getYaw());
-                    BEPlugin.getInstance().getConfig().set("spawn.pitch", p.getLocation().getPitch());
-                    BEPlugin.getInstance().saveConfig();
-                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', BEPlugin.getInstance().getConfig().getString("messages.success-setspawn")));
+                    ExoticGarden.getInstance().reloadConfig();
+                    ExoticGarden.getInstance().getConfig().set("spawn.world", p.getWorld().getName());
+                    ExoticGarden.getInstance().getConfig().set("spawn.x", p.getLocation().getX());
+                    ExoticGarden.getInstance().getConfig().set("spawn.y", p.getLocation().getY());
+                    ExoticGarden.getInstance().getConfig().set("spawn.z", p.getLocation().getZ());
+                    ExoticGarden.getInstance().getConfig().set("spawn.yaw", p.getLocation().getYaw());
+                    ExoticGarden.getInstance().getConfig().set("spawn.pitch", p.getLocation().getPitch());
+                    ExoticGarden.getInstance().saveConfig();
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', ExoticGarden.getInstance().getConfig().getString("messages.success-setspawn")));
                 } else {
                     p.sendMessage("§cYou do not have permission to execute this command!");
                 }
             } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', BEPlugin.getInstance().getConfig().getString("messages.cmd-setspawn-usage")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ExoticGarden.getInstance().getConfig().getString("messages.cmd-setspawn-usage")));
             }
         } else {
             sender.sendMessage("This Command can only executed by a player, sorry!");
