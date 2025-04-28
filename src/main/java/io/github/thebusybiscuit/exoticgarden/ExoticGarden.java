@@ -97,6 +97,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     private YamlConfiguration yamlStorge = null;
     private boolean sanity = false;
     private boolean residence = false;
+    private boolean fluffy = false;
     private final HashMap<String, String> traslateNames = new HashMap<>();
 
     public static ItemStack getSkull(MaterialData material, String texture) {
@@ -119,6 +120,10 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     static ItemStack getItem(@Nonnull String id) {
         SlimefunItem item = SlimefunItem.getById(id);
         return item != null ? item.getItem() : null;
+    }
+
+    public boolean isFluffyEnabled() {
+        return fluffy;
     }
 
     @Nullable
@@ -224,9 +229,12 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         if (Bukkit.getServer().getPluginManager().isPluginEnabled("Sanity")) {
             this.sanity = true;
         }
-        if (getServer().getPluginManager().getPlugin("Residence") != null) {
+        if (Bukkit.getServer().getPluginManager().isPluginEnabled("Residence")) {
             // FlagPermissions.addFlag("exo-harvest");
             this.residence = true;
+        }
+        if (Bukkit.getServer().getPluginManager().isPluginEnabled("FluffyMachines")) {
+            this.fluffy = true;
         }
         getCommand("exotic").setExecutor(new ExoticCommand());
 

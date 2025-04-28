@@ -14,6 +14,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerHead;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerSkin;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
+import io.ncbpfluffybear.fluffymachines.utils.FluffyItems;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -41,10 +42,12 @@ import org.bukkit.event.world.ChunkPopulateEvent;
 import org.bukkit.event.world.StructureGrowEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
@@ -59,6 +62,21 @@ public class PlantsListener implements Listener {
         this.plugin = plugin;
         cfg = plugin.getCfg();
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
+
+    @EventHandler
+    public void onWateringCanWater(PlayerInteractEvent e) {
+        if (!ExoticGarden.instance.isFluffyEnabled()) {
+            return;
+        }
+
+        Block b = e.getClickedBlock();
+        ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
+        final ItemMeta itemMeta = item.getItemMeta();
+        final Optional<String> id = Slimefun.getItemDataService().getItemData(itemMeta);
+        if (b != null && id.isPresent() && id.get().equals(FluffyItems.WATERING_CAN.getItemId()) && e.getHand() == EquipmentSlot.HAND) {
+            waterStructure(b.getLocation(), e, item);
+        }
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -417,4 +435,73 @@ public class PlantsListener implements Listener {
         }
     }
 
+    private void waterStructure(Location l, PlayerInteractEvent e, ItemStack wateringCan) {
+        SlimefunItem item = BlockStorage.check(l.getBlock());
+
+        if (item != null) {
+            final double random = ThreadLocalRandom.current().nextDouble();
+            for (Tree tree : ExoticGarden.getTrees()) {
+                if (item.getId().equalsIgnoreCase(tree.getSapling())) {
+                    l.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, l.add(0.5D, 0.5D, 0.5D), 15, 0.2F, 0.2F, 0.2F);
+                    if (cfg.getDouble("watering-can.chance") >= random) {
+                        BlockStorage.clearBlockInfo(l.getBlock());
+                        Schematic.pasteSchematic(l, tree, false);
+                        return;
+                    }
+                }
+            }
+
+            for (Berry berry : ExoticGarden.getBerries()) {
+                if (item.getId().equalsIgnoreCase(berry.toBush())) {
+                    l.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, l.add(0.5D, 0.5D, 0.5D), 15, 0.2F, 0.2F, 0.2F);
+                    if (cfg.getDouble("watering-can.chance") >= random) {
+                        switch (berry.getType()) {
+                            case BUSH:
+                                l.getBlock().setType(Material.OAK_LEAVES);
+                                break;
+                            case ORE_PLANT:
+                            case DOUBLE_PLANT:
+                                Block blockAbove = l.getBlock().getRelative(BlockFace.UP);
+                                item = BlockStorage.check(blockAbove);
+                                if (item != null) return;
+
+                                if (!Tag.SAPLINGS.isTagged(blockAbove.getType()) && !Tag.LEAVES.isTagged(blockAbove.getType())) {
+                                    switch (blockAbove.getType()) {
+                                        case AIR:
+                                        case CAVE_AIR:
+                                        case SNOW:
+                                            break;
+                                        default:
+                                            return;
+                                    }
+                                }
+
+                                BlockStorage.store(blockAbove, berry.getItem());
+                                l.getBlock().setType(Material.OAK_LEAVES);
+                                blockAbove.setType(Material.PLAYER_HEAD);
+                                Rotatable rotatable = (Rotatable) blockAbove.getBlockData();
+                                rotatable.setRotation(faces[ThreadLocalRandom.current().nextInt(faces.length)]);
+                                blockAbove.setBlockData(rotatable);
+
+                                PlayerHead.setSkin(blockAbove, PlayerSkin.fromBase64(berry.getTexture()), false);
+                                break;
+                            default:
+                                l.getBlock().setType(Material.PLAYER_HEAD);
+                                Rotatable s = (Rotatable) l.getBlock().getBlockData();
+                                s.setRotation(faces[ThreadLocalRandom.current().nextInt(faces.length)]);
+                                l.getBlock().setBlockData(s);
+
+                                PlayerHead.setSkin(l.getBlock(), PlayerSkin.fromBase64(berry.getTexture()), false);
+                                break;
+                        }
+
+                        BlockStorage.deleteLocationInfoUnsafely(l, false);
+                        BlockStorage.store(l.getBlock(), berry.getItem());
+                        l.getWorld().playEffect(l, Effect.STEP_SOUND, Material.OAK_LEAVES);
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }

@@ -148,5 +148,11 @@
             <version>24.0.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.NCBPFluffyBear</groupId>
+            <artifactId>FluffyMachines</artifactId>
+            <version>79408746ca</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

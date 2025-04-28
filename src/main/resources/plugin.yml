@@ -4,6 +4,7 @@ authors:
 - "TheBusyBiscuit"
 - "Narcissu14"
 - "1798643961"
+- "NCBPFluffyBear"
 - "balugaq"
 
 description: A Slimefun Addon that adds new Plants and dishes to the game
@@ -15,6 +16,11 @@ main: io.github.thebusybiscuit.exoticgarden.ExoticGarden
 depend:
 - Slimefun
 - GuizhanLibPlugin
+
+softdepend:
+- Sanity
+- Residence
+- FluffyMachines
 
 commands:
   exotic:

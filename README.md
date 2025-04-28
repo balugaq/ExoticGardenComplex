@@ -6,6 +6,7 @@
 - [ExoticGarden-Nar](https://github.com/SlimeAddonCollection1-12/ExoticGarden-Nar)
 - [BEPlugin](https://github.com/wdog5/BEPlugin)
 - [ExoticGarden-Changed](https://github.com/SlimefunGuguProject/ExoticGarden-changed)
+- [ExoticGarden-for-Watering-System](https://github.com/NCBPFluffyBear/ExoticGarden-for-Watering-System)
 
 遵循 [GPL 3.0 License](/licenses/GPL-3.0-LICENSE) 及 [AGPL 3.0 License](/licenses/AGPL-3.0-LICENSE)，详见[Licenses](/licenses)
 
@@ -71,3 +72,36 @@ ExoticGarden 是一个 [Slimefun 4](https://github.com/TheBusyBiscuit/Slimefun4)
 这些 pull requests 可以是修复、改动或新特性，这取决于你。
 
 查看我们的[开源许可证](/LICENSE)来了解更多。
+
+===以下是 ExoticGarden-for-Watering-System README 原文===
+
+# TwerkingGarden
+
+TwerkingGarden is a custom addon for Void Realms which allows players to twerk (sneak) on ExoticGarden plants to make them grow.
+
+## About ExoticGarden
+
+ExoticGarden is a big addon to [Slimefun 4](https://github.com/TheBusyBiscuit/Slimefun4) which brings various new Plants, fruits, vegetables and food items to the game.
+
+You can find more Information on the **outdated** BukkitDev page:
+https://dev.bukkit.org/projects/exotic-garden
+
+ExoticGarden is licensed under
+[MIT License](https://github.com/TheBusyBiscuit/ExoticGarden/blob/master/LICENSE)
+
+## Download ExoticGarden
+Click on the badge below to go to our "development" build page, where you can download the latest versions before they are released to the public.
+But keep in mind: These builds are still in development and not guaranteed to work or to be stable.
+
+<p align="center">
+  <a href="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/ExoticGarden/master/">
+    <img src="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/ExoticGarden/master/badge.svg" alt="Build Server"/>
+  </a>
+</p>
+
+## Contributions
+
+You are allowed, even encouraged, to contribute to ExoticGarden by making Pull Requests.
+These Pull Requests can be Fixes, Changes or even Additions, it is your choice.
+
+Check the license for more Info on redistributing and modifying ExoticGarden.

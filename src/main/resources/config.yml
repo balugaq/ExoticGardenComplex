@@ -31,3 +31,9 @@ messages:
   cmd-setspawn-usage: "&cUsage: /setspawn"
 
 spawn: {}
+
+twerking:
+  radius: 3
+  chance: 0.1
+watering-can:
+  chance: 0.1
