@@ -13,7 +13,7 @@ import java.util.List;
 
 public final class CustomPotion extends ItemStack {
     @ParametersAreNonnullByDefault
-    public CustomPotion(String name, int color,  String[] lore, PotionEffect effect) {
+    public CustomPotion(String name, int color, String[] lore, PotionEffect effect) {
         this(name, Color.fromBGR(color), effect, lore);
     }
 

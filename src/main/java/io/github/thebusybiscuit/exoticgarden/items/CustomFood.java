@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.exoticgarden.items;
 
-import io.github.thebusybiscuit.exoticgarden.ExoticGarden;
 import io.github.thebusybiscuit.exoticgarden.ExoticGardenRecipeTypes;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -52,8 +51,6 @@ public class CustomFood extends ExoticGardenFruit {
     }
 
 
-
-
     @ParametersAreNonnullByDefault
     public CustomFood(ItemGroup itemGroup, ItemStack itemStack, String id, RecipeType recipeType, ItemStack[] recipe, int food, float sanity) {
         this(itemGroup, new SlimefunItemStack(id, itemStack), recipeType, recipe, food, sanity);
@@ -94,12 +91,14 @@ public class CustomFood extends ExoticGardenFruit {
     public int getFoodValue() {
         return food;
     }
+
     public float getSanity() {
         return sanity;
     }
+
     public void restoreHunger(Player p) {
-        int level = p.getFoodLevel() + (int)this.food;
-        p.setFoodLevel((level > 20) ? 20 : level);
+        int level = p.getFoodLevel() + this.food;
+        p.setFoodLevel(Math.min(level, 20));
         p.setSaturation(this.food);
         /*
         if (ExoticGarden.instance.isSanityEnabled()) {
