@@ -8,6 +8,7 @@ chances:
 options:
   auto-update: false
   auto-generate-plants: true
+  item-heads: true
 ########################################
 #                                      #
 #             BE Plugin             #

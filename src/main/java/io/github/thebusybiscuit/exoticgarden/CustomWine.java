@@ -46,7 +46,7 @@ public class CustomWine extends EGPlant implements NotPlaceable {
         if (ExoticGarden.instance.isSanityEnabled()) {
             // Sanity.getInstance().addSanity(p, this.sanity);
         }
-        ExoticGarden.drunkPlayers.get(p.getName()).addAlcohol(this.alcohol);
+        ExoticGarden.drunkPlayers.getOrDefault(p.getName(), new PlayerAlcohol(p.getName(), 0)).addAlcohol(this.alcohol);
         if (this.effects != null) {
             for (PotionEffect potion : this.effects) {
                 p.addPotionEffect(potion);

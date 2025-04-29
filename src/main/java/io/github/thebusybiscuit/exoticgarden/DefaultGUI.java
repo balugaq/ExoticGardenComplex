@@ -17,6 +17,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -113,6 +114,21 @@ public abstract class DefaultGUI extends SlimefunItem implements InventoryBlock,
                 DefaultGUI.processing.remove(b);
             }
         });
+        addItemHandler(new BlockTicker() {
+
+            public void tick(Block b, SlimefunItem sf, Config data) {
+                DefaultGUI.this.tick(b);
+            }
+
+
+            public void uniqueTick() {
+            }
+
+
+            public boolean isSynchronized() {
+                return false;
+            }
+        });
         registerDefaultRecipes();
     }
 
@@ -174,6 +190,21 @@ public abstract class DefaultGUI extends SlimefunItem implements InventoryBlock,
                 }
                 DefaultGUI.progress.remove(b);
                 DefaultGUI.processing.remove(b);
+            }
+        });
+        addItemHandler(new me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker() {
+
+            public void tick(Block b, SlimefunItem sf, Config data) {
+                DefaultGUI.this.tick(b);
+            }
+
+
+            public void uniqueTick() {
+            }
+
+
+            public boolean isSynchronized() {
+                return false;
             }
         });
         registerDefaultRecipes();
@@ -317,26 +348,6 @@ public abstract class DefaultGUI extends SlimefunItem implements InventoryBlock,
         Random random = new Random();
         int point = random.nextInt(10000);
         return (point < recipe.getChance());
-    }
-
-
-    public void register(boolean slimefun) {
-        addItemHandler(new me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker() {
-
-            public void tick(Block b, SlimefunItem sf, Config data) {
-                DefaultGUI.this.tick(b);
-            }
-
-
-            public void uniqueTick() {
-            }
-
-
-            public boolean isSynchronized() {
-                return false;
-            }
-        });
-        super.register(ExoticGarden.instance);
     }
 
 

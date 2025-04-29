@@ -55,6 +55,7 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -86,9 +87,9 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     private static final boolean skullitems = true;
     public static ExoticGarden instance;
     private final File schematicsFolder = new File(getDataFolder(), "schematics");
-    private final List<Berry> berries = new ArrayList<>();
-    private final List<Tree> trees = new ArrayList<>();
-    private final Map<String, ItemStack> items = new HashMap<>();
+    private List<Berry> berries = new ArrayList<>();
+    private List<Tree> trees = new ArrayList<>();
+    private Map<String, ItemStack> items = new HashMap<>();
     private final Set<String> treeFruits = new HashSet<>();
     private final HashMap<String, String> traslateNames = new HashMap<>();
     public NestedItemGroup nestedItemGroup;
@@ -252,8 +253,15 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         }
         getCommand("exotic").setExecutor(new ExoticCommand());
 
-        PaperLib.suggestPaper(ExoticGarden.instance);
-        instance = this;
+        if (!(new File("plugins/ExoticGarden")).exists()) (new File("plugins/ExoticGarden")).mkdirs();
+
+        File storgeFile = new File(getDataFolder() + File.separator + "storge.yml");
+        createDefaultConfiguration(storgeFile, "storge.yml");
+        initDataFromYAML(storgeFile);
+
+        registerDrunkMessage();
+
+        // skullitems = this.cfg.getBoolean("options.item-heads");
 
         if (!RegistryHandler.getSchematicsFolder().exists()) {
             RegistryHandler.getSchematicsFolder().mkdirs();
@@ -275,6 +283,8 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
          */
         cfg.save();
+
+        getServer().getScheduler().runTaskTimer(this, () -> ExoticGarden.this.checkDrunkers(), 120L, 120L);
     }
 
     private void registerItems() {
@@ -1170,6 +1180,10 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     public void onDisable() {
         SlimefunItemUtil.unregisterAllItems();
         SlimefunItemUtil.unregisterItemGroups();
+        saveDatas();
+        berries = null;
+        trees = null;
+        items = null;
         instance = null;
     }
 
@@ -1309,7 +1323,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
             try {
                 output = new FileOutputStream(actual);
                 byte[] buf = new byte[32];
-                int length = 0;
+                int length;
                 while ((length = input.read(buf)) > 0) {
                     output.write(buf, 0, length);
                 }

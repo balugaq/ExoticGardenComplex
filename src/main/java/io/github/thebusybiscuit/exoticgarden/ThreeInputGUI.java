@@ -114,6 +114,21 @@ public abstract class ThreeInputGUI extends SlimefunItem implements InventoryBlo
                 ThreeInputGUI.processing.remove(b);
             }
         });
+        addItemHandler(new BlockTicker() {
+
+            public void tick(Block b, SlimefunItem sf, Config data) {
+                ThreeInputGUI.this.tick(b);
+            }
+
+
+            public void uniqueTick() {
+            }
+
+
+            public boolean isSynchronized() {
+                return false;
+            }
+        });
         registerDefaultRecipes();
     }
 
@@ -172,6 +187,21 @@ public abstract class ThreeInputGUI extends SlimefunItem implements InventoryBlo
                 }
                 ThreeInputGUI.processing.remove(b);
                 ThreeInputGUI.progress.remove(b);
+            }
+        });
+        addItemHandler(new BlockTicker() {
+
+            public void tick(Block b, SlimefunItem sf, Config data) {
+                ThreeInputGUI.this.tick(b);
+            }
+
+
+            public void uniqueTick() {
+            }
+
+
+            public boolean isSynchronized() {
+                return false;
             }
         });
         registerDefaultRecipes();
@@ -316,27 +346,6 @@ public abstract class ThreeInputGUI extends SlimefunItem implements InventoryBlo
         int point = random.nextInt(10000);
         return (point < recipe.getChance());
     }
-
-
-    public void register(boolean slimefun) {
-        addItemHandler(new BlockTicker() {
-
-            public void tick(Block b, SlimefunItem sf, Config data) {
-                ThreeInputGUI.this.tick(b);
-            }
-
-
-            public void uniqueTick() {
-            }
-
-
-            public boolean isSynchronized() {
-                return false;
-            }
-        });
-        super.register(ExoticGarden.instance);
-    }
-
 
     protected void tick(Block b) {
         if (isProcessing(b)) {
