@@ -318,13 +318,13 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         registerPlant("Cilantro", "香菜", ChatColor.GREEN, PlantType.DOUBLE_PLANT, "16149196f3a8d6d6f24e51b27e4cb71c6bab663449daffb7aa211bbe577242");
         registerPlant("Black Pepper", "黑胡椒", ChatColor.DARK_GRAY, PlantType.DOUBLE_PLANT, "2342b9bf9f1f6295842b0efb591697b14451f803a165ae58d0dcebd98eacc");
 
-        registerPlant("Green Durian", "青榴莲", ChatColor.GREEN, PlantType.FRUIT, "aaa139ecc894c4e455825e313b542e2068601f2f31ab26d30cf276d51345bf3b");
-        registerPlant("Durian", "榴莲", ChatColor.GOLD, PlantType.FRUIT, "44ba890fa8d8684c5119cf1b4b9d5460f5eff392e26ce68b3434e52d18fc666");
+        //registerPlant("Green Durian", "青榴莲", ChatColor.GREEN, PlantType.FRUIT, "aaa139ecc894c4e455825e313b542e2068601f2f31ab26d30cf276d51345bf3b");
+        //registerPlant("Durian", "榴莲", ChatColor.GOLD, PlantType.FRUIT, "44ba890fa8d8684c5119cf1b4b9d5460f5eff392e26ce68b3434e52d18fc666");
 
-        registerPlant("Honeydew Melon", "哈密瓜", ChatColor.GREEN, PlantType.FRUIT, "fb14cba0f42a2d138ed243b3bff99cb1ea8cbdcd94fb5fb1e3a307f8e21ab1c");
+        //registerPlant("Honeydew Melon", "哈密瓜", ChatColor.GREEN, PlantType.FRUIT, "fb14cba0f42a2d138ed243b3bff99cb1ea8cbdcd94fb5fb1e3a307f8e21ab1c");
         registerPlant("Demon Melon", "恶魔瓜", ChatColor.DARK_GRAY, PlantType.FRUIT, "24c66af64948fd84493dacd1a9dc40736a30931707d838948949bd8e9488d575");
 
-        registerPlant("Papaya", "木瓜", ChatColor.YELLOW, PlantType.FRUIT, "631233362962e34f70de66c26ee6fcd2bbd5bc345c744f2dc42a73d779e0647e");
+        //registerPlant("Papaya", "木瓜", ChatColor.YELLOW, PlantType.FRUIT, "631233362962e34f70de66c26ee6fcd2bbd5bc345c744f2dc42a73d779e0647e");
 
 
         registerPlant("Leek", "葱", ChatColor.GREEN, PlantType.FRUIT, "c2dd5433db4fddebc4a77166735699400cb18d43672ab31326a83f0b7c2586cc");
@@ -333,7 +333,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         registerPlant("Paddy", "水稻", ChatColor.GOLD, PlantType.FRUIT, "3b3c84e4bdaf5cc5f85632ac928d059fc2f1ff0cc9e5998f1fe8b227881ada85");
         registerPlant("Ginseng Baby", "人参果娃", ChatColor.GREEN, PlantType.DOUBLE_PLANT, "36aae6717f49917e043080241264b43a8f387b2df3f61f8f70c2836cd7c3d95c");
 
-        registerPlant("Aubergine", "茄子", ChatColor.BLUE, PlantType.DOUBLE_PLANT, "8825536a44f1861633484753835e5873ed5667ec5b60ef41757a16a768aa76");
+        //registerPlant("Aubergine", "茄子", ChatColor.BLUE, PlantType.DOUBLE_PLANT, "8825536a44f1861633484753835e5873ed5667ec5b60ef41757a16a768aa76");
 
         registerPlant("Radish", "红萝卜", ChatColor.RED, PlantType.FRUIT, "c60339f116115c5d8466f9ce17607410fdafc288ed313850712c78b66b93c0ce");
 
@@ -345,16 +345,16 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
         registerPlant("Tree Mushroom", "树菇", ChatColor.RESET, PlantType.FRUIT, "80f886503d25fadcbea9ee7779890257de0e3e94a4caf7a67c688631cf2b669");
 
-        registerPlant("Olive", "橄榄", ChatColor.GREEN, PlantType.DOUBLE_PLANT, "92bc8fd736d64a83bda5c161625b49de5c13494fb2f1b2c8ebbfca199651ff");
+        //registerPlant("Olive", "橄榄", ChatColor.GREEN, PlantType.DOUBLE_PLANT, "92bc8fd736d64a83bda5c161625b49de5c13494fb2f1b2c8ebbfca199651ff");
 
-        registerPlant("Passionfruit", "百香果", ChatColor.GOLD, PlantType.DOUBLE_PLANT, "61609954bdf7d4715e15af2d28c718e91f25ca39fcb8343951bf14706e9966");
+        //registerPlant("Passionfruit", "百香果", ChatColor.GOLD, PlantType.DOUBLE_PLANT, "61609954bdf7d4715e15af2d28c718e91f25ca39fcb8343951bf14706e9966");
 
         registerPlant("Tumbleweed", "风滚草", ChatColor.YELLOW, PlantType.FRUIT, "c2ef3ad5f653a72d936f0c255ced1b0d03688d8c489fcf044eb55d16bc11c8b8");
         registerPlant("Japanese Pumpkin", "日本南瓜", ChatColor.GREEN, PlantType.FRUIT, "5a625495ea6891673014fb65b63e4d817d5bf80d1fae8d5811b1b1179f1f0e4b");
         registerPlant("Blue Pumpkin", "蓝南瓜", ChatColor.BLUE, PlantType.FRUIT, "dd3384c4d34a8f986e26802ba3587a2aab1f4d2346dd8eb318ce8b7bd194cad2");
-        registerPlant("Persimmon", "柿子", ChatColor.RED, PlantType.DOUBLE_PLANT, "2562a9e019b07f3b60b24f46eb29349d1d6d2695b6dc619ed6cfcaeaf21c0f2b");
-        registerPlant("Rainbow Fruits", "彩虹果", ChatColor.GOLD, PlantType.DOUBLE_PLANT, "6221fac3c17d189d9c5eced6ff23caa0f73e35b7452d918acb8b7900d14b8950");
-        registerPlant("Fig", "无花果", ChatColor.DARK_GRAY, PlantType.DOUBLE_PLANT, "90b0537c0c0e8928bb7c85a425ece777494d508e55de59f8e8f462eecbc07835");
+        //registerPlant("Persimmon", "柿子", ChatColor.RED, PlantType.DOUBLE_PLANT, "2562a9e019b07f3b60b24f46eb29349d1d6d2695b6dc619ed6cfcaeaf21c0f2b");
+        //registerPlant("Rainbow Fruits", "彩虹果", ChatColor.GOLD, PlantType.DOUBLE_PLANT, "6221fac3c17d189d9c5eced6ff23caa0f73e35b7452d918acb8b7900d14b8950");
+        //registerPlant("Fig", "无花果", ChatColor.DARK_GRAY, PlantType.DOUBLE_PLANT, "90b0537c0c0e8928bb7c85a425ece777494d508e55de59f8e8f462eecbc07835");
 
         registerPlant("Wine Fruit", "酒香果", ChatColor.DARK_GREEN, PlantType.DOUBLE_PLANT, "c4c05dd5d7a92889d8d22d4df0f1a1fe2bee3eddf192f78fc44e02e14dbf629");
 
@@ -362,13 +362,13 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         registerPlant("Peanut", "花生", ChatColor.GOLD, PlantType.FRUIT, "608043c5788050ce7ee54edddd48239bce491a9949d1410ad79e165436153ea4");
 
 
-        registerPlant("Hazelnut", "榛子", ChatColor.GOLD, PlantType.FRUIT, "89e521885f3a20f6769b484f069a41d1105b285829cc78f7b6df79c5916e0b10");
+        //registerPlant("Hazelnut", "榛子", ChatColor.GOLD, PlantType.FRUIT, "89e521885f3a20f6769b484f069a41d1105b285829cc78f7b6df79c5916e0b10");
 
-        registerPlant("Walnut", "核桃", ChatColor.GOLD, PlantType.DOUBLE_PLANT, "9b878a91ee4278d16ef15175ed8e2861541de797475cf4a4732915876c6e9a");
+        //registerPlant("Walnut", "核桃", ChatColor.GOLD, PlantType.DOUBLE_PLANT, "9b878a91ee4278d16ef15175ed8e2861541de797475cf4a4732915876c6e9a");
 
-        registerPlant("Almond", "杏仁", ChatColor.GOLD, PlantType.DOUBLE_PLANT, "89ce6a02c3d45fb6d5a8648ee430ac4e39e3e2a7503749f2369437d4deeb93bf");
+        //registerPlant("Almond", "杏仁", ChatColor.GOLD, PlantType.DOUBLE_PLANT, "89ce6a02c3d45fb6d5a8648ee430ac4e39e3e2a7503749f2369437d4deeb93bf");
 
-        registerPlant("Pistachio", "开心果", ChatColor.GOLD, PlantType.FRUIT, "52a90a34d8740818b0bab2a687ebd2bfd956e08949d930d6ace666f470b3d9c8");
+        //registerPlant("Pistachio", "开心果", ChatColor.GOLD, PlantType.FRUIT, "52a90a34d8740818b0bab2a687ebd2bfd956e08949d930d6ace666f470b3d9c8");
 
         registerPlant("Gooseberry", "红醋栗", ChatColor.RED, PlantType.FRUIT, "7e57cc56fb21d50af4890a59a18cf919bea1c2b13171e104d32ae67eda49aa16");
         registerPlant("Cauliflower", "花椰菜", ChatColor.RESET, PlantType.FRUIT, "14a6dedd99bb9af3f1b2f338d509a926606cddfdc351e018aad1c07015ad566d");
@@ -393,10 +393,10 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         registerPlant("Habanero Chili", "哈瓦那辣椒", ChatColor.GOLD, PlantType.DOUBLE_PLANT, "1243cc88ef2ff200a512dc898f0c10349eb509ebe360d60f90e5c8630f8ede74");
         registerPlant("Carolina Reaper Chili", "卡罗莱纳死神辣椒", ChatColor.DARK_RED, PlantType.DOUBLE_PLANT, "1bc39557facf985c4f6592d055155102b464f2a4651dbbbeb835b90ed57a98f3");
 
-        registerPlant("Lychee", "荔枝", ChatColor.RED, PlantType.DOUBLE_PLANT, "7b18a885844c9f1dfe8d2db18b3992e3022b68acc9d19f5fe9747208c202df7");
-        registerPlant("Banana", "香蕉", ChatColor.YELLOW, PlantType.DOUBLE_PLANT, "20aaa1425d2b99383697d57193f27d872442bcb995508f42d19de4af1f8612");
-        registerPlant("Kiwi", "猕猴桃", ChatColor.GREEN, PlantType.DOUBLE_PLANT, "4cc18ec4649f07d5a38a583d9271fd83a6f37318758e46ea87fc2b2d1afc2d9");
-        registerPlant("Avocado", "鳄梨", ChatColor.DARK_GRAY, PlantType.DOUBLE_PLANT, "5bd752b141daea14b6b7f8793364538d85517136433893274069b1a90889f1cb");
+        //registerPlant("Lychee", "荔枝", ChatColor.RED, PlantType.DOUBLE_PLANT, "7b18a885844c9f1dfe8d2db18b3992e3022b68acc9d19f5fe9747208c202df7");
+        //registerPlant("Banana", "香蕉", ChatColor.YELLOW, PlantType.DOUBLE_PLANT, "20aaa1425d2b99383697d57193f27d872442bcb995508f42d19de4af1f8612");
+        //registerPlant("Kiwi", "猕猴桃", ChatColor.GREEN, PlantType.DOUBLE_PLANT, "4cc18ec4649f07d5a38a583d9271fd83a6f37318758e46ea87fc2b2d1afc2d9");
+        //registerPlant("Avocado", "鳄梨", ChatColor.DARK_GRAY, PlantType.DOUBLE_PLANT, "5bd752b141daea14b6b7f8793364538d85517136433893274069b1a90889f1cb");
         registerTree("Oak Apple", "橡树苹果",  "cbb311f3ba1c07c3d1147cd210d81fe11fd8ae9e3db212a0fa748946c3633", "&c", Color.FUCHSIA, "Oak Apple Juice", "橡树苹果汁", true, Material.DIRT, Material.GRASS_BLOCK);
         registerTree("Coconut", "椰子", "6d27ded57b94cf715b048ef517ab3f85bef5a7be69f14b1573e14e7e42e2e8", "&6", Color.MAROON, "Coconut Milk", "椰奶", false, Material.SAND);
         registerTree("Cherry", "樱桃", "c520766b87d2463c34173ffcd578b0e67d163d37a2d7c2e77915cd91144d40d1", "&c", Color.FUCHSIA, "Cherry Juice", "樱桃汁", true, Material.DIRT, Material.GRASS_BLOCK);
@@ -493,9 +493,9 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
         registerTechPlant("咖啡豆", "&c", Material.COCOA_BEANS, PlantType.DOUBLE_PLANT, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTA4M2VjMmIwMWRjMGZlZTc5YWEzMjE4OGQ5NDI5YWNjNjhlY2Y3MTQwOGRjYTA0YWFhYjUzYWQ4YmVhMCJ9fX0=");
 
-        registerTechPlant("仙馐果", "&b", Material.APPLE, PlantType.DOUBLE_PLANT, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGNkY2YzOGE4NDM4ZWQzYTU0N2Y4ZDViNDdlMDgwMTU1OWM1OTVmMGUyNmM0NTY1NmE3NmI1YmY4YTU2ZiJ9fX0=");
+        // registerTechPlant("仙馐果", "&b", Material.APPLE, PlantType.DOUBLE_PLANT, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGNkY2YzOGE4NDM4ZWQzYTU0N2Y4ZDViNDdlMDgwMTU1OWM1OTVmMGUyNmM0NTY1NmE3NmI1YmY4YTU2ZiJ9fX0=");
 
-        registerTechPlant("酒香果", "&b", Material.OAK_LEAVES, PlantType.DOUBLE_PLANT, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzRjMDVkZDVkN2E5Mjg4OWQ4ZDIyZDRkZjBmMWExZmUyYmVlM2VkZGYxOTJmNzhmYzQ0ZTAyZTE0ZGJmNjI5In19fQ==");
+        // registerTechPlant("酒香果", "&b", Material.OAK_LEAVES, PlantType.DOUBLE_PLANT, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzRjMDVkZDVkN2E5Mjg4OWQ4ZDIyZDRkZjBmMWExZmUyYmVlM2VkZGYxOTJmNzhmYzQ0ZTAyZTE0ZGJmNjI5In19fQ==");
 
         new Crook(miscItemGroup, new SlimefunItemStack("CROOK", new CustomItemStack(Material.WOODEN_HOE, "&r钩子", "", "&7+ &b25% &7树苗掉落概率")), RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {new ItemStack(Material.STICK), new ItemStack(Material.STICK), null, null, new ItemStack(Material.STICK), null, null, new ItemStack(Material.STICK), null})

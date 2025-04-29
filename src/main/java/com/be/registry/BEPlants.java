@@ -20,7 +20,7 @@ public class BEPlants {
         RegistryHandler.initPlant("PURPLE_FLOWER", "紫花", ChatColor.LIGHT_PURPLE, PlantType.DOUBLE_PLANT, "5fe0588605c62bd5493f4a6dc991033d22f93783554baafb88beb0f709d89594");
         RegistryHandler.initPlant("PURPLE_ROSE", "紫色玫瑰", ChatColor.LIGHT_PURPLE, PlantType.FRUIT, "5ef8b12b049423766b9460b9652f8fd8c66528b064130ba01eab819e0a89c269");
         RegistryHandler.initPlant("MANDRAKE_ROOT", "曼德拉根", ChatColor.GOLD, PlantType.FRUIT, "ef3ee139baa76ec40fa2f5349690268f3508ae7207ffde592705d2fe78f96a7a");
-        RegistryHandler.initPlant("DEVIL_MELON", "恶魔瓜", ChatColor.LIGHT_PURPLE, PlantType.FRUIT, "fc4182685eeb2ef49221d744d8b64fd5e8f8ef5d92452f27daaaffbaad770e14");
+        RegistryHandler.initPlant("DEVIL_MELON", "邪恶瓜", ChatColor.LIGHT_PURPLE, PlantType.FRUIT, "fc4182685eeb2ef49221d744d8b64fd5e8f8ef5d92452f27daaaffbaad770e14");
 
     }
 
