@@ -1166,6 +1166,8 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
     @Override
     public void onDisable() {
+        SlimefunItemUtil.unregisterAllItems();
+        SlimefunItemUtil.unregisterItemGroups();
         instance = null;
     }
 
