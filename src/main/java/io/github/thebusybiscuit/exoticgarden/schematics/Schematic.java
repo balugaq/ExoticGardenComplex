@@ -20,6 +20,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Rotatable;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -195,52 +196,59 @@ public class Schematic {
         return null;
     }
 
-    public static Schematic loadSchematic(File file) throws IOException {
-        Map<String, Tag> schematic;
+    public static Schematic loadSchematic(File file) {
+        try {
+            Map<String, Tag> schematic;
 
-        try (NBTInputStream stream = new NBTInputStream(new FileInputStream(file))) {
-            CompoundTag schematicTag = (CompoundTag) stream.readTag();
+            try (NBTInputStream stream = new NBTInputStream(new FileInputStream(file))) {
+                CompoundTag schematicTag = (CompoundTag) stream.readTag();
 
-            if (!schematicTag.getName().equals("Schematic")) {
-                throw new IllegalArgumentException("Tag \"Schematic\" does not exist or is not first");
-            }
+                if (!schematicTag.getName().equals("Schematic")) {
+                    throw new IllegalArgumentException("Tag \"Schematic\" does not exist or is not first");
+                }
 
-            schematic = schematicTag.getValue();
-            if (!schematic.containsKey("Blocks")) {
-                throw new IllegalArgumentException("Schematic file is missing a \"Blocks\" tag");
-            }
-        }
-
-        short width = getChildTag(schematic, "Width", ShortTag.class).getValue();
-        short length = getChildTag(schematic, "Length", ShortTag.class).getValue();
-        short height = getChildTag(schematic, "Height", ShortTag.class).getValue();
-
-        // Get blocks
-        byte[] blockId = getChildTag(schematic, "Blocks", ByteArrayTag.class).getValue();
-        byte[] blockData = getChildTag(schematic, "Data", ByteArrayTag.class).getValue();
-        byte[] addId = new byte[0];
-        short[] blocks = new short[blockId.length]; // Have to later combine IDs
-
-        // We support 4096 block IDs using the same method as vanilla Minecraft, where
-        // the highest 4 bits are stored in a separate byte array.
-        if (schematic.containsKey("AddBlocks")) {
-            addId = getChildTag(schematic, "AddBlocks", ByteArrayTag.class).getValue();
-        }
-
-        // Combine the AddBlocks data with the first 8-bit block ID
-        for (int index = 0; index < blockId.length; index++) {
-            if ((index >> 1) >= addId.length) { // No corresponding AddBlocks index
-                blocks[index] = (short) (blockId[index] & 0xFF);
-            } else {
-                if ((index & 1) == 0) {
-                    blocks[index] = (short) (((addId[index >> 1] & 0x0F) << 8) + (blockId[index] & 0xFF));
-                } else {
-                    blocks[index] = (short) (((addId[index >> 1] & 0xF0) << 4) + (blockId[index] & 0xFF));
+                schematic = schematicTag.getValue();
+                if (!schematic.containsKey("Blocks")) {
+                    throw new IllegalArgumentException("Schematic file is missing a \"Blocks\" tag");
                 }
             }
+
+            short width = getChildTag(schematic, "Width", ShortTag.class).getValue();
+            short length = getChildTag(schematic, "Length", ShortTag.class).getValue();
+            short height = getChildTag(schematic, "Height", ShortTag.class).getValue();
+
+            // Get blocks
+            byte[] blockId = getChildTag(schematic, "Blocks", ByteArrayTag.class).getValue();
+            byte[] blockData = getChildTag(schematic, "Data", ByteArrayTag.class).getValue();
+            byte[] addId = new byte[0];
+            short[] blocks = new short[blockId.length]; // Have to later combine IDs
+
+            // We support 4096 block IDs using the same method as vanilla Minecraft, where
+            // the highest 4 bits are stored in a separate byte array.
+            if (schematic.containsKey("AddBlocks")) {
+                addId = getChildTag(schematic, "AddBlocks", ByteArrayTag.class).getValue();
+            }
+
+            // Combine the AddBlocks data with the first 8-bit block ID
+            for (int index = 0; index < blockId.length; index++) {
+                if ((index >> 1) >= addId.length) { // No corresponding AddBlocks index
+                    blocks[index] = (short) (blockId[index] & 0xFF);
+                } else {
+                    if ((index & 1) == 0) {
+                        blocks[index] = (short) (((addId[index >> 1] & 0x0F) << 8) + (blockId[index] & 0xFF));
+                    } else {
+                        blocks[index] = (short) (((addId[index >> 1] & 0xF0) << 4) + (blockId[index] & 0xFF));
+                    }
+                }
+            }
+
+            return new Schematic(file.getName().replace(".schematic", ""), blocks, blockData, width, length, height);
+        } catch (Throwable e) {
+            ExoticGarden.getInstance().getLogger().log(Level.SEVERE, "Failed to load schematic " + file.getName(), e);
+            e.printStackTrace();
         }
 
-        return new Schematic(file.getName().replace(".schematic", ""), blocks, blockData, width, length, height);
+        return null;
     }
 
     /**
