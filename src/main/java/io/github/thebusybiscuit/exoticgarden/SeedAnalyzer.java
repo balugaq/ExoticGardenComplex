@@ -60,7 +60,7 @@ public abstract class SeedAnalyzer
         subRecipes.add(new DefaultSubRecipe(500 + 500 * getLevel(), EGPlant.getByName("DIAMOND_PLANT").getItem()));
         subRecipes.add(new DefaultSubRecipe(500 + 500 * getLevel(), EGPlant.getByName("EMERALD_PLANT").getItem()));
         subRecipes.add(new DefaultSubRecipe(500 + 500 * getLevel(), EGPlant.getByName("SLIME_PLANT").getItem()));
-        subRecipes.add(new DefaultSubRecipe(500 + 500 * getLevel(), EGPlant.getByName("SHULKER_SHELL_PLANT").getItem()));
+        //subRecipes.add(new DefaultSubRecipe(500 + 500 * getLevel(), EGPlant.getByName("SHULKER_SHELL_PLANT").getItem()));
         subRecipes.add(new DefaultSubRecipe(500 + 500 * getLevel(), EGPlant.getByName("COFFEEBEAN_BUSH").getItem()));
         subRecipes.add(new DefaultSubRecipe(500 + 500 * getLevel(), EGPlant.getByName("DREAMFRUIT_BUSH").getItem()));
         return subRecipes;

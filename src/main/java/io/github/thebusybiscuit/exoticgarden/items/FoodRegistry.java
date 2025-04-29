@@ -71,6 +71,7 @@ public final class FoodRegistry {
                 new ItemStack[]{SlimefunItems.WHEAT_FLOUR, new ItemStack(Material.SUGAR), getItem("BLACK_PEPPER"), null, null, null, null, null, null})
                 .register(plugin);
 
+        /*
         new SlimefunItem(misc, new SlimefunItemStack("URANIUM_SALT", "b5a475460b5f9a367790df9df5bbbfbc10c079d4548e3382db36f3364ec08845", "&r可食用铀盐"), RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{SlimefunItems.URANIUM, getItem("DEMON_MELON"), getItem("SALT"), null, null, null, null, null, null})
                 .register(plugin);
@@ -82,6 +83,7 @@ public final class FoodRegistry {
         new SlimefunItem(misc, new SlimefunItemStack("RICE_SACK", "cb70f2fb5ebf49f79ff3e873616863ae5d362fbbfc31aef2dfb93d6e17dbf2", "&f大米"), RecipeType.GRIND_STONE,
                 new ItemStack[]{getItem("PADDY"), null, null, null, null, null, null, null, null})
                 .register(plugin);
+         */
 
         new CustomFood(food, new SlimefunItemStack("BAGEL", "502e92f13de3bee69228c384478e761230681e5fce9bda195daeaf8484139331", "&r面包圈", "", "&7&o恢复 &b&o" + "2.0" + " &7&o点饥饿值"),
                 new ItemStack[]{getItem("YEAST"), SlimefunItems.WHEAT_FLOUR, null, null, null, null, null, null, null},

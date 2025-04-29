@@ -46,7 +46,10 @@ public class CustomWine extends EGPlant implements NotPlaceable {
         if (ExoticGarden.instance.isSanityEnabled()) {
             // Sanity.getInstance().addSanity(p, this.sanity);
         }
-        ExoticGarden.drunkPlayers.getOrDefault(p.getName(), new PlayerAlcohol(p.getName(), 0)).addAlcohol(this.alcohol);
+        if (!ExoticGarden.drunkPlayers.containsKey(p.getName())) {
+            ExoticGarden.drunkPlayers.put(p.getName(), new PlayerAlcohol(p.getName(), 0));
+        }
+        ExoticGarden.drunkPlayers.get(p.getName()).addAlcohol(this.alcohol);
         if (this.effects != null) {
             for (PotionEffect potion : this.effects) {
                 p.addPotionEffect(potion);
@@ -54,9 +57,9 @@ public class CustomWine extends EGPlant implements NotPlaceable {
         }
         int alcohol = ExoticGarden.drunkPlayers.get(p.getName()).getAlcohol();
         if (alcohol < 100 && alcohol > 50) {
-            p.sendMessage("§8[§a异域森林§8] §e你已经半醉了，请适度饮酒！");
+            p.sendMessage("§8[§a异域花园§8] §e你已经半醉了，请适度饮酒！");
         } else if (alcohol >= 100) {
-            p.sendMessage("§8[§a异域森林§8] §e你醉了！可以尝试食用一些可以§b解酒§e的消耗品");
+            p.sendMessage("§8[§a异域花园§8] §e你醉了！可以尝试食用一些可以§b解酒§e的消耗品");
             ExoticGarden.sendDrunkMessage(p);
         }
     }

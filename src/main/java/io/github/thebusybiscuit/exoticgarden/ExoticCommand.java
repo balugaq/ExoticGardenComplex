@@ -13,9 +13,9 @@ public class ExoticCommand implements CommandExecutor {
                     strings[0].equalsIgnoreCase("alo") &&
                     strings[1].equalsIgnoreCase("info")) {
                 if (Bukkit.getPlayer(strings[2]).isOnline()) {
-                    commandSender.sendMessage("§8[§b异域森林§8] §7玩家§e" + strings[2] + "§7的酒精度为§e" + ExoticGarden.drunkPlayers.get(strings[2]).getAlcohol());
+                    commandSender.sendMessage("§8[§b异域花园§8] §7玩家§e" + strings[2] + "§7的酒精度为§e" + ExoticGarden.drunkPlayers.get(strings[2]).getAlcohol());
                 } else {
-                    commandSender.sendMessage("§8[§b异域森林§8] §c指定的玩家不在线！");
+                    commandSender.sendMessage("§8[§b异域花园§8] §c指定的玩家不在线！");
                 }
             }
 
@@ -27,16 +27,16 @@ public class ExoticCommand implements CommandExecutor {
                 if (strings[1].equalsIgnoreCase("add")) {
                     if (Bukkit.getPlayer(strings[2]).isOnline()) {
                         ExoticGarden.drunkPlayers.get(strings[2]).addAlcohol(Integer.parseInt(strings[3]));
-                        commandSender.sendMessage("§8[§b异域森林§8] §7为玩家§e" + strings[2] + "§7增加了§e" + strings[3] + "§酒精度");
+                        commandSender.sendMessage("§8[§b异域花园§8] §7为玩家§e" + strings[2] + "§7增加了§e" + strings[3] + "§酒精度");
                     } else {
-                        commandSender.sendMessage("§8[§b异域森林§8] §c指定的玩家不在线！");
+                        commandSender.sendMessage("§8[§b异域花园§8] §c指定的玩家不在线！");
                     }
                 } else if (strings[1].equalsIgnoreCase("set")) {
                     if (Bukkit.getPlayer(strings[2]).isOnline()) {
                         ExoticGarden.drunkPlayers.get(strings[2]).setAlcohol(Integer.parseInt(strings[3]));
-                        commandSender.sendMessage("§8[§b异域森林§8] §7将玩家§e" + strings[2] + "§7的酒精度设置为§e" + strings[3]);
+                        commandSender.sendMessage("§8[§b异域花园§8] §7将玩家§e" + strings[2] + "§7的酒精度设置为§e" + strings[3]);
                     } else {
-                        commandSender.sendMessage("§8[§b异域森林§8] §c指定的玩家不在线！");
+                        commandSender.sendMessage("§8[§b异域花园§8] §c指定的玩家不在线！");
                     }
                 }
             }
@@ -48,7 +48,7 @@ public class ExoticCommand implements CommandExecutor {
 
     private void sendHelp(CommandSender sender) {
         if (hasPermission(sender, "exoticgarden.admin")) {
-            String[] help = {"        §7--------§8====§e[ §b异域森林 §e]§8====§7--------", "§b/exotic help                         §7显示帮助信息", "§b/exotic alo info <玩家名>            §7查看指定玩家酒精度", "§b/exotic alo add <玩家名> <值>        §增加/减少 酒精度", "§b/exotic alo set <玩家名> <值>        §7设定 酒精度"};
+            String[] help = {"        §7--------§8====§e[ §b异域花园 §e]§8====§7--------", "§b/exotic help                         §7显示帮助信息", "§b/exotic alo info <玩家名>            §7查看指定玩家酒精度", "§b/exotic alo add <玩家名> <值>        §增加/减少 酒精度", "§b/exotic alo set <玩家名> <值>        §7设定 酒精度"};
 
 
             sender.sendMessage(help);
