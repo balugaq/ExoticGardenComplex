@@ -4,13 +4,14 @@ package io.github.thebusybiscuit.exoticgarden;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
 
 public class CustomWine
-        extends EGPlant {
+        extends EGPlant implements NotPlaceable {
     final float food;
     final float sanity;
     final int alcohol;

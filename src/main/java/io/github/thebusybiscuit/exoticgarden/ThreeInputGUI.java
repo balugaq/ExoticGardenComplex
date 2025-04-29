@@ -16,6 +16,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -31,16 +32,16 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public abstract class ThreeInputGUI extends SlimefunItem implements EnergyNetComponent {
+public abstract class ThreeInputGUI extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
     public static final Map<Block, MachineRecipe> processing = new HashMap<>();
     public static final Map<Block, Integer> progress = new HashMap<>();
     private static final int[] border = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
@@ -116,7 +117,6 @@ public abstract class ThreeInputGUI extends SlimefunItem implements EnergyNetCom
         registerDefaultRecipes();
     }
 
-
     public ThreeInputGUI(ItemGroup category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, new SlimefunItemStack(name, item), recipeType, recipe, recipeOutput);
 
@@ -175,6 +175,18 @@ public abstract class ThreeInputGUI extends SlimefunItem implements EnergyNetCom
             }
         });
         registerDefaultRecipes();
+    }
+
+    public int[] getOutputSlots() {
+        var list = Arrays.stream(getOutputSubSlots()).boxed().toList();
+        list.addAll(Arrays.stream(getOutputMainSlots()).boxed().toList());
+
+        int[] o = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            o[i] = list.get(i);
+        }
+
+        return o;
     }
 
     private void constructMenu(BlockMenuPreset preset) {

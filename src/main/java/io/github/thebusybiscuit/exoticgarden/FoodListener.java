@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.exoticgarden;
 
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import org.bukkit.Bukkit;
@@ -12,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 public class FoodListener implements Listener {
@@ -23,7 +23,7 @@ public class FoodListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void onUse(final PlayerRightClickEvent e) {
+    public void onUse(final PlayerItemConsumeEvent e) {
         SlimefunItem item;
         if (e.getPlayer().getFoodLevel() >= 20)
             return;
