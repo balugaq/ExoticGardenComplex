@@ -331,7 +331,18 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
         registerPlant("Ginger", "生姜", ChatColor.YELLOW, PlantType.FRUIT, "693c3512fc5885fccbb25d2daf7fdcfae82641ed7e5e3597cddf73e41159f24");
         registerPlant("Paddy", "水稻", ChatColor.GOLD, PlantType.FRUIT, "3b3c84e4bdaf5cc5f85632ac928d059fc2f1ff0cc9e5998f1fe8b227881ada85");
-        registerPlant("Ginseng Baby", "人参果娃", ChatColor.GREEN, PlantType.DOUBLE_PLANT, "36aae6717f49917e043080241264b43a8f387b2df3f61f8f70c2836cd7c3d95c");
+        //registerPlant("Ginseng Baby", "人参果娃", ChatColor.GREEN, PlantType.DOUBLE_PLANT, "36aae6717f49917e043080241264b43a8f387b2df3f61f8f70c2836cd7c3d95c");
+        RegistryHandler.initTree(
+                "GINSENG_BABY",
+                "人参果",
+                "36aae6717f49917e043080241264b43a8f387b2df3f61f8f70c2836cd7c3d95c",
+                "&a",
+                Color.RED,
+                "人参果汁",
+                true,
+                Material.DIRT,
+                Material.GRASS_BLOCK
+        );
 
         //registerPlant("Aubergine", "茄子", ChatColor.BLUE, PlantType.DOUBLE_PLANT, "8825536a44f1861633484753835e5873ed5667ec5b60ef41757a16a768aa76");
 
@@ -353,7 +364,19 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         registerPlant("Japanese Pumpkin", "日本南瓜", ChatColor.GREEN, PlantType.FRUIT, "5a625495ea6891673014fb65b63e4d817d5bf80d1fae8d5811b1b1179f1f0e4b");
         registerPlant("Blue Pumpkin", "蓝南瓜", ChatColor.BLUE, PlantType.FRUIT, "dd3384c4d34a8f986e26802ba3587a2aab1f4d2346dd8eb318ce8b7bd194cad2");
         //registerPlant("Persimmon", "柿子", ChatColor.RED, PlantType.DOUBLE_PLANT, "2562a9e019b07f3b60b24f46eb29349d1d6d2695b6dc619ed6cfcaeaf21c0f2b");
-        registerPlant("Rainbow Fruits", "彩虹果", ChatColor.GOLD, PlantType.DOUBLE_PLANT, "6221fac3c17d189d9c5eced6ff23caa0f73e35b7452d918acb8b7900d14b8950");
+        //registerPlant("Rainbow Fruits", "彩虹果", ChatColor.GOLD, PlantType.DOUBLE_PLANT, "6221fac3c17d189d9c5eced6ff23caa0f73e35b7452d918acb8b7900d14b8950");
+        RegistryHandler.initTree(
+                "RAINBOW_FRUITS",
+                "彩虹果",
+                "6221fac3c17d189d9c5eced6ff23caa0f73e35b7452d918acb8b7900d14b8950",
+                "&6",
+                Color.ORANGE,
+                "彩虹果汁",
+                true,
+                Material.DIRT,
+                Material.GRASS_BLOCK
+        );
+
         //registerPlant("Fig", "无花果", ChatColor.DARK_GRAY, PlantType.DOUBLE_PLANT, "90b0537c0c0e8928bb7c85a425ece777494d508e55de59f8e8f462eecbc07835");
 
         //registerPlant("Wine Fruit", "酒香果", ChatColor.DARK_GREEN, PlantType.DOUBLE_PLANT, "c4c05dd5d7a92889d8d22d4df0f1a1fe2bee3eddf192f78fc44e02e14dbf629");
@@ -370,7 +393,19 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
         //registerPlant("Pistachio", "开心果", ChatColor.GOLD, PlantType.FRUIT, "52a90a34d8740818b0bab2a687ebd2bfd956e08949d930d6ace666f470b3d9c8");
 
-        registerPlant("Gooseberry", "红醋栗", ChatColor.RED, PlantType.FRUIT, "7e57cc56fb21d50af4890a59a18cf919bea1c2b13171e104d32ae67eda49aa16");
+        //registerPlant("Gooseberry", "红醋栗", ChatColor.RED, PlantType.FRUIT, "7e57cc56fb21d50af4890a59a18cf919bea1c2b13171e104d32ae67eda49aa16");
+        RegistryHandler.initTree(
+                "GOOSEBERRY",
+                "红醋栗",
+                "7e57cc56fb21d50af4890a59a18cf919bea1c2b13171e104d32ae67eda49aa16",
+                "&c",
+                Color.TEAL,
+                "红醋栗汁",
+                true,
+                Material.DIRT,
+                Material.GRASS_BLOCK
+        );
+
         registerPlant("Cauliflower", "花椰菜", ChatColor.RESET, PlantType.FRUIT, "14a6dedd99bb9af3f1b2f338d509a926606cddfdc351e018aad1c07015ad566d");
 
         registerPlant("Cotton", "棉花", ChatColor.RESET, PlantType.FRUIT, "d1392c68be8dc9eb62b3161b8062c294c4cb7f662330fbec2d31488bff605d90");
