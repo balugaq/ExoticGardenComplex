@@ -19,6 +19,6 @@ public class HandledBlock extends SlimefunItem {
     }
 
     protected HandledBlock(ItemGroup itemGroup, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, id, recipeType, recipe);
+        this(itemGroup, new SlimefunItemStack(id, item), recipeType, recipe);
     }
 }

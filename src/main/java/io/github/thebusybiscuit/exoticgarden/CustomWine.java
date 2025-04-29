@@ -10,8 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
 
-public class CustomWine
-        extends EGPlant implements NotPlaceable {
+public class CustomWine extends EGPlant implements NotPlaceable {
     final float food;
     final float sanity;
     final int alcohol;
