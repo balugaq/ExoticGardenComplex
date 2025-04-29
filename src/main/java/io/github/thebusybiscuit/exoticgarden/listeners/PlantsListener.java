@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.exoticgarden.listeners;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.exoticgarden.Berry;
 import io.github.thebusybiscuit.exoticgarden.ExoticGarden;
+import io.github.thebusybiscuit.exoticgarden.ExoticItems;
 import io.github.thebusybiscuit.exoticgarden.PlantType;
 import io.github.thebusybiscuit.exoticgarden.Tree;
 import io.github.thebusybiscuit.exoticgarden.items.BonemealableItem;
@@ -24,9 +25,11 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.Tag;
+import org.bukkit.TreeType;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.Rotatable;
 import org.bukkit.block.data.Waterlogged;
 import org.bukkit.event.EventHandler;
@@ -182,7 +185,54 @@ public class PlantsListener implements Listener {
         return (int) world.getWorldBorder().getSize();
     }
 
+    @EventHandler
+    public void onFastGenerate(PlayerInteractEvent event) {
+        Block block = event.getClickedBlock();
+        if (block == null) {
+            return;
+        }
+
+        var hand = event.getItem();
+        var sfitem = SlimefunItem.getByItem(hand);
+        if (sfitem == null || !sfitem.getId().equals(ExoticItems.GoldKeLa.getItemId()) || sfitem.isDisabledIn(block.getWorld())) {
+            return;
+        }
+
+        applyGoldKela(event, block, hand);
+    }
+
+    private boolean applyGoldKela(PlayerInteractEvent event, Block block, ItemStack hand) {
+        if (!(StorageCacheUtils.getSfItem(block.getLocation()) instanceof BonemealableItem bi)) {
+            return false;
+        }
+
+        if (bi.isDisabledIn(block.getWorld()) || bi.isBonemealDisabled()) {
+            return false;
+        }
+
+        var e = new StructureGrowEvent(block.getLocation(), TreeType.TREE, true, event.getPlayer(), List.of());
+        if (growStructure0(e)) {
+            e.setCancelled(true);
+            hand.setAmount(hand.getAmount() - 1);
+            return true;
+        }
+
+        if (block.getBlockData() instanceof Ageable ageable) {
+            ageable.setAge(ageable.getMaximumAge());
+            block.setBlockData(ageable);
+            e.setCancelled(true);
+            hand.setAmount(hand.getAmount() - 1);
+            return true;
+        }
+
+        return false;
+    }
+
     private void growStructure(StructureGrowEvent e) {
+        growStructure0(e);
+    }
+
+    private boolean growStructure0(StructureGrowEvent e) {
         SlimefunItem item = StorageCacheUtils.getSfItem(e.getLocation());
 
         if (item != null) {
@@ -191,7 +241,7 @@ public class PlantsListener implements Listener {
                 if (item.getId().equalsIgnoreCase(tree.getSapling())) {
                     Slimefun.getDatabaseManager().getBlockDataController().removeBlock(e.getLocation());
                     Schematic.pasteSchematic(e.getLocation(), tree, false);
-                    return;
+                    return true;
                 }
             }
 
@@ -202,13 +252,13 @@ public class PlantsListener implements Listener {
                         case ORE_PLANT, DOUBLE_PLANT -> {
                             Block blockAbove = e.getLocation().getBlock().getRelative(BlockFace.UP);
                             item = StorageCacheUtils.getSfItem(blockAbove.getLocation());
-                            if (item != null) return;
+                            if (item != null) return false;
                             if (!Tag.SAPLINGS.isTagged(blockAbove.getType()) && !Tag.LEAVES.isTagged(blockAbove.getType())) {
                                 switch (blockAbove.getType()) {
                                     case AIR, CAVE_AIR, SNOW:
                                         break;
                                     default:
-                                        return;
+                                        return false;
                                 }
                             }
                             BlockStorage.store(blockAbove, berry.getItem());
@@ -234,7 +284,11 @@ public class PlantsListener implements Listener {
                     break;
                 }
             }
+
+            return true;
         }
+
+        return false;
     }
 
     private void pasteTree(ChunkPopulateEvent e, int x, int z, Tree tree) {

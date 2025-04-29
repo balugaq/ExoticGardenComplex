@@ -11,6 +11,8 @@
 
 遵循 [GPL 3.0 License](/licenses/GPL-3.0-LICENSE) 及 [AGPL 3.0 License](/licenses/AGPL-3.0-LICENSE)，详见[Licenses](/licenses)
 
+使用本附属时，在高版本时可能会出现部分冲突，建议安装[JustEnoughGuide](https://github.com/balugaq/JustEnoughGuide)以解决部分冲突。
+
 ===以下是 ExoticGarden README 原文===
 
 # ExoticGarden 异域花园

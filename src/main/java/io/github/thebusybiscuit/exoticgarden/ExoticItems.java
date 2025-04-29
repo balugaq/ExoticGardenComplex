@@ -14,7 +14,7 @@ public class ExoticItems {
 
     public static final SlimefunItemStack Wine_Waker = new SlimefunItemStack("WINE_WAKER", new CustomItemStack(Material.POTION, "§3醒酒药", "", "§7喝多了?没关系!", "§7来一瓶竹影牌醒酒药!", "", "§7▷▷ §b酒精度: §e-30", "§7▷▷ §d精神值: §e-3", "§7▷▷ §a饱食度: §e1"));
     public static final SlimefunItemStack Alcohol = new SlimefunItemStack("ALCOHOL", new CustomItemStack(Material.POTION, "§b酒精", "", "§7一种具有挥发性的易燃液体", "§7也是一种不错的有机溶剂"));
-    public static final SlimefunItemStack GoldKeLa = new SlimefunItemStack("GOLDKELA", new CustomItemStack(new ItemStack(Material.INK_SAC, 1, (short) 15), "§6金坷垃", "", "§7用于给异域森林的植物催熟"));
+    public static final SlimefunItemStack GoldKeLa = new SlimefunItemStack("GOLDKELA", new CustomItemStack(Material.BONE_MEAL, "§6金坷垃", "", "§7用于给异域森林的植物催熟"));
     public static SlimefunItemStack SeedAnalyzer_Core;
     public static SlimefunItemStack SeedAnalyzer_1;
     public static SlimefunItemStack SeedAnalyzer_2;
