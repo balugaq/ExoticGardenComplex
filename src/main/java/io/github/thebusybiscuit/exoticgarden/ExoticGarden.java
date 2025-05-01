@@ -1,5 +1,47 @@
 package io.github.thebusybiscuit.exoticgarden;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.jar.JarFile;
+import java.util.logging.Level;
+import java.util.zip.ZipEntry;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.Effect;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Tag;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
 import com.be.registry.BECommands;
 import com.be.registry.BEFoodRegistry;
 import com.be.registry.BEPlants;
@@ -7,6 +49,7 @@ import com.be.registry.BETrees;
 import com.be.utils.BEListener;
 import com.be.utils.RegistryHandler;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+
 import io.github.thebusybiscuit.exoticgarden.items.BonemealableItem;
 import io.github.thebusybiscuit.exoticgarden.items.Crook;
 import io.github.thebusybiscuit.exoticgarden.items.CustomFood;
@@ -36,46 +79,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerSkin;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
-import org.bstats.bukkit.Metrics;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Tag;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.jar.JarFile;
-import java.util.logging.Level;
-import java.util.zip.ZipEntry;
 
 public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
@@ -973,7 +976,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
                 getItem("LEMON_JUICE"), new ItemStack(Material.SUGAR), null, null, null, null, null, null, null}, 3))
                 .register(ExoticGarden.instance);
 
-        new CustomFood(foodItemGroup, new CustomItemStack(getSkull(Material.PUMPKIN_PIE, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzQxOGM2YjBhMjlmYzFmZTc5MWM4OTc3NGQ4MjhmZjYzZDJhOWZhNmM4MzM3M2VmM2FhNDdiZjNlYjc5In19fQ=="), "&c番薯派", new String[]{"", "&7恢复 &b6.5 &7饥饿值&8和&7精神值"}), "SWEET_POTATO_PIE", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
+        new CustomFood(foodItemGroup, new CustomItemStack(getSkull(Material.PUMPKIN_PIE, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzQxOGM2YjBhMjlmYzFmZTc5MWM4OTc3NGQ4MjhmZjYzZDJhOWZhNmM4MzM3M2VmM2FhNDdiZjNlYjc5In19fQ=="), "&c地瓜派", new String[]{"", "&7恢复 &b6.5 &7饥饿值&8和&7精神值"}), "SWEET_POTATO_PIE", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
 
                 getItem("SWEET_POTATO"), new ItemStack(Material.EGG), SlimefunItems.HEAVY_CREAM, SlimefunItems.WHEAT_FLOUR, null, null, null, null, null}, 13);
 
@@ -1172,7 +1175,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
         (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjc1NTg0ZTZmZDU0Y2EwMWRmNGVmZmQ1Zjc0NmIyZDgzYTU4OWRlNjc3NzU1NzU2YmI1OGQ5ZWEyODQ1MTYifX19"), "&d醉生梦死", "&8特级酒", "&7醉入癫狂无谓死", "&7梦醒味逝不知生", "", "&7▷▷ &b酒精度: &e70", "&7▷▷ &d精神值: &e60", "&7▷▷ &a饱食度: &e10"), "DREAMER_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_4,
 
-                getItem("DREAMFRUIT_WINE"), getItem("WHITE_WINE"), null, null, null, null, null, null}, 6, 100.0F, 90, new PotionEffect[]{new PotionEffect(PotionEffectType.CONFUSION, 600, 1)
+                getItem("DREAMFRUIT_WINE"), getItem("WHITE_WINE"), null, null, null, null, null, null}, 6, 100.0F, 90, new PotionEffect[]{new PotionEffect(VersionedPotionEffectType.CONFUSION, 600, 1)
         })).register(ExoticGarden.instance);
     }
 
@@ -1264,7 +1267,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         this.traslateNames.put("生菜", "Lettuce");
         this.traslateNames.put("茶叶", "Tea Leaf");
         this.traslateNames.put("卷心菜", "Cabbage");
-        this.traslateNames.put("番薯", "Sweet Potato");
+        this.traslateNames.put("地瓜", "Sweet Potato");
         this.traslateNames.put("芥菜籽", "Mustard Seed");
         this.traslateNames.put("玉米", "Corn");
         this.traslateNames.put("菠萝", "Pineapple");
@@ -1447,7 +1450,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
                         drunkPlayers.get(pa.getPlayer()).setDrunk(false);
                         continue;
                     }
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 120, 1, false));
+                    player.addPotionEffect(new PotionEffect(VersionedPotionEffectType.CONFUSION, 120, 1, false));
                     continue;
                 }
                 if (pa.getAlcohol() >= 100)
