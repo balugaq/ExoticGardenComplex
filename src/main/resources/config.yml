@@ -25,11 +25,11 @@ settings:
   spawn-on-join: true
 
 messages:
-  tpmessage: "&aYou have been teleported to the Spawn"
-  error-nospawnpoint: "&cNo Spawn Point set"
-  success-setspawn: "&aSpawn point set Correctly"
-  cmd-spawn-usage: "&cUsage: /spawn"
-  cmd-setspawn-usage: "&cUsage: /setspawn"
+  tpmessage: "&a你已被传送至出生点"
+  error-nospawnpoint: "&c无出生点设置"
+  success-setspawn: "&a成功设置出生点"
+  cmd-spawn-usage: "&c用法: /spawn"
+  cmd-setspawn-usage: "&c用法: /setspawn"
 
 spawn: { }
 
