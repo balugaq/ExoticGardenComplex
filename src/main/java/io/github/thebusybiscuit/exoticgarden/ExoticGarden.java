@@ -397,7 +397,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         //registerPlant("Wine Fruit", "酒香果", ChatColor.DARK_GREEN, PlantType.DOUBLE_PLANT, "c4c05dd5d7a92889d8d22d4df0f1a1fe2bee3eddf192f78fc44e02e14dbf629");
 
         //registerPlant("Yummy Fruit", "仙馐果", ChatColor.GREEN, PlantType.DOUBLE_PLANT, "8cdcf38a8438ed3a547f8d5b47e0801559c595f0e26c45656a76b5bf8a56f");
-        registerBerry("Peanut", "花生", ChatColor.GOLD, Color.ORANGE, PlantType.FRUIT, "608043c5788050ce7ee54edddd48239bce491a9949d1410ad79e165436153ea4");
+        registerBerry("Peanut", "花生", ChatColor.GOLD, Color.ORANGE, PlantType.FRUIT, "608043c5788050ce7ee54edddd48239bce491a9949d1410ad79e165436153ea4", false);
 
 
         //registerPlant("Hazelnut", "榛子", ChatColor.GOLD, PlantType.FRUIT, "89e521885f3a20f6769b484f069a41d1105b285829cc78f7b6df79c5916e0b10");
@@ -1464,6 +1464,10 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     }
 
     public void registerBerry(String id, String name, ChatColor color, Color potionColor, PlantType type, String texture) {
+        registerBerry(id, name, color, potionColor, type, texture, true);
+    }
+
+    public void registerBerry(String id, String name, ChatColor color, Color potionColor, PlantType type, String texture, boolean juice) {
         String upperCase = id.toUpperCase(Locale.ROOT);
         Berry berry = new Berry(upperCase, type, texture);
         berries.add(berry);
@@ -1476,7 +1480,9 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
         new ExoticGardenFruit(mainItemGroup, new SlimefunItemStack(upperCase, texture, color + name), ExoticGardenRecipeTypes.HARVEST_BUSH, true, new ItemStack[]{null, null, null, null, getItem(upperCase + "_BUSH"), null, null, null, null}).register(this);
 
-        new Juice(drinksItemGroup, new SlimefunItemStack(upperCase + "_JUICE", new CustomPotion(color + name + "汁", potionColor, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&o恢复 &b&o" + "3.0" + " &7&o点饥饿值")), RecipeType.JUICER, new ItemStack[]{getItem(upperCase), null, null, null, null, null, null, null, null}).register(this);
+        if (juice) {
+            new Juice(drinksItemGroup, new SlimefunItemStack(upperCase + "_JUICE", new CustomPotion(color + name + "汁", potionColor, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&o恢复 &b&o" + "3.0" + " &7&o点饥饿值")), RecipeType.JUICER, new ItemStack[]{getItem(upperCase), null, null, null, null, null, null, null, null}).register(this);
+        }
 
         new Juice(drinksItemGroup, new SlimefunItemStack(upperCase + "_SMOOTHIE", new CustomPotion(color + name + "冰沙", potionColor, new PotionEffect(PotionEffectType.SATURATION, 10, 0), "", "&7&o恢复 &b&o" + "5.0" + " &7&o点饥饿值")), RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{getItem(upperCase + "_JUICE"), getItem("ICE_CUBE"), null, null, null, null, null, null, null}).register(this);
 
