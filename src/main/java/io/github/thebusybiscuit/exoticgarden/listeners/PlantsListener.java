@@ -81,8 +81,19 @@ public class PlantsListener implements Listener {
 
         Block b = e.getClickedBlock();
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
+
+        // 空手不处理
+        if (item == null || item.getType().isAir() || !item.hasItemMeta()) {
+            return;
+        }
+
         final ItemMeta itemMeta = item.getItemMeta();
+        if (itemMeta == null) {
+            return;
+        }
+
         final Optional<String> id = Slimefun.getItemDataService().getItemData(itemMeta);
+
         if (b != null && id.isPresent() && id.get().equals(FluffyItems.WATERING_CAN.getItemId()) && e.getHand() == EquipmentSlot.HAND) {
             waterStructure(b.getLocation(), e, item);
         }
