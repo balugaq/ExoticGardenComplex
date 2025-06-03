@@ -1301,56 +1301,13 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     }
 
     private void createDefaultConfiguration(File actual, String defaultName) {
-        File parent = actual.getParentFile();
-        if (!parent.exists()) {
-            parent.mkdirs();
-        }
         if (actual.exists()) {
             return;
-        }
-        InputStream input = null;
-
-        try (JarFile file = new JarFile(getFile())) {
-            ZipEntry copy = file.getEntry(defaultName);
-            if (copy == null) {
-                throw new FileNotFoundException(defaultName + " not found");
-            }
-            input = file.getInputStream(copy);
-        } catch (IOException iOException) {
-            iOException.printStackTrace();
-        }
-        if (input != null) {
-
-            FileOutputStream output = null;
-
+        } else {
             try {
-                output = new FileOutputStream(actual);
-                byte[] buf = new byte[32];
-                int length;
-                while ((length = input.read(buf)) > 0) {
-                    output.write(buf, 0, length);
-                }
-            } catch (IOException e) {
+                actual.createNewFile();
+            }  catch (IOException e) {
                 e.printStackTrace();
-            } finally {
-
-
-                try {
-
-                    if (input != null) {
-                        input.close();
-                    }
-                } catch (IOException iOException) {
-                    iOException.printStackTrace();
-                }
-
-                try {
-                    if (output != null) {
-                        output.close();
-                    }
-                } catch (IOException iOException) {
-                    iOException.printStackTrace();
-                }
             }
         }
     }
