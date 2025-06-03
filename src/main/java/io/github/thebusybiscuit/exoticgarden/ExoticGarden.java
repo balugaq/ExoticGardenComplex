@@ -258,8 +258,8 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
         if (!(new File("plugins/ExoticGarden")).exists()) (new File("plugins/ExoticGarden")).mkdirs();
 
-        File storgeFile = new File(getDataFolder() + File.separator + "storge.yml");
-        createDefaultConfiguration(storgeFile, "storge.yml");
+        File storgeFile = new File(getDataFolder() + File.separator + "storage.yml");
+        createDefaultConfiguration(storgeFile, "storage.yml");
         initDataFromYAML(storgeFile);
 
         registerDrunkMessage();
@@ -1313,7 +1313,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         try (JarFile file = new JarFile(getFile())) {
             ZipEntry copy = file.getEntry("resources/" + defaultName);
             if (copy == null) {
-                throw new FileNotFoundException();
+                throw new FileNotFoundException("resources/" + defaultName + " not found");
             }
             input = file.getInputStream(copy);
         } catch (IOException iOException) {
