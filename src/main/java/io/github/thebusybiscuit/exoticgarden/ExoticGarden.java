@@ -1311,9 +1311,9 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         InputStream input = null;
 
         try (JarFile file = new JarFile(getFile())) {
-            ZipEntry copy = file.getEntry("resources/" + defaultName);
+            ZipEntry copy = file.getEntry(defaultName);
             if (copy == null) {
-                throw new FileNotFoundException("resources/" + defaultName + " not found");
+                throw new FileNotFoundException(defaultName + " not found");
             }
             input = file.getInputStream(copy);
         } catch (IOException iOException) {
