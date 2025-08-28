@@ -261,9 +261,9 @@ public final class FoodRegistry {
                 14)
                 .register(plugin);
 
-        new CustomFood(drinks, new SlimefunItemStack("SODA", "27c9c71f3328ec3a7daaf122aaadd65d69c2afc7738bc09519397b39c71da9a3", "&a苏打", "", "&7&o恢复 &b&o" + "2.0" + " &7&o点饥饿值"),
+        new CustomFood(drinks, new SlimefunItemStack("SODA", "27c9c71f3328ec3a7daaf122aaadd65d69c2afc7738bc09519397b39c71da9a3", "&a苏打", "", "&7&o恢复 &b&o" + "4.5" + " &7&o点饥饿值"),
                 new ItemStack[]{getItem("ORANGE"), getItem("LIME"), getItem("LEMON"), new ItemStack(Material.SUGAR), waterbottle, getItem("ICE_CUBE"), null, null, null},
-                4)
+                9)
                 .register(plugin);
 
         new CustomFood(food, new SlimefunItemStack("MC_MUFFIN", "b8c34b9c7f568c229e5e2a7b914ddb6e710d1c095532d84019bf2de7d10cfd4e", "&r麦满分", "", "&7&o恢复 &b&o" + "4.5" + " &7&o点饥饿值"),
