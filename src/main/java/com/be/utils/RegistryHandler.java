@@ -49,7 +49,7 @@ public class RegistryHandler {
         String id = rawName.toUpperCase(Locale.ROOT).replace(' ', '_');
         BETree tree = new BETree(id, texture, soil);
         ExoticGarden.getTrees().add(tree);
-        SlimefunItemStack sapling = new SlimefunItemStack(id + "_SAPLING", Material.OAK_SAPLING, color + name + " 树苗");
+        SlimefunItemStack sapling = new SlimefunItemStack(id + "_SAPLING", Material.OAK_SAPLING, color + name + "树苗");
         ExoticGarden.getGrassDrops().put(id + "_SAPLING", sapling);
         (new BonemealableItem(ExoticGarden.instance.mainItemGroup, sapling, ExoticGardenRecipeTypes.BREAKING_GRASS, new ItemStack[]{null, null, null, null, new ItemStack(Material.GRASS), null, null, null, null})).register(ExoticGarden.getInstance());
         (new ExoticGardenFruit(ExoticGarden.instance.mainItemGroup, new SlimefunItemStack(id, texture, color + name), ExoticGardenRecipeTypes.HARVEST_TREE, true, new ItemStack[]{null, null, null, null, getItem(id + "_SAPLING"), null, null, null, null})).register(ExoticGarden.getInstance());
@@ -58,7 +58,7 @@ public class RegistryHandler {
         }
 
         if (pie) {
-            (new CustomFood(ExoticGarden.instance.foodItemGroup, new SlimefunItemStack(id + "_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", color + name + " 派", "", "&7&o恢复 &b&o6.5 &7&o点饥饿值"), new ItemStack[]{getItem(id), new ItemStack(Material.EGG), new ItemStack(Material.SUGAR), new ItemStack(Material.MILK_BUCKET), SlimefunItems.WHEAT_FLOUR, null, null, null, null}, 13)).register(ExoticGarden.getInstance());
+            (new CustomFood(ExoticGarden.instance.foodItemGroup, new SlimefunItemStack(id + "_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", color + name + "派", "", "&7&o恢复 &b&o6.5 &7&o点饥饿值"), new ItemStack[]{getItem(id), new ItemStack(Material.EGG), new ItemStack(Material.SUGAR), new ItemStack(Material.MILK_BUCKET), SlimefunItems.WHEAT_FLOUR, null, null, null, null}, 13)).register(ExoticGarden.getInstance());
         }
 
         if (!(new File(getSchematicsFolder(), id + "_TREE.schematic")).exists()) {

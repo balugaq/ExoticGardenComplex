@@ -47,8 +47,8 @@ public final class FoodRegistry {
                 new ItemStack[]{getItem("GRAPE"), new ItemStack(Material.SUGAR), null, null, null, null, null, null, null})
                 .register(plugin);
 
-        new CustomFood(food, new SlimefunItemStack("SWEET_POTATO_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", "&r地瓜派", "", "&7&o恢复 &b&o" + "6.5" + " &7&o点饥饿值"),
-                new ItemStack[]{getItem("SWEET_POTATO"), new ItemStack(Material.EGG), SlimefunItems.HEAVY_CREAM, SlimefunItems.WHEAT_FLOUR, null, null, null, null, null},
+        new CustomFood(food, new SlimefunItemStack("POTATO_SWEET_POTATO_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", "&r双薯派", "", "&7&o恢复 &b&o" + "6.5" + " &7&o点饥饿值"),
+                new ItemStack[]{getItem("SWEET_POTATO"), new ItemStack(Material.POTATO), SlimefunItems.HEAVY_CREAM, SlimefunItems.WHEAT_FLOUR, null, null, null, null, null},
                 13)
                 .register(plugin);
 
