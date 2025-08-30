@@ -47,8 +47,8 @@ public final class FoodRegistry {
                 new ItemStack[]{getItem("GRAPE"), new ItemStack(Material.SUGAR), null, null, null, null, null, null, null})
                 .register(plugin);
 
-        new CustomFood(food, new SlimefunItemStack("SWEET_POTATO_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", "&r地瓜派", "", "&7&o恢复 &b&o" + "6.5" + " &7&o点饥饿值"),
-                new ItemStack[]{getItem("SWEET_POTATO"), new ItemStack(Material.EGG), SlimefunItems.HEAVY_CREAM, SlimefunItems.WHEAT_FLOUR, null, null, null, null, null},
+        new CustomFood(food, new SlimefunItemStack("POTATO_SWEET_POTATO_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", "&r双薯派", "", "&7&o恢复 &b&o" + "6.5" + " &7&o点饥饿值"),
+                new ItemStack[]{getItem("SWEET_POTATO"), new ItemStack(Material.POTATO), SlimefunItems.HEAVY_CREAM, SlimefunItems.WHEAT_FLOUR, null, null, null, null, null},
                 13)
                 .register(plugin);
 
@@ -176,7 +176,7 @@ public final class FoodRegistry {
                 11)
                 .register(plugin);
 
-        new CustomFood(food, new SlimefunItemStack("FRIED_CHICKEN_AND_CHEESE_SANDWICH", "f7b9f08ada4e8ba586a04ed2e9e25fe8b9d568a665243f9c603799a7c896736", "&r炸鸡奶酪三明治", "", "&7&o恢复 &b&o" + "7.0" + " &7&o点饥饿值"),
+        new CustomFood(food, new SlimefunItemStack("FRIED_CHICKEN_AND_CHEESE_SANDWICH", "48182b22adaa195504a411a71e853138fc21a498bcf0f971978f6991c7b817e0", "&r炸鸡奶酪三明治", "", "&7&o恢复 &b&o" + "7.0" + " &7&o点饥饿值"),
                 new ItemStack[]{getItem("FRIED_CHICKEN_SANDWICH"), SlimefunItems.CHEESE, null, null, null, null, null, null, null},
                 14)
                 .register(plugin);
@@ -191,12 +191,12 @@ public final class FoodRegistry {
                 9)
                 .register(plugin);
 
-        new CustomFood(food, new SlimefunItemStack("SWEET_POTATO_HASHBROWN", "641b3cc9f5f45d6a74826b81a39db930fde855bc1417aa8ab59e73784913e362", "&r甜薯饼", "", "&7&o恢复 &b&o" + "4.5" + " &7&o点饥饿值"),
+        new CustomFood(food, new SlimefunItemStack("SWEET_POTATO_HASHBROWN", "5e7b6cab31be13a92a310f7163050e36c5bad93b7a8c4252e814d4877c7e545b", "&r甜薯饼", "", "&7&o恢复 &b&o" + "4.5" + " &7&o点饥饿值"),
                 new ItemStack[]{getItem("SWEET_POTATO"), getItem("SALT"), getItem("BLACK_PEPPER"), getItem("VEGETABLE_OIL"), null, null, null, null, null},
                 9)
                 .register(plugin);
 
-        new CustomFood(food, new SlimefunItemStack("NOODLES", "9174b34c549eed8bafe727618bab6821afcb1787b5decd1eecd6c213e7e7c6d", "&r面条", "", "&7&o恢复 &b&o" + "5.0" + " &7&o点饥饿值"),
+        new CustomFood(food, new SlimefunItemStack("NOODLES", "69ec9ac43317a87f2f49e3c085c1e39a426d52252646362b646de221f1b271", "&r面条", "", "&7&o恢复 &b&o" + "5.0" + " &7&o点饥饿值"),
                 new ItemStack[]{SlimefunItems.WHEAT_FLOUR, waterbottle, null, null, null, null, null, null, null},
                 10)
                 .register(plugin);
@@ -216,14 +216,54 @@ public final class FoodRegistry {
                 14)
                 .register(plugin);
 
-        new CustomFood(food, new SlimefunItemStack("SWEET_POTATO_POUTINE", "de068423d7b97f5db4d80951b61e380f24da41fcff7a33b2b264ba9e4b162ece", "&r地瓜布丁", "", "&7&o恢复 &b&o" + "7.0" + " &7&o点饥饿值"),
+        new CustomFood(food, new SlimefunItemStack("MC_CURLY_FRIES", "19f99e6f4b65122f64a1e0f5d3b010cdd4c01a8ce55a5ef3e41650984b8b3ae3", "&r薯圈", "", "&7&o恢复 &b&o" + "4.0" + " &7&o点饥饿值"),
+                new ItemStack[]{new ItemStack(Material.POTATO), SlimefunItems.CHEESE, new ItemStack(Material.POTATO), null, new ItemStack(Material.POTATO), null, null, null, null},
+                8)
+                .register(plugin);
+
+        new CustomFood(food, new SlimefunItemStack("MC_ONION_RINGS", "816a14f7132423bddd18159f76984f8814e61c08494784144d9ac35f0c9267c7", "&r洋葱圈", "", "&7&o恢复 &b&o" + "5.0" + " &7&o点饥饿值"),
+                new ItemStack[]{getItem("ONION"), SlimefunItems.CHEESE, getItem("ONION"), null, getItem("ONION"), null, null, null, null},
+                10)
+                .register(plugin);
+
+        new CustomFood(food, new SlimefunItemStack("MC_CHICKEN_NUGGETS", "86c31fd57f99ee32bc9dbdfdce0114ad1973f44fbfe8f5d194ad75a36867ac92", "&r炸鸡块", "", "&7&o恢复 &b&o" + "6.0" + " &7&o点饥饿值"),
+                new ItemStack[]{new ItemStack(Material.COOKED_CHICKEN), SlimefunItems.CHEESE, getItem("ONION"), getItem("ONION"), null, null, null, null, null},
+                12)
+                .register(plugin);
+
+        new CustomFood(food, new SlimefunItemStack("MC_CHICKEN_TENDERS", "65639b618a4fd88afe7200fbf681ecbb51d827db3835867861dfaee06e373395", "&r炸鸡柳", "", "&7&o恢复 &b&o" + "6.0" + " &7&o点饥饿值"),
+                new ItemStack[]{new ItemStack(Material.COOKED_CHICKEN), getItem("BLACK_PEPPER"), getItem("BLACK_PEPPER"), getItem("ONION"), null, null, null, null, null},
+                12)
+                .register(plugin);
+
+        new CustomFood(food, new SlimefunItemStack("MC_CHICKEN_FRIES", "c246c17bda956eafc139cbaada74d70113a2e40f6091cfb662c1dd7dd5fad1ec", "&r炸鸡条", "", "&7&o恢复 &b&o" + "6.0" + " &7&o点饥饿值"),
+                new ItemStack[]{new ItemStack(Material.COOKED_CHICKEN), getItem("CURRY_LEAF"), getItem("CURRY_LEAF"), getItem("ONION"), null, null, null, null, null},
+                12)
+                .register(plugin);
+        
+        new CustomFood(food, new SlimefunItemStack("MC_STEAK_FRIES", "6716b2fdd4a10576aa696858864777fb30512a9363a322dcb1b84954c03ec9b6", "&r炸牛柳", "", "&7&o恢复 &b&o" + "7.0" + " &7&o点饥饿值"),
+                new ItemStack[]{new ItemStack(Material.COOKED_BEEF), getItem("CURRY_LEAF"), getItem("CURRY_LEAF"), getItem("ONION"), null, null, null, null, null},
+                14)
+                .register(plugin);
+
+        new CustomFood(food, new SlimefunItemStack("MC_CHESS_FRIES", "2687bdbe4eea0717fb933b1e64a79af0c81cb358e9bff3db31a3ad8c5ef62955", "&r炸芝士条", "", "&7&o恢复 &b&o" + "5.0" + " &7&o点饥饿值"),
+                new ItemStack[]{SlimefunItems.CHEESE, getItem("CURRY_LEAF"), getItem("CURRY_LEAF"), getItem("ONION"), null, null, null, null, null},
+                10)
+                .register(plugin);
+
+        new CustomFood(food, new SlimefunItemStack("KFC_MEALS", "79afa1781e3a19277becc86758b4c04b85f7ec73361a75e891ff96bf11b4", "&r肯德基", "", "&7&o恢复 &b&o" + "8.5" + " &7&o点饥饿值"),
+                new ItemStack[]{new ItemStack(Material.COOKED_CHICKEN), getItem("RED_BELL_PEPPER"), new ItemStack(Material.COOKED_CHICKEN), getItem("ONION"), getItem("GARLIC"), getItem("BLACK_PEPPER"), null, null, null},
+                17)
+                .register(plugin);
+
+        new CustomFood(food, new SlimefunItemStack("SWEET_POTATO_POUTINE", "10b34069c9286efaca416fde8820b55975160c240f3e0d7d56f5bdb67b41bf85", "&r地瓜布丁", "", "&7&o恢复 &b&o" + "7.0" + " &7&o点饥饿值"),
                 new ItemStack[]{getItem("SWEET_POTATO_FRIES"), SlimefunItems.CHEESE, getItem("COUNTRY_GRAVY"), null, null, null, null, null, null},
                 14)
                 .register(plugin);
 
-        new CustomFood(drinks, new SlimefunItemStack("SODA", "27c9c71f3328ec3a7daaf122aaadd65d69c2afc7738bc09519397b39c71da9a3", "&a苏打", "", "&7&o恢复 &b&o" + "2.0" + " &7&o点饥饿值"),
+        new CustomFood(drinks, new SlimefunItemStack("SODA", "27c9c71f3328ec3a7daaf122aaadd65d69c2afc7738bc09519397b39c71da9a3", "&a苏打", "", "&7&o恢复 &b&o" + "4.5" + " &7&o点饥饿值"),
                 new ItemStack[]{getItem("ORANGE"), getItem("LIME"), getItem("LEMON"), new ItemStack(Material.SUGAR), waterbottle, getItem("ICE_CUBE"), null, null, null},
-                4)
+                9)
                 .register(plugin);
 
         new CustomFood(food, new SlimefunItemStack("MC_MUFFIN", "b8c34b9c7f568c229e5e2a7b914ddb6e710d1c095532d84019bf2de7d10cfd4e", "&r麦满分", "", "&7&o恢复 &b&o" + "4.5" + " &7&o点饥饿值"),
