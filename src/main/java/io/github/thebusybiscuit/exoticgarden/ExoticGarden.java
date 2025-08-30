@@ -1241,6 +1241,8 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         (new EGPlant(mainItemGroup, new CustomItemStack(getSkull(material, data), color + rawName), name.toUpperCase().replace(" ", "_"), ExoticGardenRecipeTypes.HARVEST_PLANT, true, new ItemStack[]{null, null, null, null,
                 getItem(name.toUpperCase().replace(" ", "_") + "_BUSH"), null, null, null, null
         })).register(instance);
+
+        new CustomFood(foodItemGroup, new SlimefunItemStack(name.toUpperCase().replace(" ", "_") + "_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", color + rawName + "派", "", "&7&o恢复 &b&o" + "6.5" + " &7&o点饥饿值"), new ItemStack[]{getItem(name.toUpperCase().replace(" ", "_")), new ItemStack(Material.EGG), new ItemStack(Material.SUGAR), new ItemStack(Material.MILK_BUCKET), SlimefunItems.WHEAT_FLOUR, null, null, null, null}, 13).register(this);
     }
 
     private ItemStack getSkull(Material material, String texture) {
@@ -1446,6 +1448,12 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         new CustomFood(foodItemGroup, new SlimefunItemStack(upperCase + "_JELLY_SANDWICH", "8c8a939093ab1cde6677faf7481f311e5f17f63d58825f0e0c174631fb0439", color + name + "果酱三明治", "", "&7&o恢复 &b&o" + "8.0" + " &7&o点饥饿值"), new ItemStack[]{null, new ItemStack(Material.BREAD), null, null, getItem(upperCase + "_JUICE"), null, null, new ItemStack(Material.BREAD), null}, 16).register(this);
 
         new CustomFood(foodItemGroup, new SlimefunItemStack(upperCase + "_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", color + name + "派", "", "&7&o恢复 &b&o" + "6.5" + " &7&o点饥饿值"), new ItemStack[]{getItem(upperCase), new ItemStack(Material.EGG), new ItemStack(Material.SUGAR), new ItemStack(Material.MILK_BUCKET), SlimefunItems.WHEAT_FLOUR, null, null, null, null}, 13).register(this);
+
+        new CustomFood(foodItemGroup, new SlimefunItemStack(upperCase + "_EXSALAD", "1fe92e11a67b56935446a214caa3723d29e6db56c55fa8d43179a8a3176c6c1", color + name + "沙拉", "", "&7&o恢复 &b&o" + "5.0" + " &7&o点饥饿值"), new ItemStack[]{getItem(upperCase), new ItemStack(Material.OAK_LEAVES), new ItemStack(Material.SUGAR), new ItemStack(Material.BEETROOT), SlimefunItems.SALT, null, null, null, null}, 10).register(this);
+
+        new CustomFood(foodItemGroup, new SlimefunItemStack(upperCase + "_CHEESE_BURGER", "268efa56ef3136e53a9bf430ef76d50153fbbcc1295e64b347f53e10e557f07a", color + name + "芝士汉堡", "", "&7&o恢复 &b&o" + "7.0" + " &7&o点饥饿值"), new ItemStack[]{new ItemStack(Material.BREAD), new ItemStack(Material.KELP), getItem(upperCase), new ItemStack(Material.BEETROOT), SlimefunItems.CHEESE, null, null, null, null}, 14).register(this);
+
+        new CustomFood(foodItemGroup, new SlimefunItemStack(upperCase + "_PIZZA_GRANDE", "783de92d490b914395744af1b6ea5c4ce8965dd40c3edecf10da578c423b66c6", color + name + "披萨", "", "&7&o恢复 &b&o" + "7.0" + " &7&o点饥饿值"), new ItemStack[]{ SlimefunItems.WHEAT_FLOUR,  SlimefunItems.SALT, getItem(upperCase), new ItemStack(Material.BEETROOT), SlimefunItems.CHEESE, new ItemStack(Material.POTATO), null, null, null}, 14).register(this);
     }
 
     public void registerPlant(String id, String name, ChatColor color, PlantType type, String texture) {
@@ -1462,6 +1470,8 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
                 .register(this);
 
         new ExoticGardenFruit(mainItemGroup, new SlimefunItemStack(enumStyle, texture, color + name), ExoticGardenRecipeTypes.HARVEST_BUSH, true, new ItemStack[]{null, null, null, null, getItem(enumStyle + "_BUSH"), null, null, null, null}).register(this);
+        new CustomFood(foodItemGroup, new SlimefunItemStack(enumStyle + "_EXSALAD", "1fe92e11a67b56935446a214caa3723d29e6db56c55fa8d43179a8a3176c6c1", color + name + "沙拉", "", "&7&o恢复 &b&o" + "5.0" + " &7&o点饥饿值"), new ItemStack[]{getItem(enumStyle), new ItemStack(Material.OAK_LEAVES), new ItemStack(Material.SUGAR), new ItemStack(Material.POTATO), SlimefunItems.SALT, null, null, null, null}, 10).register(this);
+        new CustomFood(foodItemGroup, new SlimefunItemStack(enumStyle + "_PIZZA_GRANDE", "783de92d490b914395744af1b6ea5c4ce8965dd40c3edecf10da578c423b66c6", color + name + "披萨", "", "&7&o恢复 &b&o" + "7.0" + " &7&o点饥饿值"), new ItemStack[]{ SlimefunItems.WHEAT_FLOUR,  SlimefunItems.SALT, getItem(enumStyle), new ItemStack(Material.BEETROOT), SlimefunItems.CHEESE, new ItemStack(Material.POTATO), null, null, null}, 14).register(this);
     }
 
     private void registerMagicalPlant(String id, String name, ItemStack item, String texture, ItemStack[] recipe) {
@@ -1480,6 +1490,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
         magicalEssence.setRecipeOutput(item.clone());
         magicalEssence.register(this);
+        new CustomFood(foodItemGroup, new SlimefunItemStack(upperCase + "_SNACK", "f22743a662107366e15308b02f8035028d452fcac76968f6d7ee6d7c8f2573ec", name + "奇趣零食", "", "&7&o恢复 &b&o" + "5.0" + " &7&o点饥饿值"), new ItemStack[]{getItem(enumStyle + "_ESSENCE"), getItem("BLACK_PEPPER"),  SlimefunItems.SALT, new ItemStack(Material.POTATO), new ItemStack(Material.BROWN_MUSHROOM), null, null, null, null}, 10).register(this);
     }
 
     public void harvestFruit(Block fruit) {
