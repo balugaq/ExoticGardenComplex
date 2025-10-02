@@ -628,14 +628,14 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
                 .register(ExoticGarden.instance);
 
-        (new EGPlant(miscItemGroup, new CustomItemStack(getSkull(Material.MILK_BUCKET, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2Y4ZDUzNmM4YzJjMjU5NmJjYzE3MDk1OTBhOWQ3ZTMzMDYxYzU2ZTY1ODk3NGNkODFiYjgzMmVhNGQ4ODQyIn19fQ=="), "&e蛋黄酱"), "MAYO", RecipeType.GRIND_STONE, false, new ItemStack[]{new ItemStack(Material.EGG), new ItemStack(Material.EGG), null, null, null, null, null, null, null
+        (new EGPlant(miscItemGroup, new CustomItemStack(getSkull(Material.MILK_BUCKET, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2Y4ZDUzNmM4YzJjMjU5NmJjYzE3MDk1OTBhOWQ3ZTMzMDYxYzU2ZTY1ODk3NGNkODFiYjgzMmVhNGQ4ODQyIn19fQ=="), "&e蛋黄酱"), "MAYO", RecipeType.GRIND_STONE, false, new ItemStack[]{new ItemStack(Material.EGG), null, null, null, null, null, null, null, null
 
 
         })).register(ExoticGarden.instance);
 
         (new EGPlant(miscItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWI5ZTk5NjIxYjk3NzNiMjllMzc1ZTYyYzY0OTVmZjFhYzg0N2Y4NWIyOTgxNmMyZWI3N2I1ODc4NzRiYTYyIn19fQ=="), "&e芥末"), "MUSTARD", RecipeType.GRIND_STONE, false, new ItemStack[]{
 
-                getItem("MUSTARD_SEED"), getItem("MUSTARD_SEED"), null, null, null, null, null, null, null
+                getItem("MUSTARD_SEED"), null, null, null, null, null, null, null, null
         })).register(ExoticGarden.instance);
 
         (new EGPlant(miscItemGroup, new CustomItemStack(getSkull(Material.MILK_BUCKET, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTg2ZjE5YmYyM2QyNDhlNjYyYzljOGI3ZmExNWVmYjhhMWYxZDViZGFjZDNiODYyNWE5YjU5ZTkzYWM4YSJ9fX0="), "&c烤肉酱"), "BBQ_SAUCE", RecipeType.ENHANCED_CRAFTING_TABLE, false, new ItemStack[]{
