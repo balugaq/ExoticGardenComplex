@@ -1090,7 +1090,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
                 .register(ExoticGarden.instance);
 
-        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzZlMWExZjNjNzcxNTNhYmZlMzhjZjgyZWVmMzZhOGJmN2VjMzJjM2M0MTc1NzZiMDU5YTVmMmU2ZGI0YmY3In19fQ=="), "&3下界酒", new String[]{"&8初级酒", "&7来自下界的酿品", "&7饮用后有些其妙的感觉...", "", "&7▷▷ &b酒精度: &e25", "&7▷▷ &d精神值: &e3", "&7▷▷ &a饱食度: &e4"}), "NETHER_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_1, new ItemStack[]{ExoticItems.Yeast_1, new ItemStack(Material.NETHER_BRICK), new ItemStack(Material.SUGAR), null, null, null, null, null, null}, 4, 3.0F, 25, new PotionEffect[]{new PotionEffect(PotionEffectType.SPEED, 200, 1)
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzZlMWExZjNjNzcxNTNhYmZlMzhjZjgyZWVmMzZhOGJmN2VjMzJjM2M0MTc1NzZiMDU5YTVmMmU2ZGI0YmY3In19fQ=="), "&3下界酒", new String[]{"&8初级酒", "&7来自下界的酿品", "&7饮用后有些其妙的感觉...", "", "&7▷▷ &b酒精度: &e25", "&7▷▷ &d精神值: &e3", "&7▷▷ &a饱食度: &e4"}), "NETHER_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_1, new ItemStack[]{ExoticItems.Yeast_1, new ItemStack(Material.NETHER_WART), new ItemStack(Material.SUGAR), null, null, null, null, null, null}, 4, 3.0F, 25, new PotionEffect[]{new PotionEffect(PotionEffectType.SPEED, 200, 1)
 
 
         })).register(ExoticGarden.instance);
@@ -1100,11 +1100,30 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
         })).register(ExoticGarden.instance);
 
-        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGFmODE4ZjNmNGNjMmI3YzhlNzBmOGJlYWY4MGY3OWU5MjY1YjMzZmJmZDcxNzZjN2MzMzQ5ZDRiNzZiIn19fQ=="), "&3紫影酒", new String[]{"&8初级酒", "&7来自终末之地的酿品", "&7会让人失去几秒的疼痛感", "", "&7▷▷ &b酒精度: &e25", "&7▷▷ &d精神值: &e1", "&7▷▷ &a饱食度: &e4"}), "ENDER_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_1, new ItemStack[]{ExoticItems.Yeast_1, new ItemStack(Material.CHORUS_FRUIT), new ItemStack(Material.SUGAR), null, null, null, null, null, null}, 4, 3.0F, 25, new PotionEffect[]{new PotionEffect(PotionEffectType.ABSORPTION, 160, 1)
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGFmODE4ZjNmNGNjMmI3YzhlNzBmOGJlYWY4MGY3OWU5MjY1YjMzZmJmZDcxNzZjN2MzMzQ5ZDRiNzZiIn19fQ=="), "&3紫影酒", new String[]{"&8初级酒", "&7来自终末之地的酿品", "&7会让人失去几秒的疼痛感", "", "&7▷▷ &b酒精度: &e25", "&7▷▷ &d精神值: &e3", "&7▷▷ &a饱食度: &e4"}), "ENDER_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_1, new ItemStack[]{ExoticItems.Yeast_1, new ItemStack(Material.CHORUS_FRUIT), new ItemStack(Material.SUGAR), null, null, null, null, null, null}, 4, 3.0F, 25, new PotionEffect[]{new PotionEffect(PotionEffectType.ABSORPTION, 160, 1)
 
 
         })).register(ExoticGarden.instance);
 
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjk2MWVhNThkYWZlYzlmNmM2OGZmZDE2MTU3ZjI4OTc0ZmE2NmI3YTRjOWVkMmRhMmFjYWQ0Nzc3MTdjODZmMyJ9fX0="), "&f土浆酒", new String[]{"&8初级酒", "&7由泥巴发酵而成", "&7不堪入口，但是酒精浓度很高", "", "&7▷▷ &b酒精度: &e650", "&7▷▷ &d精神值: &e1", "&7▷▷ &a饱食度: &e1"}), "DIRT_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_1, new ItemStack[]{ExoticItems.Yeast_1,
+
+                getItem("DIRT_ESSENCE"), new ItemStack(Material.MUDDY_MANGROVE_ROOTS), null, null, null, null, null, null}, 1, 1.0F, 50, new PotionEffect[]{new PotionEffect(VersionedPotionEffectType.CONFUSION, 240, 4)
+        })).register(ExoticGarden.instance);
+
+        (new CustomWine(miscItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTQ2NDk4OTgxNjYzMGE2YzQ0ZTljYTQ1MjA5NDk5MmVmNDYyZDdlMjIxODk3NzMzN2Y2ODljNzdjNzI0MTk5OCJ9fX0="), "&6强效维他命", new String[]{"&8解酒药", "&7一种强效解酒药", "&7可以快速降低醉酒值", "", "&7▷▷ &b酒精度: &e-100", "&7▷▷ &d精神值: &e1", "&7▷▷ &a饱食度: &e1"}), "ENHANCE_VITAMIN", ExoticGardenRecipeTypes.ElectricityBrewing_2, new ItemStack[]{ExoticItems.Yeast_2,
+
+                getItem("VITAMINS"), new ItemStack(Material.GLISTERING_MELON_SLICE), null, null, null, null, null, null}, 1, 1.0F, -100, new PotionEffect[]{new PotionEffect(PotionEffectType.REGENERATION, 100, 1)
+        })).register(ExoticGarden.instance);
+
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWViZjQ4OGU1YzRkZDY4NzhjOTNiMGI0OTk2ZDc4ZDYwNGU2Zjg5YTAxYTBmYTc4Y2FkZDI5Mzk3NzY1NmQwZiJ9fX0="), "&b冰玉酿", new String[]{"&8中级酒", "&7来自冰川的臻酿", "&7入口冰爽", "", "&7▷▷ &b酒精度: &e610", "&7▷▷ &d精神值: &e20", "&7▷▷ &a饱食度: &e8"}), "ICEJADE_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_2, new ItemStack[]{ExoticItems.Yeast_2,
+
+                getItem("ICE_CUBE"), new ItemStack(Material.BLUE_ICE), null, null, null, null, null, null}, 8, 20.0F, 10, new PotionEffect[]{new PotionEffect(PotionEffectType.SPEED, 240, 1)
+        })).register(ExoticGarden.instance);
+        
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM0NDVmNjIwOTM3ZWE2NGRkODg5ZjRiMTVkNzlhODE5ZmNmNjBiNGY0ZDgwMjM0NDdjNzgzOGQwYmYyNTM1NCJ9fX0="), "&c石榴浆", new String[]{"&8中级酒", "&7一种看上去像是血的饮品", "&7有醇厚的发酵香味", "", "&7▷▷ &b酒精度: &e15", "&7▷▷ &d精神值: &e50", "&7▷▷ &a饱食度: &e7"}), "POMEGRANATE_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_2, new ItemStack[]{ExoticItems.Yeast_2,
+
+                getItem("POMEGRANATE"), new ItemStack(Material.BEETROOT), null, null, null, null, null, null}, 7, 50.0F, 15, new PotionEffect[]{new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 240, 1)
+        })).register(ExoticGarden.instance);
 
         (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGFmODE4ZjNmNGNjMmI3YzhlNzBmOGJlYWY4MGY3OWU5MjY1YjMzZmJmZDcxNzZjN2MzMzQ5ZDRiNzZiIn19fQ=="), "&b二锅头", new String[]{"&8中级酒", "&7经典的蒸馏型白酒", "&7酒精度数很高", "", "&7▷▷ &b酒精度: &e65", "&7▷▷ &d精神值: &e15", "&7▷▷ &a饱食度: &e4"}), "WHITE_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_2, new ItemStack[]{ExoticItems.Yeast_2,
 
@@ -1149,6 +1168,33 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
                 getItem("BEER"), getItem("PINEAPPLE"), null, null, null, null, null, null}, 12, 16.0F, 18)).register(ExoticGarden.instance);
 
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjU3M2JlZjQwNDc4OTY1NmE2ZmQyMTc0OWU4NWY2OTI0Y2ZlODQ4NmFjMDZhNzgxOTRhZDc1ZjM0YzJiMTRhNSJ9fX0="), "&f甜松露酒", new String[]{"&8高级酒", "&7一种可以搭配饭后甜点的高档酒", "&7拥有椰子风味", "", "&7▷▷ &b酒精度: &e30", "&7▷▷ &d精神值: &e80", "&7▷▷ &a饱食度: &e5"}), "SWEET_TRUFFLE_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_3,
+
+                new ItemStack(Material.SUGAR_CANE), getItem("COCONUT"), null, null, null, null, null, null}, 5, 80.0F, 30)).register(ExoticGarden.instance);
+
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjIwMzUxYmMzNGYwNTQ4YjE2ZDhiMTE1MDM4NWFmMjkwZjY0Y2UyODcwYTgyMzM2YzAyZjVmYjExNDQ5NDg0NyJ9fX0="), "&e金玉露", new String[]{"&8高级酒", "&7气味较烈", "&7仔细品有金属风味", "", "&7▷▷ &b酒精度: &e55", "&7▷▷ &d精神值: &e50", "&7▷▷ &a饱食度: &e8"}), "VINHO_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_3,
+
+                getItem("GOLD_24K"), new ItemStack(Material.HONEY_BOTTLE), null, null, null, null, null, null}, 8, 50.0F, 55)).register(ExoticGarden.instance);
+
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzg1NWFmMjllOTJkMzgwYTg3NDQyZjliMTViMDI5YmJiNTkyNmE4YTFmNDVmNWQzOWJkNWRjNThiZTYxODk3NyJ9fX0="), "&b歌海娜酒", new String[]{"&8高级酒", "&7气味清香", "&7有海洋风味", "", "&7▷▷ &b酒精度: &e30", "&7▷▷ &d精神值: &e58", "&7▷▷ &a饱食度: &e10"}), "GRENACHE_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_3,
+
+                getItem("ORGANIC_FOOD_KELP"), getItem("LEEK"), null, null, null, null, null, null}, 10, 58.0F, 30)).register(ExoticGarden.instance);
+
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2M0MmIwMTdiNmRmYTk2OWFhMGM2ZWFhOTdkNjJkMzVhNGEwZTE3NGViYjljMzQ2OWVmNjE1OGViNGYyMDgyOCJ9fX0="), "&6西拉红葡萄酒", new String[]{"&8高级酒", "&7一款高档葡萄酒", "&7具有混合葡萄风味", "", "&7▷▷ &b酒精度: &e40", "&7▷▷ &d精神值: &e60", "&7▷▷ &a饱食度: &e9"}), "SHIRAZ_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_3,
+
+                getItem("DREAMFRUIT"), getItem("GRAPE"), null, null, null, null, null, null}, 9, 60.0F, 40)).register(ExoticGarden.instance);
+                
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGE5OTk1YzM5OGFkMDJhZTQxYjMxMDlmOTljM2IwMWM4OGI0MjVjNDRkYmQzZDFiZmNlMjY2NjI3OTcwYzhhYyJ9fX0="), "&c墨尔乐酒", new String[]{"&8高级酒", "&7单宁含量较低，口感柔和", "&7有水果香气", "", "&7▷▷ &b酒精度: &e20", "&7▷▷ &d精神值: &e70", "&7▷▷ &a饱食度: &e10"}), "MERLOT_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_3,
+
+                getItem("PLUM"), getItem("COFFEEBEAN"), null, null, null, null, null, null}, 10, 70.0F, 20)).register(ExoticGarden.instance);
+                
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjJjMTdjNzBlNmFjYWE1Mzk5YWU5ODY2OTYxODViODQ5YWRiZGUzM2ZjMTRlMmUzYTg0MDgxMjc4Y2Y2NjM3NyJ9fX0="), "&4黑比诺酒", new String[]{"&8高级酒", "&7寒带地区特色红酒", "&7口感冰爽醇厚", "", "&7▷▷ &b酒精度: &e60", "&7▷▷ &d精神值: &e20", "&7▷▷ &a饱食度: &e4"}), "PINOT_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_3,
+
+                getItem("SWEET_POTATO"), getItem("WINEFRUIT"), null, null, null, null, null, null}, 4, 20.0F, 60)).register(ExoticGarden.instance);
+
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjU4OWZkMDAxMzM2ZTcyM2JmN2RmNWMwM2YyZmI4MDYxOTQ2NTQ0YjljODI5YzI3NmI3ZWNhZTQ4NGFhYmY4OCJ9fX0="), "&e发光浆果酒", new String[]{"&8高级酒", "&7来自洞穴陈酿", "&7有特殊浆果风味", "", "&7▷▷ &b酒精度: &e20", "&7▷▷ &d精神值: &e80", "&7▷▷ &a饱食度: &e8"}), "GLOWBERRY_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_3,
+
+                new ItemStack(Material.GLOW_BERRIES), new ItemStack(Material.BIG_DRIPLEAF), null, null, null, null, null, null}, 8, 80.0F, 20)).register(ExoticGarden.instance);
 
         (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTBhY2RlZWQ2MDcyNWQ5NWI2OTExNDM3MmQ3MDI0ZjlkNjY4ZjlmZTc0NjkzN2UwNTkzMjhiYmZiZmY2In19fQ=="), "&6仙馐酒", new String[]{"&8高级酒", "&7由神秘的仙馐果酿制", "&7拥有梦幻般的味道", "", "&7▷▷ &b酒精度: &e40", "&7▷▷ &d精神值: &e30", "&7▷▷ &a饱食度: &e10"}), "DREAMFRUIT_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_3,
 
@@ -1173,9 +1219,48 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
         })).register(ExoticGarden.instance);
 
-        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjc1NTg0ZTZmZDU0Y2EwMWRmNGVmZmQ1Zjc0NmIyZDgzYTU4OWRlNjc3NzU1NzU2YmI1OGQ5ZWEyODQ1MTYifX19"), "&d醉生梦死", "&8特级酒", "&7醉入癫狂无谓死", "&7梦醒味逝不知生", "", "&7▷▷ &b酒精度: &e70", "&7▷▷ &d精神值: &e60", "&7▷▷ &a饱食度: &e10"), "DREAMER_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_4,
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjc1NTg0ZTZmZDU0Y2EwMWRmNGVmZmQ1Zjc0NmIyZDgzYTU4OWRlNjc3NzU1NzU2YmI1OGQ5ZWEyODQ1MTYifX19"), "&d醉生梦死", "&8特级酒", "&7醉入癫狂无谓死", "&7梦醒味逝不知生", "", "&7▷▷ &b酒精度: &e90", "&7▷▷ &d精神值: &e100", "&7▷▷ &a饱食度: &e6"), "DREAMER_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_4,
 
                 getItem("DREAMFRUIT_WINE"), getItem("WHITE_WINE"), null, null, null, null, null, null}, 6, 100.0F, 90, new PotionEffect[]{new PotionEffect(VersionedPotionEffectType.CONFUSION, 600, 1)
+        })).register(ExoticGarden.instance);
+
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjJjYTBkN2Q0NTA0ZWQ5YjNkZWYxNGE0NmRlZDEzYTQ1NDY4MWEyMTlkODhmNThjMGIzYjU4MWVjYjJmYzk0NyJ9fX0="), "&6香槟", "&8特级酒", "&7著名起泡酒", "&7建议搭配肉类一同使用", "", "&7▷▷ &b酒精度: &e80", "&7▷▷ &d精神值: &e90", "&7▷▷ &a饱食度: &e6"), "CHAMPAGNE_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_4,
+
+                getItem("SHIRAZ_WINE"), getItem("TEQUILA"), null, null, null, null, null, null}, 6, 90.0F, 80, new PotionEffect[]{new PotionEffect(PotionEffectType.GLOWING, 600, 1)
+        })).register(ExoticGarden.instance);
+
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWVlYjE0M2Y2MmRlOWZhNjMzMjBjNjQ3MjMzOGUzNDM5ODM0OTIwMmIzZDg5MzNhN2RkMDJmYzYyM2QxYmQyOCJ9fX0="), "&d末影酿", "&8特级酒", "&7末地风味气泡酒", "&7刚中带柔，令人一飞冲天", "", "&7▷▷ &b酒精度: &e120", "&7▷▷ &d精神值: &e100", "&7▷▷ &a饱食度: &e4"), "ENDERDREAM_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_4,
+
+                getItem("ENDER_WINE"), getItem("ENDER_LUMP_3"), null, null, null, null, null, null}, 4, 100.0F, 120, new PotionEffect[]{new PotionEffect(PotionEffectType.LEVITATION, 600, 4)
+        })).register(ExoticGarden.instance);
+
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTY3ZjJiYzQxMWRkMzhmMzExMWZlMWEzN2UxNzliZGNhYjY2ZTUwOWMyYWZmMjcwMjgxNGQ1ZTA3YTRmYWViNiJ9fX0="), "&e盛宴啤酒", "&8特级酒", "&7最高档的啤酒", "&7量大管饱，清香四溢", "", "&7▷▷ &b酒精度: &e95", "&7▷▷ &d精神值: &e90", "&7▷▷ &a饱食度: &e8"), "PARTY_BEER", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_4,
+
+                getItem("PINEAPPLE_BEER"), getItem("RAINBOW_FRUITS"), null, null, null, null, null, null}, 8, 90.0F, 95, new PotionEffect[]{new PotionEffect(PotionEffectType.CONDUIT_POWER, 1000, 3)
+        })).register(ExoticGarden.instance);
+
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWUxNjJkYWEzMzFjNmNmOGQ2MTM4YjgzZmI4NDhiZDM1Yzc4ZDJmNWYyMTk5ZGU2ZTllMThhNDM4ODI2NWI3In19fQ=="), "&6燃油饮", "&8特级酒", "&7绝望吧台", "&7FIRE!FIRE!", "", "&7▷▷ &b酒精度: &e150", "&7▷▷ &d精神值: &e100", "&7▷▷ &a饱食度: &e16"), "BURNING_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_4,
+
+                getItem("GLODAPPLE_WINE"), getItem("BUCKET_OF_FUEL"), null, null, null, null, null, null}, 16, 100.0F, 150, new PotionEffect[]{new PotionEffect(PotionEffectType.REGENERATION, 1000, 5)
+        })).register(ExoticGarden.instance);
+
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjI5MGY2YjZkN2NkN2NkYTIzNjhjZTNmMzk3YTUxNDVjMzBhZWQ5ZjgyMTVkZjMzMzg0N2FkNGE2MzllOWIyZCJ9fX0="), "&f小茅台", "&8特级酒", "&7正宗贵州茅台", "&7（试用装）", "", "&7▷▷ &b酒精度: &e200", "&7▷▷ &d精神值: &e90", "&7▷▷ &a饱食度: &e10"), "SMALL_MAOTAI", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_4,
+
+                getItem("WHITE_WINE"), getItem("PEANUT"), null, null, null, null, null, null}, 10, 90.0F, 200, new PotionEffect[]{new PotionEffect(PotionEffectType.NIGHT_VISION, 1000, 5)
+        })).register(ExoticGarden.instance);
+
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDkzYTYzMDExZmVkYWNkZjdiMzA0ZDI1ZmU1ZDhmNTdiMThkNWRmZWEzM2I4YmUxYjkyNDY4ODk2NWE4NTE4NSJ9fX0="), "&b天之蓝", "&8特级酒", "&7口感绵柔，包装精美", "&7适合送给亲朋好友", "", "&7▷▷ &b酒精度: &e160", "&7▷▷ &d精神值: &e60", "&7▷▷ &a饱食度: &e14"), "SKYBLUE_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_4,
+
+                getItem("WHITE_WINE"), getItem("ORGANIC_FOOD_POTATO"), null, null, null, null, null, null}, 14, 60.0F, 160, new PotionEffect[]{new PotionEffect(PotionEffectType.DOLPHINS_GRACE, 1000, 3)
+        })).register(ExoticGarden.instance);
+
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWM3ZTRlMjRkOTQ0ZTViN2I4NzYzMWNiMjgwMDdlODk0NjQyNTkxZDFjMTg3ZGQ4YWE0ZDAzYmNiZDE1ODY2ZiJ9fX0="), "&f工业乙醇", "&8特级酒", "&7酒精含量极高", "&7看上去不像是能喝的", "", "&7▷▷ &b酒精度: &e2000", "&7▷▷ &d精神值: &e1", "&7▷▷ &a饱食度: &e1"), "INDUSTRIAL_ALCOHOL_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_4,
+
+                getItem("DREAMER_WINE"), getItem("CORN"), null, null, null, null, null, null}, 1, 1.0F, 2000, new PotionEffect[]{new PotionEffect(PotionEffectType.DARKNESS, 8000, 10)
+        })).register(ExoticGarden.instance);
+        (new CustomWine(miscItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTk5MGQyNDNiNzNjM2U4NTc1ODQ0Mzk2MDc3MTJhNjk4ZDk5OTcyMDkyODY4OTFhMDEyMGVkZTQ4YjMxZmUxZCJ9fX0="), "&c理智药", new String[]{"&8解酒药", "&7服用之后瞬间清醒", "&7解酒的最佳选择", "", "&7▷▷ &b酒精度: &e-5000", "&7▷▷ &d精神值: &e100", "&7▷▷ &a饱食度: &e1"}), "SANITY_DRUG", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_4,
+
+                getItem("MEDICINE"), getItem("GOOSEBERRY"), null, null, null, null, null, null}, 1, 100.0F, -5000, new PotionEffect[]{new PotionEffect(PotionEffectType.REGENERATION, 500, 2)
         })).register(ExoticGarden.instance);
     }
 
