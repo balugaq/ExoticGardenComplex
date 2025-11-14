@@ -1,18 +1,19 @@
 package io.github.thebusybiscuit.exoticgarden;
 
 
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 public class ExoticItems {
     public static final SlimefunItemStack MysticSeed = new SlimefunItemStack("MYSTIC_SEED", new CustomItemStack(Material.MELON_SEEDS, "§d神秘种子", "", "§7从未见过的种子", "§7直接种植没有什么用", "§7但可以放到特定机器中进行分析"));
 
-    public static final SlimefunItemStack Wine_Waker = new SlimefunItemStack("WINE_WAKER", new CustomItemStack(Material.POTION, "§3醒酒药", "", "§7喝多了?没关系!", "§7来一瓶竹影牌醒酒药!", "", "§7▷▷ §b酒精度: §e-30", "§7▷▷ §d精神值: §e-3", "§7▷▷ §a饱食度: §e1"));
+    public static final SlimefunItemStack Wine_Waker = new SlimefunItemStack("WINE_WAKER", new CustomItemStack(Material.POTION, "§3醒酒药", "", "§7喝多了?没关系!", "§7来一瓶竹影牌醒酒药!", "", "§7▷▷ §b酒精度: §e-30", "§7▷▷ §d精神值: §e1", "§7▷▷ §a饱食度: §e1"));
     public static final SlimefunItemStack Alcohol = new SlimefunItemStack("ALCOHOL", new CustomItemStack(Material.POTION, "§b酒精", "", "§7一种具有挥发性的易燃液体", "§7也是一种不错的有机溶剂"));
     public static final SlimefunItemStack GoldKeLa = new SlimefunItemStack("GOLDKELA", new CustomItemStack(Material.BONE_MEAL, "§6金坷垃", "", "§7用于给异域花园的植物催熟"));
     public static SlimefunItemStack SeedAnalyzer_Core;
@@ -236,7 +237,7 @@ public class ExoticItems {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        (new CustomWine(ExoticGarden.instance.miscItemGroup, Wine_Waker, "WINE_WAKER", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{null, new ItemStack(Material.BROWN_MUSHROOM), null, new ItemStack(Material.TALL_GRASS, 1, (short) 2), Alcohol, new ItemStack(Material.POPPY), null, new ItemStack(Material.EGG), null}, 1, -3.0F, -30))
+        (new CustomWine(ExoticGarden.instance.miscItemGroup, Wine_Waker, "WINE_WAKER", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{null, new ItemStack(Material.BROWN_MUSHROOM), null, new ItemStack(Material.FERN), Alcohol, new ItemStack(Material.POPPY), null, new ItemStack(Material.EGG), null}, 1, 1.0F, -30))
 
 
                 .register(ExoticGarden.instance);

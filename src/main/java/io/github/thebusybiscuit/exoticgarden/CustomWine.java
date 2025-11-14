@@ -2,12 +2,13 @@ package io.github.thebusybiscuit.exoticgarden;
 
 // import com.narcissu14.sanity.Sanity;
 
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 
 
 public class CustomWine extends EGPlant implements NotPlaceable {
@@ -43,8 +44,11 @@ public class CustomWine extends EGPlant implements NotPlaceable {
         int level = p.getFoodLevel() + (int) this.food;
         p.setFoodLevel(Math.min(level, 20));
         p.setSaturation(this.food);
-        if (ExoticGarden.instance.isSanityEnabled()) {
-            // Sanity.getInstance().addSanity(p, this.sanity);
+        if (ExoticGarden.instance.isSanityEnabled() && this.sanity != 0) {
+
+                float reduceExhaust = Math.max(0, this.sanity / 25.0f);
+                float newExhaust = Math.max(0, p.getExhaustion() - reduceExhaust);
+                p.setExhaustion(newExhaust);
         }
         if (!ExoticGarden.drunkPlayers.containsKey(p.getName())) {
             ExoticGarden.drunkPlayers.put(p.getName(), new PlayerAlcohol(p.getName(), 0));
