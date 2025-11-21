@@ -51,6 +51,7 @@ public abstract class ElectricityBrewing
             registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_3, new ItemStack(Material.GLOW_BERRIES), new ItemStack(Material.BIG_DRIPLEAF)}, new ItemStack[]{getItem0("GLOWBERRY_WINE")});
             registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_3, getItem0("DREAMFRUIT"), getItem0("LEMON")}, new ItemStack[]{getItem0("DREAMFRUIT_WINE")});
             registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_3, new ItemStack(Material.GOLDEN_APPLE), getItem0("NETHER_WINE")}, new ItemStack[]{getItem0("GLODAPPLE_WINE")});
+            registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_3, getItem0("GINSENGBABY"), getItem0("NETHER_ICE")}, new ItemStack[]{getItem0("UNDYING_WINE")});
             registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_3, getItem0("WHITE_WINE"), getItem0("YELLOW_WINE")}, new ItemStack[]{getItem0("HERO_WINE")});
             registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_4, getItem0("DREAMFRUIT_WINE"), getItem0("YELLOW_WINE")}, new ItemStack[]{getItem0("SUPER_WINE")});
             registerRecipe(80 - getLevel() * 20, new ItemStack[]{ExoticItems.Yeast_4, getItem0("DREAMFRUIT_WINE"), getItem0("WHITE_WINE")}, new ItemStack[]{getItem0("DREAMER_WINE")});

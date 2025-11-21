@@ -1,12 +1,13 @@
 package io.github.thebusybiscuit.exoticgarden;
 
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 
 
 public abstract class SeedAnalyzer
@@ -17,7 +18,7 @@ public abstract class SeedAnalyzer
 
 
     public void registerDefaultRecipes() {
-        registerRecipe(140 - getLevel() * 40, new ItemStack[]{ExoticItems.MysticSeed}, new ItemStack[]{new ItemStack(Material.GOLD_NUGGET)});
+        registerRecipe(140 - getLevel() * 40, new ItemStack[]{getItem0("MYSTIC_SEED")}, new ItemStack[]{new ItemStack(Material.GOLD_NUGGET)});
     }
 
     public String getMachineIdentifier() {
@@ -47,6 +48,11 @@ public abstract class SeedAnalyzer
         subRecipes.add(new DefaultSubRecipe(2500 + 1000 * getLevel(), EGPlant.getByName("CHERRY_SAPLING").getItem()));
         subRecipes.add(new DefaultSubRecipe(2500 + 1000 * getLevel(), EGPlant.getByName("COCONUT_SAPLING").getItem()));
         subRecipes.add(new DefaultSubRecipe(2000 + 1000 * getLevel(), EGPlant.getByName("WINEFRUIT_BUSH").getItem()));
+        subRecipes.add(new DefaultSubRecipe(2000 + 1000 * getLevel(), EGPlant.getByName("DREAMFRUIT_BUSH").getItem()));
+        subRecipes.add(new DefaultSubRecipe(2000 + 1000 * getLevel(), EGPlant.getByName("COFFEEBEAN_BUSH").getItem()));
+        subRecipes.add(new DefaultSubRecipe(2000 + 1000 * getLevel(), EGPlant.getByName("LEEK_BUSH").getItem()));
+        subRecipes.add(new DefaultSubRecipe(2000 + 1000 * getLevel(), EGPlant.getByName("TEQUILA_BUSH").getItem()));
+        subRecipes.add(new DefaultSubRecipe(2000 + 1000 * getLevel(), EGPlant.getByName("PEANUT_BUSH").getItem()));
 
         subRecipes.add(new DefaultSubRecipe(500 + 500 * getLevel(), EGPlant.getByName("COAL_PLANT").getItem()));
         subRecipes.add(new DefaultSubRecipe(500 + 500 * getLevel(), EGPlant.getByName("IRON_PLANT").getItem()));
@@ -61,15 +67,16 @@ public abstract class SeedAnalyzer
         subRecipes.add(new DefaultSubRecipe(500 + 500 * getLevel(), EGPlant.getByName("EMERALD_PLANT").getItem()));
         subRecipes.add(new DefaultSubRecipe(500 + 500 * getLevel(), EGPlant.getByName("SLIME_PLANT").getItem()));
         //subRecipes.add(new DefaultSubRecipe(500 + 500 * getLevel(), EGPlant.getByName("SHULKER_SHELL_PLANT").getItem()));
-        subRecipes.add(new DefaultSubRecipe(500 + 500 * getLevel(), EGPlant.getByName("COFFEEBEAN_BUSH").getItem()));
-        subRecipes.add(new DefaultSubRecipe(500 + 500 * getLevel(), EGPlant.getByName("DREAMFRUIT_BUSH").getItem()));
         return subRecipes;
     }
 
-
+    public ItemStack getItem0(String item) {
+        return ExoticGarden.getItem(item);
+    }
     public ItemStack getProgressBar() {
         return new ItemStack(Material.FLINT_AND_STEEL);
     }
 }
+
 
 

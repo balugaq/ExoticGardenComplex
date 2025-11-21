@@ -341,7 +341,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
         //registerPlant("Ginger", "生姜", ChatColor.YELLOW, PlantType.FRUIT, "693c3512fc5885fccbb25d2daf7fdcfae82641ed7e5e3597cddf73e41159f24");
         //registerPlant("Paddy", "水稻", ChatColor.GOLD, PlantType.FRUIT, "3b3c84e4bdaf5cc5f85632ac928d059fc2f1ff0cc9e5998f1fe8b227881ada85");
-        registerBerry("Ginseng Baby", "人参果娃", ChatColor.GREEN, Color.GREEN, PlantType.DOUBLE_PLANT, "36aae6717f49917e043080241264b43a8f387b2df3f61f8f70c2836cd7c3d95c");
+        registerBerry("GinsengBaby", "人参果娃", ChatColor.GREEN, Color.GREEN, PlantType.DOUBLE_PLANT, "36aae6717f49917e043080241264b43a8f387b2df3f61f8f70c2836cd7c3d95c");
         registerBerry("Peanut", "异域花生", ChatColor.GOLD, Color.ORANGE, PlantType.FRUIT, "608043c5788050ce7ee54edddd48239bce491a9949d1410ad79e165436153ea4");
 
         /*
@@ -540,6 +540,11 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         registerMagicalPlant("Slime", "粘液球", new ItemStack(Material.SLIME_BALL, 8), "90e65e6e5113a5187dad46dfad3d3bf85e8ef807f82aac228a59c4a95d6f6a",
                 new ItemStack[] {null, new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), getItem("ENDER_PLANT"), new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), null});
 
+        SlimefunItemStack MysticSeed = new SlimefunItemStack("MYSTIC_SEED", new CustomItemStack(Material.MELON_SEEDS, "§d神秘种子", "", "§7从未见过的种子", "§7直接种植没有什么用", "§7但可以放到特定机器中进行分析"));
+
+        new GrassSeeds(ExoticGarden.instance.miscItemGroup, MysticSeed, ExoticGardenRecipeTypes.BREAKING_GRASS, new ItemStack[]{null, null, null, null, new ItemStack(Material.GRASS), null, null, null, null})
+                .register(ExoticGarden.instance);
+
         registerTechPlant("咖啡豆", "&c", Material.COCOA_BEANS, PlantType.DOUBLE_PLANT, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTA4M2VjMmIwMWRjMGZlZTc5YWEzMjE4OGQ5NDI5YWNjNjhlY2Y3MTQwOGRjYTA0YWFhYjUzYWQ4YmVhMCJ9fX0=");
 
         registerTechPlant("仙馐果", "&b", Material.APPLE, PlantType.DOUBLE_PLANT, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGNkY2YzOGE4NDM4ZWQzYTU0N2Y4ZDViNDdlMDgwMTU1OWM1OTVmMGUyNmM0NTY1NmE3NmI1YmY4YTU2ZiJ9fX0=");
@@ -555,15 +560,19 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
                 .register(this);
         // @formatter:on
 
+
         items.put("WHEAT_SEEDS", new ItemStack(Material.WHEAT_SEEDS));
         items.put("PUMPKIN_SEEDS", new ItemStack(Material.PUMPKIN_SEEDS));
         items.put("MELON_SEEDS", new ItemStack(Material.MELON_SEEDS));
+
+
+        items.put("GRASS_SEEDS", grassSeeds);
+        items.put("MYSTIC_SEED", MysticSeed);
 
         for (Material sapling : Tag.SAPLINGS.getValues()) {
             items.put(sapling.name(), new ItemStack(sapling));
         }
 
-        items.put("GRASS_SEEDS", grassSeeds);
         registerDishes();
         ExoticItems.registerItems();
         FoodRegistry.register(this, miscItemGroup, drinksItemGroup, foodItemGroup);
@@ -1212,6 +1221,12 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
         })).register(ExoticGarden.instance);
 
+        (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQ4ZmRjMDg3MWJiM2M4NDBkZWRjNDE2ZDljNTYzZmRlNGQzNTU2NTJiYzYwMWZkMzA5Yjg5NDQ2NDE1NzM4NiJ9fX0="), "&a长生不老酒", new String[]{"&8高级酒", "&7据说是古代皇帝最喜欢饮用的酒", "&7味烈，有刺激性气味", "", "&7▷▷ &b酒精度: &e200", "&7▷▷ &d精神值: &e10", "&7▷▷ &a饱食度: &e1"}), "UNDYING_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_3,
+
+                getItem("GINSENGBABY"), getItem("NETHER_ICE"), null, null, null, null, null, null}, 1, 10.0F, 200, new PotionEffect[]{new PotionEffect(PotionEffectType.HERO_OF_THE_VILLAGE, 600, 2), new PotionEffect(PotionEffectType.POISON, 600, 0), new PotionEffect(PotionEffectType.UNLUCK, 1400, 1)
+
+        })).register(ExoticGarden.instance);
+
 
         (new CustomWine(drinksItemGroup, new CustomItemStack(getSkull(Material.POTION, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWVkOGE5ODVkYTdiMzRiZjkyODdiYWQyMWY2YmZlY2FiMWQ5MGZiOGEyZjlmMTMwNWJmMzI4ZWE4ZGNmIn19fQ=="), "&d琼浆玉液", new String[]{"&8特级酒", "&7此物只应天上有", "&7人间能得几回闻", "", "&7▷▷ &b酒精度: &e70", "&7▷▷ &d精神值: &e60", "&7▷▷ &a饱食度: &e10"}), "SUPER_WINE", ExoticGardenRecipeTypes.ElectricityBrewing_3, new ItemStack[]{ExoticItems.Yeast_4,
 
@@ -1321,7 +1336,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         Berry berry = new Berry(name.toUpperCase().replace(" ", "_"), type, data);
         berries.add(berry);
 
-        (new SlimefunItem(mainItemGroup, new SlimefunItemStack(name.toUpperCase().replace(" ", "_") + "_BUSH", Material.OAK_SAPLING, color + rawName + "苗"), ExoticGardenRecipeTypes.SEED_ANALYZER, new ItemStack[]{null, null, null, null, ExoticItems.MysticSeed, null, null, null, null})).register(instance);
+        (new SlimefunItem(mainItemGroup, new SlimefunItemStack(name.toUpperCase().replace(" ", "_") + "_BUSH", Material.OAK_SAPLING, color + rawName + "苗"), ExoticGardenRecipeTypes.SEED_ANALYZER, new ItemStack[]{null, null, null, null, getItem("MYSTIC_SEED"), null, null, null, null})).register(instance);
 
         (new EGPlant(mainItemGroup, new CustomItemStack(getSkull(material, data), color + rawName), name.toUpperCase().replace(" ", "_"), ExoticGardenRecipeTypes.HARVEST_PLANT, true, new ItemStack[]{null, null, null, null,
                 getItem(name.toUpperCase().replace(" ", "_") + "_BUSH"), null, null, null, null
@@ -1519,6 +1534,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         SlimefunItemStack sfi = new SlimefunItemStack(upperCase + "_BUSH", Material.OAK_SAPLING, color + name + "灌木丛");
 
         items.put(upperCase + "_BUSH", sfi);
+
 
         new BonemealableItem(mainItemGroup, sfi, ExoticGardenRecipeTypes.BREAKING_GRASS, new ItemStack[]{null, null, null, null, new ItemStack(Material.GRASS), null, null, null, null}).register(this);
 
