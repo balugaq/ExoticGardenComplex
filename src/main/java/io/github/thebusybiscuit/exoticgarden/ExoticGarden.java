@@ -864,9 +864,9 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
                 .register(ExoticGarden.instance);
 
-        (new CustomFood(foodItemGroup, new CustomItemStack(getSkull(Material.POTATO, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTYzYjhhZWFmMWRmMTE0ODhlZmM5YmQzMDNjMjMzYTg3Y2NiYTNiMzNmN2ZiYTljMmZlY2FlZTk1NjdmMDUzIn19fQ=="), "&e炸薯条", new String[]{"", "&7&o恢复 &b6.0 &7&o点饥饿值"}), "FRIES", ExoticGardenRecipeTypes.KITCHEN, new ItemStack[]{new ItemStack(Material.POTATO),
+        (new CustomFood(foodItemGroup, new CustomItemStack(getSkull(Material.POTATO, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTYzYjhhZWFmMWRmMTE0ODhlZmM5YmQzMDNjMjMzYTg3Y2NiYTNiMzNmN2ZiYTljMmZlY2FlZTk1NjdmMDUzIn19fQ=="), "&e炸薯条", new String[]{"", "&7&o恢复 &b2.0 &7&o点饥饿值"}), "FRIES", ExoticGardenRecipeTypes.KITCHEN, new ItemStack[]{new ItemStack(Material.POTATO),
 
-                getItem("SALT"), null, null, null, null, null, null, null}, 12))
+                getItem("SALT"), null, null, null, null, null, null, null}, 4))
 
                 .register(ExoticGarden.instance);
 
