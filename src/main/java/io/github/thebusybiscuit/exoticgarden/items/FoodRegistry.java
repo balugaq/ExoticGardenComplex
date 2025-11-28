@@ -181,9 +181,9 @@ public final class FoodRegistry {
                 14)
                 .register(plugin);
 
-        new CustomFood(food, new SlimefunItemStack("SWEET_POTATO_FRIES", "563b8aeaf1df11488efc9bd303c233a87ccba3b33f7fba9c2fecaee9567f053", "&r红薯条", "", "&7&o恢复 &b&o" + "6.0" + " &7&o点饥饿值"),
+        new CustomFood(food, new SlimefunItemStack("SWEET_POTATO_FRIES", "563b8aeaf1df11488efc9bd303c233a87ccba3b33f7fba9c2fecaee9567f053", "&r红薯条", "", "&7&o恢复 &b&o" + "3.0" + " &7&o点饥饿值"),
                 new ItemStack[]{getItem("SWEET_POTATO"), getItem("SALT"), null, null, null, null, null, null, null},
-                12)
+                6)
                 .register(plugin);
 
         new CustomFood(food, new SlimefunItemStack("HASHBROWN", "641b3cc9f5f45d6a74826b81a39db930fde855bc1417aa8ab59e73784913e362", "&r土豆饼", "", "&7&o恢复 &b&o" + "4.5" + " &7&o点饥饿值"),
@@ -196,14 +196,14 @@ public final class FoodRegistry {
                 9)
                 .register(plugin);
 
-        new CustomFood(food, new SlimefunItemStack("NOODLES", "69ec9ac43317a87f2f49e3c085c1e39a426d52252646362b646de221f1b271", "&r面条", "", "&7&o恢复 &b&o" + "5.0" + " &7&o点饥饿值"),
+        new CustomFood(food, new SlimefunItemStack("NOODLES", "69ec9ac43317a87f2f49e3c085c1e39a426d52252646362b646de221f1b271", "&r面条", "", "&7&o恢复 &b&o" + "2.5" + " &7&o点饥饿值"),
                 new ItemStack[]{SlimefunItems.WHEAT_FLOUR, waterbottle, null, null, null, null, null, null, null},
-                10)
+                5)
                 .register(plugin);
 
-        new CustomFood(food, new SlimefunItemStack("BUTTERED_NOODLES", "9174b34c549eed8bafe727618bab6821afcb1787b5decd1eecd6c213e7e7c6d", "&r黄油面条", "", "&7&o恢复 &b&o" + "6.0" + " &7&o点饥饿值"),
+        new CustomFood(food, new SlimefunItemStack("BUTTERED_NOODLES", "9174b34c549eed8bafe727618bab6821afcb1787b5decd1eecd6c213e7e7c6d", "&r黄油面条", "", "&7&o恢复 &b&o" + "4.0" + " &7&o点饥饿值"),
                 new ItemStack[]{getItem("NOODLES"), SlimefunItems.BUTTER, null, null, null, null, null, null, null},
-                12)
+                8)
                 .register(plugin);
 
         new CustomFood(food, new SlimefunItemStack("MAC_N_CHEESE", "6bbecba5231805aaadda81d764b096eee62ed2e4cb447448544f5182b091f101", "&r通心粉奶酪", "", "&7&o恢复 &b&o" + "7.0" + " &7&o点饥饿值"),
@@ -266,9 +266,9 @@ public final class FoodRegistry {
                 9)
                 .register(plugin);
 
-        new CustomFood(food, new SlimefunItemStack("MC_MUFFIN", "b8c34b9c7f568c229e5e2a7b914ddb6e710d1c095532d84019bf2de7d10cfd4e", "&r麦满分", "", "&7&o恢复 &b&o" + "4.5" + " &7&o点饥饿值"),
+        new CustomFood(food, new SlimefunItemStack("MC_MUFFIN", "b8c34b9c7f568c229e5e2a7b914ddb6e710d1c095532d84019bf2de7d10cfd4e", "&r麦满分", "", "&7&o恢复 &b&o" + "6.5" + " &7&o点饥饿值"),
                 new ItemStack[]{new ItemStack(Material.BREAD), new ItemStack(Material.COOKED_PORKCHOP), SlimefunItems.CHEESE, new ItemStack(Material.EGG), null, null, null, null, null},
-                9)
+                13)
                 .register(plugin);
 
         new CustomFood(food, new SlimefunItemStack("MC_NUGGETS", "11ec45cef70e846ff48ea174b60dc6ad2e2ab7a7ccf7eff32e914c53d5f3fc87", "&r麦乐鸡", "", "&7&o恢复 &b&o" + "7.0" + " &7&o点饥饿值"),
