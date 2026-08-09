@@ -2,13 +2,13 @@ name: Bug汇报
 description: 反馈本插件的Bug或问题
 labels: ["bug"]
 assignees:
-  - ybw0014
+  - balugaq
 body:
   - type: markdown
     attributes:
       value: |
         ## 欢迎来到 SlimefunGuguProject 的问题追踪器
-        你正在反馈 ExoticGarden 汉化版出现的 Bug。
+        你正在反馈 ExoticGardenComplex 出现的 Bug。
         任何意见，建议请前往[QQ群](https://50l.cc/gugu-qgroup)进行反馈。
         建议先阅读[这篇文章](https://slimefun-wiki.guizhanss.cn/How-to-report-bugs)了解如何正确地汇报Bug。
 

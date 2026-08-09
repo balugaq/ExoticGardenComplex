@@ -39,7 +39,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.be.registry.BECommands;
 import com.be.registry.BEFoodRegistry;
 import com.be.registry.BEPlants;
 import com.be.registry.BETrees;
@@ -271,7 +270,6 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         BETrees.onTreesRegister();
         BEFoodRegistry.register(this);
         //HeadDropFix.onHeadDropFix();
-        BECommands.onCommandsRegister();
         Bukkit.getPluginManager().registerEvents(BEListener.getInstance(), ExoticGarden.instance);
 
         /*

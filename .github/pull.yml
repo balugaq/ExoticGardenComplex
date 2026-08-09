@@ -1,9 +1,9 @@
 version: "1"
 rules:
   - base: master
-    upstream: TheBusyBiscuit:master
+    upstream: SlimefunGuguProject:master
     mergeMethod: merge
     assignees:
-      - ybw0014
+      - balugaq
     conflictReviewers:
-      - ybw0014
+      - balugaq
