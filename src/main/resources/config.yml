@@ -22,7 +22,7 @@ fixes:
 
 settings:
   tpmessage-enable: true
-  spawn-on-join: true
+  spawn-on-join: false
 
 messages:
   tpmessage: "&a你已被传送至出生点"
