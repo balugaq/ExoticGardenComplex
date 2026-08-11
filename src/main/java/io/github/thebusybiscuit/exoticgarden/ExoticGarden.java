@@ -42,7 +42,6 @@ import org.bukkit.potion.PotionEffectType;
 import com.be.registry.BEFoodRegistry;
 import com.be.registry.BEPlants;
 import com.be.registry.BETrees;
-import com.be.utils.BEListener;
 import com.be.utils.RegistryHandler;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 
@@ -270,7 +269,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         BETrees.onTreesRegister();
         BEFoodRegistry.register(this);
         //HeadDropFix.onHeadDropFix();
-        Bukkit.getPluginManager().registerEvents(BEListener.getInstance(), ExoticGarden.instance);
+//        Bukkit.getPluginManager().registerEvents(BEListener.getInstance(), ExoticGarden.instance);
 
         /*
         // Auto Updater
